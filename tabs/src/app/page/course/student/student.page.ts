@@ -23,31 +23,6 @@ export class StudentPage implements OnInit {
     public router: Router,
     public alertController: AlertController,
   ) { }
-  // alert提示删除学生信息
-  async presentAlertConfirm(id) {
-    const alert = await this.alertController.create({
-      header: '温馨提示!',
-      message: '<strong>您确认删除</strong>？',
-      buttons: [
-        {
-          text: '不删除',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            console.log('不删除');
-          }
-        }, {
-          text: '确认',
-          handler: () => {
-            console.log('删除');
-            // 刷新学生列表
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
 
   ngOnInit() {
     // 接收课程ID
@@ -85,9 +60,33 @@ export class StudentPage implements OnInit {
   cancel() {
     console.log('点击取消');
   }
-  // 学生详情
-  details(id) {
-    console.log(id);
+  // 长按触发删除学生事件
+  async doPress(id: string) {
+    const alert = await this.alertController.create({
+      backdropDismiss: false,
+      header: '提示',
+      message: '确定要删除吗!',
+      buttons: [
+        {
+          text: '取消',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('取消删除');
+          }
+        }, {
+          text: '确定',
+          handler: () => {
+            console.log(id + '确认删除');
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+  // 点击事件
+  doTap(id: string) {
+    console.log(id + '点击触发事件');
     this.router.navigate(['/studentinfo/', id]);
   }
 

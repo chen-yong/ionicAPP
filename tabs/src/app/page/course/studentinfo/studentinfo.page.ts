@@ -9,17 +9,17 @@ import { AlertController } from '@ionic/angular';
 export class StudentinfoPage implements OnInit {
 
   constructor(
-     public alertController: AlertController,
+    public alertController: AlertController,
   ) { }
 
   ngOnInit() {
   }
   // 保存学生信息修改
-  saveStudentInfo(){
-    console.log("保存");
+  saveStudentInfo() {
+    console.log('保存');
   }
   // 密码重置
-   async resetPassword() {
+  async resetPassword() {
     const alert = await this.alertController.create({
       header: '温馨提示!',
       message: '<strong>您确认重置密码</strong>？',
