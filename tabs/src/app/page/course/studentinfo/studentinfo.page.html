@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>studentinfo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+      <ion-list> 
+      <ion-item>
+          <ion-label>账 号:</ion-label>
+          <ion-input ></ion-input> 
+      </ion-item>
+      <ion-item>
+          <ion-label>姓 名:</ion-label>
+          <ion-input ></ion-input>
+      </ion-item> 
+       <ion-item>
+          <ion-label>密 码:</ion-label>
+          <ion-input ></ion-input>
+          <ion-icon name="key" slot="end" (click)="resetPassword()" title="重置密码"></ion-icon>
+      </ion-item><br/>
+      <ion-button expand="block" (click)="saveStudentInfo()">保存</ion-button>
+     </ion-list>
+     <br/>
+  </ion-card>
+</ion-content>

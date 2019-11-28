@@ -1,0 +1,40 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            我的
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <!-- 个人信息 -->
+    <ion-item>
+        <ion-thumbnail slot="start">
+            <img src="..\assets\img\index.svg">
+        </ion-thumbnail>
+        <ion-label>Admin</ion-label>
+        <ion-icon name="arrow-dropright" (click)="onClick()"></ion-icon>
+    </ion-item>
+
+    <ion-card>
+        <ion-item href="#">
+            <ion-icon name="finger-print" slot="start" color="success"></ion-icon>
+            <ion-label>修改密码</ion-label>
+        </ion-item>
+
+        <ion-item href="#">
+            <ion-icon name="information-circle-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>关于</ion-label>
+        </ion-item>
+
+        <ion-item href="#">
+            <ion-icon name="settings" slot="start" color="secondary"></ion-icon>
+            <ion-label>设置</ion-label>
+        </ion-item>
+        <br>
+    </ion-card>
+
+    <section>
+        <ion-button expand="block" color="danger" (click)="logout">退出</ion-button>
+    </section>
+</ion-content>

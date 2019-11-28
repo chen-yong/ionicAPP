@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-item>
+      <ion-title>登录</ion-title>
+    </ion-item>
+  </ion-header>
+  
+  <ion-content>
+  
+    <ion-card class="welcome-card">
+      <img src="/assets/shapes.svg" alt="" /><br>
+      <ion-item props='username'>
+        <ion-input placeholder="账号：" type="text" [(ngModel)]="username"></ion-input>
+      </ion-item><br>
+      <ion-item props='password'>
+        <ion-input placeholder="密码:" *ngIf="!showPwd" type="password" [(ngModel)]="password" ></ion-input>
+        <!-- <ion-toggle name="showpwd" [(ngModel)]="showPwd"></ion-toggle> -->
+      </ion-item><br>
+      <ion-button expand="block" name="login" type='submit' (click)="login()">登录</ion-button>
+      <br>
+    </ion-card>
+  
+  </ion-content>
+  

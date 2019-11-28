@@ -1,0 +1,10 @@
+<ion-card *ngFor="let item of courseList" :key="item.id">
+  <ion-item>
+    <ion-icon [name]="item.logo" slot="start" [color]="item.color"></ion-icon>
+    <ion-label>{{item.name}}</ion-label>
+    <ion-button fill="outline" slot="end" (click)="goCourse(item.id)">go</ion-button>
+  </ion-item>
+  <ion-card-content>
+    {{item.intro}}
+  </ion-card-content>
+</ion-card>
