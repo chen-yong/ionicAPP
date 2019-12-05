@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>设置</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+ <ion-card>
+   <ion-item>
+     <ion-label>应用消息推送</ion-label>
+     <ion-toggle slot="end"></ion-toggle>
+   </ion-item>  
+   <ion-item>
+     <ion-label>作业提醒</ion-label>
+     <ion-toggle slot="end"></ion-toggle>
+   </ion-item>
+   <ion-item (click)="clear()">
+     <ion-label>缓存清理</ion-label>
+   </ion-item>
+
+ </ion-card>
+
+</ion-content>
