@@ -28,17 +28,18 @@ export class StudentPage implements OnInit {
     // 接收课程ID
     console.log(location.pathname);
     this.courseId = location.pathname.substring(9);
-    console.log('课程ID:' + this.courseId);
+    // console.log('课程ID:' + this.courseId);
     // 根据课程ID查找所有学生列表
     // this.getStudentList();
   }
   // 返回上一层
-  goBack() {
-    console.log('back');
+  goBack(courseId) {
+    this.router.navigate(['/manage/' + courseId]);
   }
   // 添加学生
-  addStudent() {
-    console.log('添加学生');
+  addStudent(courseId) {
+    // console.log('添加学生');
+    this.router.navigate(['/addstudent/' + courseId]);
   }
   // 搜索学生
   getStudentList() {
@@ -61,7 +62,7 @@ export class StudentPage implements OnInit {
     console.log('点击取消');
   }
   // 长按触发删除学生事件
-  async doPress(id: string) {
+  async delete(id: string) {
     const alert = await this.alertController.create({
       backdropDismiss: false,
       header: '提示',
@@ -88,6 +89,30 @@ export class StudentPage implements OnInit {
   doTap(id: string) {
     console.log(id + '点击触发事件');
     this.router.navigate(['/studentinfo/', id]);
+  }
+  // 重置密码
+  async resetPwd(id: string) {
+    const alert = await this.alertController.create({
+      backdropDismiss: false,
+      header: '提示',
+      message: '确定要重置密码？',
+      buttons: [
+        {
+          text: '取消',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('取消');
+          }
+        }, {
+          text: '确定',
+          handler: () => {
+            console.log(id + '确认');
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
 }

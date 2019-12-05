@@ -1,0 +1,19 @@
+<ion-toolbar>
+    <ion-segment (ionChange)="segmentChanged($event)">
+        <ion-segment-button value="check">
+            <ion-label>全选</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="uncheck">
+            <ion-label>全不选</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="read">
+            <ion-label>开始阅卷</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="stop">
+            <ion-label>暂停</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="export">
+            <ion-label>导出</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+</ion-toolbar>

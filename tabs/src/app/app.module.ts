@@ -11,6 +11,11 @@ import { AppComponent } from './app.component';
 // 引入http
 import { HttpClientModule } from '@angular/common/http';
 import { CommonService } from './services/common.service';
+// 引入数据双向绑定
+import { FormsModule} from '@angular/forms';
+// 引用NG-ZORRO-MOBILE
+import { NgZorroAntdMobileModule } from 'ng-zorro-antd-mobile';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +25,9 @@ import { CommonService } from './services/common.service';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
+    NgZorroAntdMobileModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     StatusBar,

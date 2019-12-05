@@ -16,6 +16,9 @@ const routes: Routes = [
   { path: 'student/:id', loadChildren: './page/course/student/student.module#StudentPageModule' },
   { path: 'studentinfo/:id', loadChildren: './page/course/studentinfo/studentinfo.module#StudentinfoPageModule' },
   { path: 'work/:id', loadChildren: './page/course/work/work.module#WorkPageModule' },
+  { path: 'addwork/:id', loadChildren: './page/course/work/addwork/addwork.module#AddworkPageModule' },
+  { path: 'readwork/:id', loadChildren: './page/course/work/readwork/readwork.module#ReadworkPageModule' },
+  { path: 'addstudent/:id', loadChildren: './page/course/student/addstudent/addstudent.module#AddstudentPageModule' },
 ];
 @NgModule({
   imports: [

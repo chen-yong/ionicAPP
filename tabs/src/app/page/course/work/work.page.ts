@@ -24,7 +24,7 @@ export class WorkPage implements OnInit {
     public router: Router,
     public alertController: AlertController,
   ) { }
-  // alert提示删除
+  // 长按删除作业
   async deleteWork(id) {
     const alert = await this.alertController.create({
       header: '温馨提示!',
@@ -52,15 +52,14 @@ export class WorkPage implements OnInit {
 
   ngOnInit() {
     // 接收课程ID
-    console.log(location.pathname);
-    this.courseId = location.pathname.substring(9);
-    console.log('课程ID:' + this.courseId);
+    console.log('URl:' + location.pathname);
+    this.courseId = location.pathname.substring(6);
     // 根据课程ID查找所有学生列表
     // this.getWorkList();
   }
   // 返回上一层
-  goBack() {
-    console.log('back');
+  goBack(courseId) {
+    this.router.navigate(['/manage/' + courseId]);
   }
   // 获取所有的作业列表
   getWorktList() {
@@ -85,5 +84,13 @@ export class WorkPage implements OnInit {
   // 批阅作业
   readWork(id) {
     console.log(id);
+    this.router.navigate(['/readwork/' + id ]);
   }
+  // 添加作业
+  addWork(courseId) {
+    console.log(courseId);
+    this.router.navigate(['/addwork/' + courseId]);
+  }
+  // 编辑作业
+  editWork() { }
 }

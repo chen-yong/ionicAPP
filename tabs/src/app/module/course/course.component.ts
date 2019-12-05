@@ -35,7 +35,7 @@ export class CourseComponent implements OnInit {
   ngOnInit() { }
   // 进入课程管理页面
   goCourse(id) {
-    console.log('课程ID:'+id);
+    console.log('课程ID:' + id);
     this.router.navigate(['/manage/', id]);
   }
   // 搜索框改变事件

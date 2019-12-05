@@ -1,0 +1,94 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-icon name="arrow-back" slot="start" (click)="goBack(workId)"></ion-icon>
+        <ion-title>添加作业</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card>
+        <!-- <form #form (submit)="signUp()"> -->
+        <ion-list>
+            <ion-item>
+                <ion-label>作业名称:</ion-label>
+                <ion-input [(ngModel)]="workInfo.name" name='name' id="name" required #name="ngModel" placeholder="必填"></ion-input>
+                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert-danger">
+                    <div *ngIf="name.errors.required">
+                        必填
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <ion-label>抽题策略:</ion-label>
+                <ion-select slot="end" [(ngModel)]="workInfo.tacticsSelectList" id="tacticsSelectList" name="tacticsSelectList" required #tacticsSelectList="ngModel" placeholder="必填">
+                    <ion-select-option *ngFor="let item of workInfo.tacticsSelectList" [(selected)]="item.selected" name="tactics">
+                        {{item.name}}</ion-select-option>
+                </ion-select>
+                <div *ngIf="tacticsSelectList.invalid && (tacticsSelectList.dirty || tacticsSelectList.touched)" class="alert-danger">
+                    <div *ngIf="tacticsSelectList.errors.required">
+                        必填
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <ion-label>开始时间：</ion-label>
+                <ion-datetime display-format="YYYY-MM-DD" [(pickerOptions)]="workInfo.startTime" name="startTime" placeholder="必填">
+                </ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label>结束时间：</ion-label>
+                <ion-datetime display-format="YYYY-MM-DD" [(pickerOptions)]="workInfo.endTime" name="endTime" placeholder="必填">
+                </ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label>补交截止：</ion-label>
+                <ion-datetime display-format="YYYY-MM-DD" [(pickerOptions)]="workInfo.addTime" name="addTime">
+                </ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label>说 明：</ion-label>
+                <ion-textarea [(ngModel)]="workInfo.explain" name="explain"></ion-textarea>
+            </ion-item>
+            <ion-item>
+                <ion-label>作业互评：</ion-label>
+                <ion-toggle slot="end" [(ngModel)]="workInfo.falg" name="falg"></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label>互评截止时间：</ion-label>
+                <ion-datetime display-format="YYYY-MM-DD" [(ngModel)]="workInfo.falgTime" name="falgTime">
+                </ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label>总分：</ion-label>
+                <ion-input [(ngModel)]="workInfo.score" name="score" id="score" required #score="ngModel" placeholder="必填"></ion-input>
+                <div *ngIf="score.invalid && (score.dirty || score.touched)" class="alert-danger">
+                    <div *ngIf="score.errors.required">
+                        必填
+                    </div>
+                </div>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>成绩展示：</ion-label>
+                <ion-select slot="end" [(ngModel)]="workInfo.showSelectList" placeholder="必填">
+                    <ion-select-option *ngFor="let item of workInfo.showSelectList" name="showSelect">{{item.show}}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+
+            <ion-radio-group>
+                <ion-list-header>
+                    <ion-label>参数：</ion-label>
+                </ion-list-header>
+                <ion-item *ngFor="let item of workInfo.parRadioList">
+                    <ion-label>{{item.name}}</ion-label>
+                    <ion-radio slot="start" [value]="item.value" [(checked)]='item.checked' name="pars"></ion-radio>
+                </ion-item>
+            </ion-radio-group>
+
+            <ion-button expand="block" type="submit" name="sub">提交</ion-button>
+        </ion-list>
+        <!-- </form> -->
+        <br>
+    </ion-card>
+</ion-content>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
- 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.page.html',
@@ -10,7 +11,8 @@ export class ManagePage implements OnInit {
   public id = '';
 
   constructor(
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public router: Router,
   ) { }
 
   ngOnInit() {
@@ -23,6 +25,9 @@ export class ManagePage implements OnInit {
   }
   studentList(id) {
     console.log(id);
+  }
+  goBack() {
+    this.router.navigate(['/tabs/tab1/']);
   }
 
 }

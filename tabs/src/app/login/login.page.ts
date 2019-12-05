@@ -46,7 +46,7 @@ export class LoginPage implements OnInit {
     const info = this.username + this.password;
     console.log(info);
     if (this.username === '1' && this.password === '1') {
-      this.router.navigate(['/tabs']);
+      // this.router.navigate(['/tabs/tab1']);
     } else {
       this.toastTip('账号或密码不正确！');
       return;

@@ -1,0 +1,38 @@
+<ion-header>
+    <app-back [headline]="headline" [goBack]="goBack"></app-back>
+</ion-header>
+
+<ion-content>
+    <!-- <app-readhead></app-readhead> -->
+    <!-- <app-examcard></app-examcard> -->
+    <ion-toolbar>
+        <ion-segment (ionChange)="segmentChanged($event)">
+            <ion-segment-button value="check">
+                <ion-label>全选</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="uncheck">
+                <ion-label>全不选</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="read">
+                <ion-label>开始阅卷</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="stop">
+                <ion-label>暂停</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="export">
+                <ion-label>导出</ion-label>
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+    <ion-card>
+        <ion-item>
+            <ion-toggle [(ngModel)]="option" slot="start"></ion-toggle>
+            <ion-label>姓名-学号</ion-label>
+            <ion-button fill="outline" slot="end">查卷</ion-button>
+        </ion-item>
+        <ion-card-content>
+            登录IP，分数，提交时间
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>
