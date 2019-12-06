@@ -15,7 +15,7 @@
         <ion-label>{{userList.name}}</ion-label>
         <ion-icon name="arrow-dropright" (click)="goUserinfo(userList.id)"></ion-icon>
     </ion-item>
-  
+
     <ion-card>
         <ion-item href="/password/{{userList.id}}">
             <ion-icon name="finger-print" slot="start" color="success"></ion-icon>
@@ -35,10 +35,6 @@
     </ion-card>
 
     <section>
-<<<<<<< HEAD
         <ion-button expand="block" color="danger" (click)="logout" [routerLink]="['/login']">退出</ion-button>
-=======
-        <ion-button expand="block" color="danger" (click)="logout()">退出</ion-button>
->>>>>>> 022db7bfe8bae07f59a8da8a7e29cd76d37b129a
     </section>
 </ion-content>
