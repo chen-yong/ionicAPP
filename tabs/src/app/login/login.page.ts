@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';  // 提示弹出层
 import { NavController } from '@ionic/angular';
 import { CommonService } from '../services/common.service'; // 引用CommonService
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginPage implements OnInit {
     public toastCtrl: ToastController,
     public nav: NavController,
     public httpService: CommonService,
+    public activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -47,6 +49,7 @@ export class LoginPage implements OnInit {
     console.log(info);
     if (this.username === '1' && this.password === '1') {
       // this.router.navigate(['/tabs/tab1']);
+      this.nav.navigateRoot('/tabs/tab1');
     } else {
       this.toastTip('账号或密码不正确！');
       return;

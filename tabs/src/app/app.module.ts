@@ -22,7 +22,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   entryComponents: [],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      mode: 'ios', // 配置Android IOS用统一样式
+      backButtonText: '返回' // 修改默认返回文字
+    }),
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
