@@ -12,13 +12,17 @@ const routes: Routes = [
   },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'manage/:id', loadChildren: './page/course/manage/manage.module#ManagePageModule' },
-  { path: 'userinfo:/id', loadChildren: './page/me/userinfo/userinfo.module#UserinfoPageModule' },
+  { path: 'userinfo/:id', loadChildren: './page/me/userinfo/userinfo.module#UserinfoPageModule' },
   { path: 'student/:id', loadChildren: './page/course/student/student.module#StudentPageModule' },
   { path: 'studentinfo/:id', loadChildren: './page/course/studentinfo/studentinfo.module#StudentinfoPageModule' },
   { path: 'work/:id', loadChildren: './page/course/work/work.module#WorkPageModule' },
   { path: 'addwork/:id', loadChildren: './page/course/work/addwork/addwork.module#AddworkPageModule' },
   { path: 'readwork/:id', loadChildren: './page/course/work/readwork/readwork.module#ReadworkPageModule' },
   { path: 'addstudent/:id', loadChildren: './page/course/student/addstudent/addstudent.module#AddstudentPageModule' },
+  { path: 'card', loadChildren: './page/me/card/card.module#CardPageModule' },
+  { path: 'password/:id', loadChildren: './page/me/password/password.module#PasswordPageModule' },
+  { path: 'setting', loadChildren: './page/me/setting/setting.module#SettingPageModule' },
+
 ];
 @NgModule({
   imports: [
