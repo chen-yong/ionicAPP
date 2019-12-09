@@ -1,11 +1,8 @@
 <ion-header>
     <ion-toolbar>
-        <ion-icon name="arrow-dropleft" (click)="goBack(courseId)"></ion-icon>
-        <ion-buttons slot="start">
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
+        <img class="back_img" src="..\assets\img\返回.png" slot="start" (click)="goBack(courseId)">
         <ion-title>student</ion-title>
-        <ion-icon name="person-add" (click)="addStudent(courseId)" slot="end" size=""></ion-icon>
+        <img class="add_img" src="..\assets\img\添加.png" (click)="addStudent(courseId)" slot="end">
     </ion-toolbar>
 </ion-header>
 

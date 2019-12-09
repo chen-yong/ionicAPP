@@ -88,7 +88,7 @@ export class StudentPage implements OnInit {
   // 点击事件
   doTap(id: string) {
     console.log(id + '点击触发事件');
-    this.router.navigate(['/studentinfo/', id]);
+    // this.router.navigate(['/studentinfo/', id]);
   }
   // 重置密码
   async resetPwd(id: string) {

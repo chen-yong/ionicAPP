@@ -11,9 +11,10 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  username: string;
-  password: string;
-  showPwd: boolean;
+  public userinfo: any = {
+    username: '',
+    password: ''
+  };
   constructor(
     public router: Router,
     public toastCtrl: ToastController,
@@ -23,41 +24,36 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.username = '';
-    this.password = '';
-    this.showPwd = false;
   }
   async toastTip(message: string) {
     const toast = await this.toastCtrl.create({
       message,
       duration: 1000,
       position: 'top',
-      cssClass: ''
+      cssClass: '',
+      color: 'danger',
     });
     toast.present();
   }
   login() {
-    if (!this.username) {
-      this.toastTip('请填写用户名！');
+    if (!this.userinfo.username) {
+      this.toastTip('请填写账号！');
       return;
     }
-    if (!this.password) {
+    if (!this.userinfo.password) {
       this.toastTip('请填写密码！');
       return;
     }
-    const info = this.username + this.password;
-    console.log(info);
-    if (this.username === '1' && this.password === '1') {
-      // this.router.navigate(['/tabs/tab1']);
+    console.log(this.userinfo);
+    if (this.userinfo.username === '1' && this.userinfo.password === '1') {
       this.nav.navigateRoot('/tabs/tab1');
     } else {
-      this.toastTip('账号或密码不正确！');
-      return;
-    }
-     // 登录API
+       // 登录API
     const api = '';
     this.httpService.get(api).then((Response) => {
-       console.log(Response);
+      console.log(Response);
     });
+      // this.toastTip('账号或密码不正确！');
+    }
   }
 }

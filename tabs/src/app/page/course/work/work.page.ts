@@ -92,5 +92,7 @@ export class WorkPage implements OnInit {
     this.router.navigate(['/addwork/' + courseId]);
   }
   // 编辑作业
-  editWork() { }
+  editWork(id) {
+    this.router.navigate(['/editwork/' + id]);
+  }
 }

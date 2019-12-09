@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar>
-        <ion-icon name="arrow-back" slot="start" (click)="goBack(courseId)"></ion-icon>
+        <img class="back_img" src="..\assets\img\返回.png" slot="start" (click)="goBack(courseId)">
         <ion-title>添加学生</ion-title>
     </ion-toolbar>
 </ion-header>
@@ -41,7 +41,7 @@
             <ion-label> 电话：</ion-label>
             <ion-input type="text"> </ion-input>
         </ion-item>
-        <ion-button expand="full">提交</ion-button>
         <br>
     </ion-card>
+    <ion-button class="submit_btn" expand="full">提交</ion-button>
 </ion-content>
