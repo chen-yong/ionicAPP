@@ -31,6 +31,33 @@
 
 /*自定义的全局css样式*/
 
+// 提交按钮
+.submit_btn {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+}
+
+// 返回按钮
+.back_img {
+    margin-left: 15px;
+}
+
+// 添加按钮
+.add_img {
+    margin-right: 15px;
+}
+
+// toast 弹窗
+.errToast {
+    text-align: center;
+}
+
+// 表单必填验证
+.alert-danger {
+    color: red;
+}
+
 body,
 div,
 ul,

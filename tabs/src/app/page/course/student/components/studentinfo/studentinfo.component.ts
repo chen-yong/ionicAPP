@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+// 接收传值
+import { ModalController, NavParams } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-addstudent',
-  templateUrl: './addstudent.page.html',
-  styleUrls: ['./addstudent.page.scss'],
+  selector: 'app-studentinfo',
+  templateUrl: './studentinfo.component.html',
+  styleUrls: ['./studentinfo.component.scss'],
 })
-export class AddstudentPage implements OnInit {
-  public courseId;
+export class StudentinfoComponent implements OnInit {
   public student: any = {
     number: '',
     name: '',
@@ -21,18 +20,21 @@ export class AddstudentPage implements OnInit {
   };
 
   constructor(
-    public location: Location,
-    public router: Router,
+    public modalController: ModalController,
+    public navParams: NavParams,
     public toastCtrl: ToastController,
-  ) { }
+    ) {
+    console.log(this.navParams);
+    // 获取学生传递的Id
+    // console.log(this.navParams.data.value);
+  }
 
-  ngOnInit() {
-    console.log('URl:' + location.pathname);
-    this.courseId = location.pathname.substring(12);
+  ngOnInit() { }
+  // 关闭模态对话框
+  doClose() {
+    this.navParams.data.modal.dismiss();
   }
-  goBack(courseId) {
-    this.router.navigate(['/student/' + courseId]);
-  }
+  // 保存信息
   async toastTip(message: string) {
     const toast = await this.toastCtrl.create({
       message,
@@ -44,7 +46,7 @@ export class AddstudentPage implements OnInit {
     toast.present();
   }
   // 添加学生
-  submit() {
+  submitInfo() {
     if (!this.student.number) {
       this.toastTip('请填写学号！');
       return;
@@ -55,5 +57,4 @@ export class AddstudentPage implements OnInit {
     }
     console.log(this.student);
   }
-
 }

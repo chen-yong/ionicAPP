@@ -30,7 +30,7 @@ export class LoginPage implements OnInit {
       message,
       duration: 1000,
       position: 'top',
-      cssClass: '',
+      cssClass: 'errToast',
       color: 'danger',
     });
     toast.present();

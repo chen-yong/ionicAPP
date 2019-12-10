@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-addwork',
@@ -49,6 +50,7 @@ export class AddworkPage implements OnInit {
 
   constructor(
     public router: Router,
+    public toastCtrl: ToastController,
   ) { }
 
   ngOnInit() {
@@ -58,8 +60,45 @@ export class AddworkPage implements OnInit {
   goBack(workId) {
     this.router.navigate(['/work/' + workId]);
   }
+  async toastTip(message: string) {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 1000,
+      position: 'top',
+      cssClass: 'errToast',
+      color: 'danger',
+    });
+    toast.present();
+  }
   signUp() {
-    console.log('表单提交');
+    if (!this.workInfo.name) {
+      this.toastTip('请填写作业名称！');
+      return;
+    }
+    if (!this.workInfo.tactics) {
+      this.toastTip('请选择抽题策略！');
+      return;
+    }
+    if (!this.workInfo.startTime) {
+      this.toastTip('请选择开始时间！');
+      return;
+    }
+    if (!this.workInfo.startTime) {
+      this.toastTip('请选择结束时间！');
+      return;
+    }
+    if (!this.workInfo.startTime) {
+      this.toastTip('请选择补交截止时间！');
+      return;
+    }
+    if (!this.workInfo.startTime) {
+      this.toastTip('请填写总分！');
+      return;
+    }
+    if (!this.workInfo.startTime) {
+      this.toastTip('请选择成绩展示！');
+      return;
+    }
     console.log(this.workInfo);
   }
   datetimeChange(e) {

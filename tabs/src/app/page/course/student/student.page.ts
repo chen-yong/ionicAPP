@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+import { StudentinfoComponent } from './components/studentinfo/studentinfo.component';
 
 @Component({
   selector: 'app-student',
@@ -22,6 +24,7 @@ export class StudentPage implements OnInit {
     public location: Location,
     public router: Router,
     public alertController: AlertController,
+    public modalController: ModalController,
   ) { }
 
   ngOnInit() {
@@ -85,10 +88,13 @@ export class StudentPage implements OnInit {
     });
     await alert.present();
   }
-  // 点击事件
-  doTap(id: string) {
-    console.log(id + '点击触发事件');
-    // this.router.navigate(['/studentinfo/', id]);
+  // 点击事件model框显示学生信息
+  async showModel(id: string) {
+    const modal = await this.modalController.create({
+      component: StudentinfoComponent,
+      componentProps: { value: id } // 传值
+    });
+    return await modal.present();
   }
   // 重置密码
   async resetPwd(id: string) {

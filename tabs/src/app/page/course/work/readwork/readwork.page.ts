@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-readwork',
@@ -21,6 +22,7 @@ export class ReadworkPage implements OnInit {
 
   constructor(
     public router: Router,
+    public loadingController: LoadingController,
   ) { }
 
   ngOnInit() {
@@ -55,6 +57,30 @@ export class ReadworkPage implements OnInit {
   // 阅卷
   readWork() {
     console.log(this.list);
-   }
+    this.presentLoading();
+  }
+  // Loading
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: '阅卷中，请等待…', // 提示文字
+      duration: 2000
+    });
+    await loading.present();
 
+    const { role, data } = await loading.onDidDismiss();
+
+    console.log('Loading dismissed!');
+  }
+
+  async presentLoadingWithOptions() {
+    const loading = await this.loadingController.create({
+      // spinner: null,
+      duration: 5000, // 延时时间
+      message: 'Please wait...',
+      translucent: true, // 半透明
+      cssClass: 'custom-class custom-loading' // css样式要写在全局
+    });
+    return await loading.present();
+  }
 }
+
