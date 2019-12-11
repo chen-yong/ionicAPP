@@ -34,6 +34,8 @@ const routes: Routes = [
   { path: 'exercisegrade', loadChildren: './page/course/exercise/exercisegrade/exercisegrade.module#ExercisegradePageModule' },
   { path: 'print/:id', loadChildren: './page/course/print/print.module#PrintPageModule' },
   { path: 'addprint', loadChildren: './page/course/print/addprint/addprint.module#AddprintPageModule' },
+  { path: 'grades/:id', loadChildren: './page/course/grades/grades.module#GradesPageModule' },
+
 
 
 

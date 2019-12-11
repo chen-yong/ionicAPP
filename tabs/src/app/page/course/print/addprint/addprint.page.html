@@ -1,9 +1,33 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>addprint</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <img class="back_img" src="..\assets\img\返回.png" slot="start" (click)="goBack()">
+        <ion-title>新建任务</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+    <ion-card>
+        <ion-item>
+            <ion-label> 选择考试：</ion-label>
+            <ion-select slot="end" [(ngModel)]="print.test">
+                <ion-select-option *ngFor="let item of print.testList" [value]="item.id" placeholder="必填">
+                    {{item.value}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label> 任务名称：</ion-label>
+            <ion-input type="text" [(ngModel)]="print.name"> </ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label> 试卷标题：</ion-label>
+            <ion-input type="text" [(ngModel)]="print.title"> </ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label> 副 标 题：</ion-label>
+            <ion-input type="text" [(ngModel)]="print.subhead"> </ion-input>
+        </ion-item>
+        <br>
+    </ion-card>
+    <ion-button class="submit_btn" expand="full" (click)="submit()">提交</ion-button>
 </ion-content>
