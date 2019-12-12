@@ -1,9 +1,69 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>addexercise</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <img class="back_img" src="..\assets\img\返回.png" slot="start" (click)="goBack(exerciseId)">
+        <ion-title>添加练习</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <ion-card>
+        <ion-list>
+            <ion-item>
+                <ion-label>练习名称:</ion-label>
+                <ion-input [(ngModel)]="exerciseInfo.name" name='name' id="name" required #name="ngModel" placeholder="必填">
+                </ion-input>
+                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert-danger">
+                    <div *ngIf="name.errors.required">
+                        必填
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <ion-label>抽题策略:</ion-label>
+                <ion-select slot="end" [(ngModel)]="exerciseInfo.tactics" id="tacticsList" name="tacticsList" required #tacticsList="ngModel" placeholder="必填">
+                    <ion-select-option *ngFor="let item of exerciseInfo.tacticsList" [value]="item.name">
+                        {{item.name}}</ion-select-option>
+                </ion-select>
+                <div *ngIf="tacticsList.invalid && (tacticsList.dirty || tacticsList.touched)" class="alert-danger">
+                    <div *ngIf="tacticsList.errors.required">
+                        必填
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <ion-label>开始时间：</ion-label>
+                <ion-datetime display-format="YYYY-MM-DD" [pickerOptions]="customPickerOptions" id="startTime" name="startTime" required #startTime="ngModel" placeholder="必填" picker-format="YYYY MM DD" [(ngModel)]="exerciseInfo.startTime" (ionChange)="datetimeChange($event)">
+                </ion-datetime>
+                <div *ngIf="startTime.invalid && (startTime.dirty || startTime.touched)" class="alert-danger">
+                    <div *ngIf="startTime.errors.required">
+                        必填
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <ion-label>结束时间：</ion-label>
+                <ion-datetime display-format="YYYY-MM-DD" [(pickerOptions)]="customPickerOptions" name="endTime" required #endTime="ngModel" placeholder="必填" picker-format="YYYY MM DD" [(ngModel)]="exerciseInfo.endTime" (ionChange)="datetimeChange($event)">
+                </ion-datetime>
+                <div *ngIf="endTime.invalid && (endTime.dirty || endTime.touched)" class="alert-danger">
+                    <div *ngIf="endTime.errors.required">
+                        必填
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <ion-label>说 明：</ion-label>
+                <ion-textarea [(ngModel)]="exerciseInfo.explain" name="explain"></ion-textarea>
+            </ion-item>
+            <ion-item-divider>
+                <ion-label>参数：</ion-label>
+            </ion-item-divider>
+            <ion-item *ngFor="let item of exerciseInfo.parRadioList">
+                <ion-checkbox slot="start" [(ngModel)]="item.isChecked"></ion-checkbox>
+                <ion-label>{{item.name}}</ion-label>
+            </ion-item>
+        </ion-list>
+        <br>
+        <ion-button expand="block " (click)='signUp()' class="submit_btn ">提交</ion-button>
+    </ion-card>
 
 </ion-content>

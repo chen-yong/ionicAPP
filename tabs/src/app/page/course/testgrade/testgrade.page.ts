@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
-  selector: 'app-workgrade',
-  templateUrl: './workgrade.page.html',
-  styleUrls: ['./workgrade.page.scss'],
+  selector: 'app-testgrade',
+  templateUrl: './testgrade.page.html',
+  styleUrls: ['./testgrade.page.scss'],
 })
-export class WorkgradePage implements OnInit {
+export class TestgradePage implements OnInit {
   public leftList: any[] = [];
   public rightList: any[] = [];
   public selectedId: any = '';  /*选中的学生id*/

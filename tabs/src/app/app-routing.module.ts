@@ -22,19 +22,18 @@ const routes: Routes = [
   { path: 'password/:id', loadChildren: './page/me/password/password.module#PasswordPageModule' },
   { path: 'setting', loadChildren: './page/me/setting/setting.module#SettingPageModule' },
   { path: 'editwork/:id', loadChildren: './page/course/work/editwork/editwork.module#EditworkPageModule' },
-  { path: 'lab', loadChildren: './page/course/lab/lab.module#LabPageModule' },
-  { path: 'exercise', loadChildren: './page/course/exercise/exercise.module#ExercisePageModule' },
-  { path: 'workgrade', loadChildren: './page/course/work/workgrade/workgrade.module#WorkgradePageModule' },
-  { path: 'labgrade', loadChildren: './page/course/lab/labgrade/labgrade.module#LabgradePageModule' },
-  { path: 'lablist', loadChildren: './page/course/lab/lablist/lablist.module#LablistPageModule' },
-  { path: 'addlab', loadChildren: './page/course/lab/addlab/addlab.module#AddlabPageModule' },
-  { path: 'editlab', loadChildren: './page/course/lab/editlab/editlab.module#EditlabPageModule' },
-  { path: 'exerciselist', loadChildren: './page/course/exercise/exerciselist/exerciselist.module#ExerciselistPageModule' },
-  { path: 'addexercise', loadChildren: './page/course/exercise/addexercise/addexercise.module#AddexercisePageModule' },
-  { path: 'exercisegrade', loadChildren: './page/course/exercise/exercisegrade/exercisegrade.module#ExercisegradePageModule' },
+  { path: 'lab/:id', loadChildren: './page/course/lab/lab.module#LabPageModule' },
+  { path: 'exercise/:id', loadChildren: './page/course/exercise/exercise.module#ExercisePageModule' },
+  { path: 'workgrade/:id', loadChildren: './page/course/work/workgrade/workgrade.module#WorkgradePageModule' },
+  { path: 'labgrade/:id', loadChildren: './page/course/lab/labgrade/labgrade.module#LabgradePageModule' },
+  { path: 'addlab/:id', loadChildren: './page/course/lab/addlab/addlab.module#AddlabPageModule' },
+  { path: 'editlab/:id', loadChildren: './page/course/lab/editlab/editlab.module#EditlabPageModule' },
+  { path: 'addexercise/:id', loadChildren: './page/course/exercise/addexercise/addexercise.module#AddexercisePageModule' },
   { path: 'print/:id', loadChildren: './page/course/print/print.module#PrintPageModule' },
   { path: 'addprint', loadChildren: './page/course/print/addprint/addprint.module#AddprintPageModule' },
   { path: 'grades/:id', loadChildren: './page/course/grades/grades.module#GradesPageModule' },
+  { path: 'testgrade/:id', loadChildren: './page/course/testgrade/testgrade.module#TestgradePageModule' },
+
 
 
 
