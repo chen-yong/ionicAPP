@@ -2,7 +2,7 @@
     <!-- <app-back [headline]="headline" [goBack]="goBack"></app-back> -->
     <ion-toolbar>
         <img class="back_img" src="..\assets\img\返回.png" slot="start" (click)="goBack(courseId)">
-        <ion-title>作业批阅</ion-title>
+        <ion-title>实验批阅</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -21,8 +21,7 @@
 <ion-footer>
     <ion-toolbar>
         <ion-buttons slot="start" class="checkout_info" (click)="checkAll()">
-            <ion-checkbox disabled="true" color="danger" [(ngModel)]="isCheckedAll"></ion-checkbox>
-            <label class="check_name">全选</label>
+            <ion-checkbox disabled="true" color="danger" [(ngModel)]="isCheckedAll"></ion-checkbox>全选
         </ion-buttons>
         <ion-buttons slot="end" class="checkout_btn">
             <ion-button color="danger" fill="solid" (click)="readWork()">

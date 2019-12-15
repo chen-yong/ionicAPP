@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-editlab',
-  templateUrl: './editlab.page.html',
-  styleUrls: ['./editlab.page.scss'],
+  selector: 'app-editexercise',
+  templateUrl: './editexercise.page.html',
+  styleUrls: ['./editexercise.page.scss'],
 })
-export class EditlabPage implements OnInit {
-  public labId = '';
-  public labInfo: any = {
+export class EditexercisePage implements OnInit {
+  public exerciseId = '';
+  public exerciseInfo: any = {
     name: '',
     tacticsList: [] = [
       { id: 1, name: '实验1', },
@@ -18,16 +18,7 @@ export class EditlabPage implements OnInit {
     tactics: '',
     startTime: '',
     endTime: '',
-    addTime: '',
     explain: '',
-    falg: 'false',
-    falgTime: '',
-    score: '',
-    showGradeList: [] = [
-      { id: 1, name: '展示分数' },
-      { id: 2, name: '不展示分数' },
-    ],
-    showGrade: '',
     parRadioList: [] = [
       { id: 1, value: '1', name: '禁止复制题目', isChecked: 'false' },
       { id: 2, value: '2', name: '禁止右键', isChecked: 'false' },
@@ -55,10 +46,10 @@ export class EditlabPage implements OnInit {
 
   ngOnInit() {
     console.log('URl:' + location.pathname);
-    this.labId = location.pathname.substring(8);
+    this.exerciseId = location.pathname.substring(8);
   }
-  goBack(labId) {
-    this.router.navigate(['/lab/' + labId]);
+  goBack() {
+    this.router.navigate(['/exercise/1' ]);
   }
   async toastTip(message: string) {
     const toast = await this.toastCtrl.create({
@@ -71,37 +62,26 @@ export class EditlabPage implements OnInit {
     toast.present();
   }
   signUp() {
-    if (!this.labInfo.name) {
-      this.toastTip('请填写作业名称！');
+    if (!this.exerciseInfo.name) {
+      this.toastTip('请填写练习名称！');
       return;
     }
-    if (!this.labInfo.tactics) {
+    if (!this.exerciseInfo.tactics) {
       this.toastTip('请选择抽题策略！');
       return;
     }
-    if (!this.labInfo.startTime) {
+    if (!this.exerciseInfo.startTime) {
       this.toastTip('请选择开始时间！');
       return;
     }
-    if (!this.labInfo.startTime) {
+    if (!this.exerciseInfo.startTime) {
       this.toastTip('请选择结束时间！');
       return;
     }
-    if (!this.labInfo.startTime) {
-      this.toastTip('请选择补交截止时间！');
-      return;
-    }
-    if (!this.labInfo.startTime) {
-      this.toastTip('请填写总分！');
-      return;
-    }
-    if (!this.labInfo.startTime) {
-      this.toastTip('请选择成绩展示！');
-      return;
-    }
-    console.log(this.labInfo);
+    console.log(this.exerciseId);
   }
   datetimeChange(e) {
     console.log(e.detail.value);
   }
+
 }

@@ -8,7 +8,7 @@
 
 <ion-content>
     <!-- 搜索框 -->
-    <ion-searchbar [(ngModel)]="workList.name" (ionInput)="getItems($event)" (ionFocus)="focusInput()" (ionBlur)="blurInput()" (ionClear)="cancel($event)" placeholder="请输入作业名称" showCancelButton="focus" cancelButtonText="取消">
+    <ion-searchbar [(ngModel)]="workList.name" (ionInput)="getItems($event)" (ionFocus)="focusInput()" (ionBlur)="blurInput()" (ionClear)="cancel($event)" placeholder="请输入作业名称" showCancelButton="focus" cancelButtonText="取消" (tap)="goSearch()">
     </ion-searchbar>
 
     <!-- 作业列表 -->

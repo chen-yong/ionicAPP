@@ -16,6 +16,7 @@ import { FormsModule} from '@angular/forms';
 // 引用NG-ZORRO-MOBILE
 import { NgZorroAntdMobileModule } from 'ng-zorro-antd-mobile';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StorageService } from './services/storage.service'; // 引用本地存储StorageService
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,6 +37,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     StatusBar,
     SplashScreen,
     CommonService, // 声明服务引用
+    StorageService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

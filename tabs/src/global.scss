@@ -103,12 +103,3 @@ section {
 html {
     font-size: 62.5%; // 浏览器的默认字体大小是16px          16*62.5%=10px
 }
-
-.clearfix {
-    &::after {
-        display: block;
-        content: "";
-        height: 0px;
-        clear: both;
-    }
-}

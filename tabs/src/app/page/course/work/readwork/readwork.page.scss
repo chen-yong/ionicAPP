@@ -7,7 +7,7 @@ ion-checkbox {
     ion-checkbox {
         width: 2rem;
         height: 2rem;
-        padding-right: .3rem;
+        margin-left: .5rem;
     }
     strong {
         padding-left: .6rem;
@@ -19,4 +19,8 @@ ion-checkbox {
     ion-button {
         font-size: 1.4rem;
     }
+}
+
+.check_name {
+    margin-left: .5rem;
 }
