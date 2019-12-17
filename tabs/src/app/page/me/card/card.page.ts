@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CardPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public router:Router
+  ) { }
 
   ngOnInit() {
   }
 
+  goBack() {
+    this.router.navigate(['/tabs/tab3/']);
+  }
 }

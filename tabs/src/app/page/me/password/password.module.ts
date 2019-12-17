@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { PasswordPage } from './password.page';
 
+
 const routes: Routes = [
   {
     path: '',

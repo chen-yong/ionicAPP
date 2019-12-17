@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';  // 提示弹出层
 
 @Component({
   selector: 'app-password',
@@ -20,8 +21,20 @@ export class PasswordPage implements OnInit {
 
   constructor(
     public lacation:Location,
+    public toastCtrl: ToastController,
     public router:Router
   ) { 
+  }
+
+  // 弹出层设置
+  async toastTip(message: string) {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 1000,
+      position: 'top',
+      cssClass: ''
+    });
+    toast.present();
   }
 
   ngOnInit() {
@@ -37,16 +50,21 @@ export class PasswordPage implements OnInit {
   // getPassword(id){
      
   // }
+  //返回之前页面
+  goBack() {
+    this.router.navigate(['/tabs/tab3/']);
+  }
 
   confirm(){
     if(this.oldPassword != this.userPassword){
-      alert("原密码输入错误！");
+      this.toastTip('原密码输入错误！');
       console.log(this.newPassword1)
     }
     else if(this.newPassword1!=this.newPassword2){
-      alert("密码修改失败!两次新密码不一致")
+      this.toastTip('密码修改失败!两次新密码不一致')
     }else{
-      alert("密码修改成功");
+      this.toastTip("密码修改成功!")
+      /* 将新密码存入到数据库中，修改成功*/
       this.router.navigate(['/userinfo/',this.userid]);
     }
 

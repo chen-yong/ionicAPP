@@ -7,6 +7,10 @@ import { IonicModule } from '@ionic/angular';
 
 import { UserinfoPage } from './userinfo.page';
 
+//头像 拍照
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Device } from '@ionic-native/device/ngx';
+
 const routes: Routes = [
   {
     path: '',
@@ -21,6 +25,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [UserinfoPage]
+  declarations: [UserinfoPage],
+  providers:[Device, Camera]
 })
 export class UserinfoPageModule {}

@@ -1,15 +1,36 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>userinfo</ion-title>
+    <ion-icon name="arrow-back" slot="start" (click)="goBack()"></ion-icon>
+    <ion-title>个人信息更改</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-    <!-- 个人信息 -->
+  <!-- 个人信息 -->
+  <ion-item >
+      <img class="pic" [src]="PeopleList.img" (click)="handleCamera()"/>
+  </ion-item>
+  <!-- <ion-img [src]="PeopleList.img"></ion-img> -->
+
+  <ion-card>
     <ion-item>
-      <ion-label>Awesome Label</ion-label>
+      <ion-label>用户&nbsp;id:&nbsp;&nbsp;</ion-label>
+      <ion-input value="Readonly" [(ngModel)]="PeopleList.id" readonly></ion-input>
     </ion-item>
+
+    <ion-item>
+      <ion-label>姓&nbsp;&nbsp;&nbsp;&nbsp;名:&nbsp;&nbsp; </ion-label>
+      <ion-input [(ngModel)]="PeopleList.name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>座右铭：</ion-label>
+      <ion-input [(ngModel)]="PeopleList.intro"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" (click)="saveUserInfo()" >保存</ion-button>
+  </ion-card>
 
 
 </ion-content>

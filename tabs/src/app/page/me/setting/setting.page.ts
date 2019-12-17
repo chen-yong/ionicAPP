@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastController  } from '@ionic/angular'  // 提示弹出层
+import { Router } from '@angular/router'; //路由跳转
 
 @Component({
   selector: 'app-setting',
@@ -7,12 +9,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public toastCtrl: ToastController,
+    public router: Router
+  ) { }
+
+  // 弹出层设置
+  async toastTip(message: string) {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 1000,
+      position: 'top',
+      cssClass: ''
+    });
+    toast.present();
+  }
+
 
   ngOnInit() {
   }
+
+  //返回上一页设置
+  goBack() {
+    this.router.navigate(['/tabs/tab3/']);
+  }
+
+  //清理缓存
   clear(){
-    alert("缓存清理成功");
+    this.toastTip('缓存清理成功!')
   }
 
 }

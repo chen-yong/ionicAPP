@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { asap } from 'rxjs/internal/scheduler/asap';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { ToastController } from '@ionic/angular';  // 提示弹出层
 
 import { Router } from '@angular/router';
 
@@ -15,6 +16,7 @@ export class Tab3Page {
 
   constructor(
     public alertController: AlertController,
+    public toastCtrl: ToastController,
     public router:Router
   ) { }
 
@@ -26,6 +28,17 @@ export class Tab3Page {
       color: 'danger',
       intro: '扬帆起航，就此远航'
     };
+
+    //弹窗设置
+    async toastTip(message: string) {
+      const toast = await this.toastCtrl.create({
+        message,
+        duration: 1000,
+        position: 'top',
+        cssClass: ''
+      });
+      toast.present();
+    }
 
   //点击退出按钮效果
   async logout(){
@@ -41,9 +54,9 @@ export class Tab3Page {
             console.log("cancel");
          }
       },{
-        text:'删除',
+        text:'确定',
         handler: () => {
-          console.log("对不起，退出功能还在开发中~");
+          this.toastTip('该功能还在开发中');
         }
       }]
     });
