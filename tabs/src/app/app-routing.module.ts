@@ -14,14 +14,35 @@ const routes: Routes = [
   { path: 'manage/:id', loadChildren: './page/course/manage/manage.module#ManagePageModule' },
   { path: 'userinfo/:id', loadChildren: './page/me/userinfo/userinfo.module#UserinfoPageModule' },
   { path: 'student/:id', loadChildren: './page/course/student/student.module#StudentPageModule' },
-  { path: 'studentinfo/:id', loadChildren: './page/course/studentinfo/studentinfo.module#StudentinfoPageModule' },
   { path: 'work/:id', loadChildren: './page/course/work/work.module#WorkPageModule' },
   { path: 'addwork/:id', loadChildren: './page/course/work/addwork/addwork.module#AddworkPageModule' },
   { path: 'readwork/:id', loadChildren: './page/course/work/readwork/readwork.module#ReadworkPageModule' },
+  { path: 'editwork/:id', loadChildren: './page/course/work/editwork/editwork.module#EditworkPageModule' },
+  { path: 'workgrade/:id', loadChildren: './page/course/work/workgrade/workgrade.module#WorkgradePageModule' },
   { path: 'addstudent/:id', loadChildren: './page/course/student/addstudent/addstudent.module#AddstudentPageModule' },
   { path: 'card', loadChildren: './page/me/card/card.module#CardPageModule' },
   { path: 'password/:id', loadChildren: './page/me/password/password.module#PasswordPageModule' },
   { path: 'setting', loadChildren: './page/me/setting/setting.module#SettingPageModule' },
+  { path: 'lab/:id', loadChildren: './page/course/lab/lab.module#LabPageModule' },
+  { path: 'labgrade/:id', loadChildren: './page/course/lab/labgrade/labgrade.module#LabgradePageModule' },
+  { path: 'addlab/:id', loadChildren: './page/course/lab/addlab/addlab.module#AddlabPageModule' },
+  { path: 'editlab/:id', loadChildren: './page/course/lab/editlab/editlab.module#EditlabPageModule' },
+  { path: 'readlab/:id', loadChildren: './page/course/lab/readlab/readlab.module#ReadlabPageModule' },
+  { path: 'exercise/:id', loadChildren: './page/course/exercise/exercise.module#ExercisePageModule' },
+  { path: 'addexercise/:id', loadChildren: './page/course/exercise/addexercise/addexercise.module#AddexercisePageModule' },
+  { path: 'editexercise/:id', loadChildren: './page/course/exercise/editexercise/editexercise.module#EditexercisePageModule' },
+  { path: 'readexercise/:id', loadChildren: './page/course/exercise/readexercise/readexercise.module#ReadexercisePageModule' },
+  { path: 'print/:id', loadChildren: './page/course/print/print.module#PrintPageModule' },
+  { path: 'addprint', loadChildren: './page/course/print/addprint/addprint.module#AddprintPageModule' },
+  { path: 'grades/:id', loadChildren: './page/course/grades/grades.module#GradesPageModule' },
+  { path: 'testgrade/:id', loadChildren: './page/course/testgrade/testgrade.module#TestgradePageModule' },
+
+
+
+
+
+
+
 
 ];
 @NgModule({

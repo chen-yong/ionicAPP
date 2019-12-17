@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar>
-        <ion-icon name="arrow-back" slot="start" (click)="goBack(courseId)"></ion-icon>
+        <img class="back_img" src="..\assets\img\返回.png" slot="start" (click)="goBack(courseId)">
         <ion-title>添加学生</ion-title>
     </ion-toolbar>
 </ion-header>
@@ -18,7 +18,8 @@
         </ion-item>
         <ion-item>
             <ion-label> 姓名：</ion-label>
-            <ion-input [(ngModel)]="student.name" name='name' id="name" required #name="ngModel" placeholder="必填"></ion-input>
+            <ion-input [(ngModel)]="student.name" name='name' id="name" required #name="ngModel" placeholder="必填">
+            </ion-input>
             <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert-danger">
                 <div *ngIf="name.errors.required">
                     必填
@@ -27,21 +28,24 @@
         </ion-item>
         <ion-item>
             <ion-label> 学院/系：</ion-label>
-            <ion-input type="text"> </ion-input>
+            <ion-input type="text" [(ngModel)]="student.college"> </ion-input>
         </ion-item>
         <ion-item>
             <ion-label> 班级：</ion-label>
-            <ion-input type="text"> </ion-input>
+            <ion-input type="text" [(ngModel)]="student.class"> </ion-input>
         </ion-item>
         <ion-item>
-            <ion-label> 性别：</ion-label>
-            <ion-input type="text"> </ion-input>
+            <ion-label>性别：</ion-label>
+            <ion-select slot="end" [(ngModel)]="student.gender">
+                <ion-select-option *ngFor="let item of student.genderList" [value]="item.id">
+                    {{item.value}}</ion-select-option>
+            </ion-select>
         </ion-item>
         <ion-item>
             <ion-label> 电话：</ion-label>
-            <ion-input type="text"> </ion-input>
+            <ion-input type="text" [(ngModel)]="student.phone"> </ion-input>
         </ion-item>
-        <ion-button expand="full">提交</ion-button>
         <br>
     </ion-card>
+    <ion-button class="submit_btn" expand="full" (click)="submit()">提交</ion-button>
 </ion-content>

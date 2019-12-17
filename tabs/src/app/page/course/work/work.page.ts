@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-work',
@@ -23,6 +24,7 @@ export class WorkPage implements OnInit {
     public location: Location,
     public router: Router,
     public alertController: AlertController,
+    public navController: NavController,
   ) { }
   // 长按删除作业
   async deleteWork(id) {
@@ -92,5 +94,10 @@ export class WorkPage implements OnInit {
     this.router.navigate(['/addwork/' + courseId]);
   }
   // 编辑作业
-  editWork() { }
+  editWork(id) {
+    this.router.navigate(['/editwork/' + id]);
+  }
+  goSearch() {
+    this.navController.navigateForward('/search');
+  }
 }

@@ -16,13 +16,17 @@ import { FormsModule} from '@angular/forms';
 // 引用NG-ZORRO-MOBILE
 import { NgZorroAntdMobileModule } from 'ng-zorro-antd-mobile';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StorageService } from './services/storage.service'; // 引用本地存储StorageService
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      mode: 'ios', // 配置Android IOS用统一样式
+      backButtonText: '返回' // 修改默认返回文字
+    }),
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
@@ -33,6 +37,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     StatusBar,
     SplashScreen,
     CommonService, // 声明服务引用
+    StorageService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

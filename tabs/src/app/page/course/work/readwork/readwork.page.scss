@@ -1,0 +1,26 @@
+ion-checkbox {
+    width: 2rem;
+    height: 2rem;
+}
+
+.checkout_info {
+    ion-checkbox {
+        width: 2rem;
+        height: 2rem;
+        margin-left: .5rem;
+    }
+    strong {
+        padding-left: .6rem;
+        font-size: 1.6rem;
+    }
+}
+
+.checkout_btn {
+    ion-button {
+        font-size: 1.4rem;
+    }
+}
+
+.check_name {
+    margin-left: .5rem;
+}

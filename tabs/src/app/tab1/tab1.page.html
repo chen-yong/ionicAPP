@@ -1,11 +1,21 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      课程
-    </ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>
+            课程
+        </ion-title>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content >
-  <app-course></app-course>
+<ion-content>
+    <!-- <app-course></app-course> -->
+    <ion-card *ngFor="let item of courseList" :key="item.id">
+        <ion-item>
+            <ion-icon [name]="item.logo" slot="start" [color]="item.color"></ion-icon>
+            <ion-label>{{item.name}}</ion-label>
+            <ion-button fill="outline" slot="end" (click)="goCourse(item.id)">进入</ion-button>
+        </ion-item>
+        <ion-card-content>
+            {{item.intro}}
+        </ion-card-content>
+    </ion-card>
 </ion-content>
