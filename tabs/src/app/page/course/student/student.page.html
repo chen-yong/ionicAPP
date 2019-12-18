@@ -8,8 +8,6 @@
 
 <ion-content>
     <!-- 搜索框 -->
-    <!-- <ion-searchbar [(ngModel)]="studentList.name" (ionInput)="getItems($event)" (ionFocus)="focusInput()" (ionBlur)="blurInput()" (ionClear)="cancel($event)" placeholder="请输入搜索内容" showCancelButton="focus" cancelButtonText="搜索">
-    </ion-searchbar> -->
     <ion-toolbar style="margin-top: 1rem;">
         <ion-searchbar placeholder="请输入搜索关键词" [(ngModel)]="keywords" (ionFocus)="focusInput()" (ionBlur)="blurInput()">
         </ion-searchbar>

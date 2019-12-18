@@ -6,7 +6,30 @@
 </ion-header>
 
 <ion-content>
-    <ion-searchbar placeholder="请输入搜索的内容" animated></ion-searchbar>
+    <!-- 搜索框 -->
+    <ion-toolbar style="margin-top: 1rem;">
+        <ion-searchbar placeholder="请输入搜索关键词" [(ngModel)]="keywords" (ionFocus)="focusInput()" (ionBlur)="blurInput()">
+        </ion-searchbar>
+        <ion-buttons slot="end">
+            <ion-button (click)="doSearch()" color="dark">
+                搜索
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+       <!-- 历史记录 -->
+       <div class="search_content" *ngIf="flag && labGradeHistory.length>0" padding >
+        <div class="history">
+            <h5 class="search_title">历史记录</h5>
+            <div class="btn_Delete">
+                <ion-icon name="trash" slot="end" color="danger" (click)="deleteHistory(labGradeHistory)"></ion-icon>
+            </div>
+            <p>
+                <span *ngFor="let item of labGradeHistory;let key=index;" (press)="removeHistory(key)" (tap)="goSearch(item)"> 
+                  {{item}}
+                </span>
+            </p>
+        </div>
+    </div>
     <!-- 成绩列表 -->
     <div class="content">
         <div class="leftList">

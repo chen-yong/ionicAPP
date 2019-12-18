@@ -152,15 +152,17 @@ export class StudentPage implements OnInit {
     4、不存在：直接把新的历史记录保存到本地
     */
     let historyList = this.storage.get('historylist');
-    if (historyList) { // 存在
-      if (historyList.indexOf(this.keywords) === -1) {
-        historyList.push(this.keywords);
+    if (historyList) { // 存在历史记录
+      if (historyList.indexOf(this.keywords.trim()) === -1) {
+        if (this.keywords.trim().length > 0) {
+          historyList.push(this.keywords.trim());
+        }
       }
       this.storage.set('historylist', historyList);
-    } else {  // 不存在且非空格
+    } else {  // 不存在
       if (this.keywords.trim().length > 0) {
         historyList = [];
-        historyList.push(this.keywords);
+        historyList.push(this.keywords.trim());
         this.storage.set('historylist', historyList);
       }
     }
