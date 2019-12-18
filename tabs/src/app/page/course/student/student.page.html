@@ -8,10 +8,9 @@
 
 <ion-content>
     <!-- 搜索框 -->
-    <!-- <ion-searchbar [(ngModel)]="studentList.name" (ionInput)="getItems($event)" (ionFocus)="focusInput()" (ionBlur)="blurInput()" (ionClear)="cancel($event)" placeholder="请输入搜索内容" showCancelButton="focus" cancelButtonText="搜索">
-    </ion-searchbar> -->
     <ion-toolbar style="margin-top: 1rem;">
-        <ion-searchbar placeholder="请输入搜索关键词" [(ngModel)]="keywords" (ionFocus)="focusInput()" (ionBlur)="blurInput()"></ion-searchbar>
+        <ion-searchbar placeholder="请输入搜索关键词" [(ngModel)]="keywords" (ionFocus)="focusInput()" (ionBlur)="blurInput()">
+        </ion-searchbar>
         <ion-buttons slot="end">
             <ion-button (click)="doSearch()" color="dark">
                 搜索
@@ -19,10 +18,13 @@
         </ion-buttons>
     </ion-toolbar>
     <!-- 历史记录 -->
-    <div class="search_content" *ngIf="flag" padding>
+    <div class="search_content" *ngIf="flag && historyList.length>0" padding >
         <div class="history">
             <h5 class="search_title">历史记录</h5>
-            <p *ngIf="historyList.length>0">
+            <div class="btn_Delete">
+                <ion-icon name="trash" slot="end" color="danger" (click)="deleteHistory(historyList)"></ion-icon>
+            </div>
+            <p>
                 <span *ngFor="let item of historyList;let key=index;" (press)="removeHistory(key)" (tap)="goSearch(item)"> 
                   {{item}}
                 </span>
