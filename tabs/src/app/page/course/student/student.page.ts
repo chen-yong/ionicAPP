@@ -42,6 +42,11 @@ export class StudentPage implements OnInit {
     // 获取搜素历史
     this.getHistory();
   }
+  // tslint:disable-next-line: use-lifecycle-interface // 生命周期函数ngDoCheck检测的变化时作出反应
+  ngDoCheck() {
+    // 获取搜素历史
+    this.getHistory();
+  }
   // 返回上一层
   goBack(courseId) {
     this.router.navigate(['/manage/' + courseId]);
@@ -53,17 +58,15 @@ export class StudentPage implements OnInit {
   }
   // 搜索学生
   getStudentList() {
-
+    this.getHistory();
   }
   // 获得焦点
   focusInput() {
-    console.log('获得焦点');
-    this.flag = !this.flag;
+    this.flag = true;
   }
   // 失去焦点
   blurInput() {
-    console.log('失去焦点');
-    this.flag = !this.flag;
+    // this.flag = !this.flag;
   }
   // 长按触发删除学生事件
   async delete(id: string) {
@@ -121,8 +124,8 @@ export class StudentPage implements OnInit {
     });
     await alert.present();
   }
-   // 获取历史记录
-   getHistory() {
+  // 获取历史记录
+  getHistory() {
     const historyList = this.storage.get('historylist');
     if (historyList) {
       this.historyList = historyList;
@@ -132,7 +135,6 @@ export class StudentPage implements OnInit {
   goSearch(keywords) {
     this.keywords = keywords;
     this.doSearch();
-
   }
 
   // 点击搜索按钮执行搜索
@@ -168,19 +170,18 @@ export class StudentPage implements OnInit {
     const alert = await this.alertController.create({
       backdropDismiss: false,
       header: '提示！',
-      message: '确定要删除吗?',
+      message: '要删除此条记录吗?',
       buttons: [
         {
           text: '取消',
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            console.log('Confirm Cancel: blah');
+            // console.log('Cancel');
           }
         }, {
           text: '删除',
           handler: () => {
-            // console.log('Confirm 执行删除'+key);
             this.historyList.splice(key, 1);
             this.storage.set('historylist', this.historyList);
           }
@@ -188,6 +189,13 @@ export class StudentPage implements OnInit {
       ]
     });
     await alert.present();
+  }
+  // 删除全部历史记录
+  deleteHistory(historyList) {
+    this.historyList.splice(historyList, historyList.length);
+    this.storage.set('historylist', this.historyList);
+    // 关闭历史记录栏
+    this.flag = !this.flag;
   }
 
 }
