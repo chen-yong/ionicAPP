@@ -3,6 +3,7 @@
         <ion-title>
             信息
         </ion-title>
+        <ion-icon slot="end" name="create" (click)="addEmail()"></ion-icon>
     </ion-toolbar>
 </ion-header>
 
@@ -34,8 +35,34 @@
    
     <!-- 邮件列表-->
     <ion-card >
+        <ion-item *ngIf="iskong == true">
+            <ion-label>您暂时还没有邮件呢~</ion-label>
+        </ion-item>    
+    <!-- 显示置顶邮件 -->
     <ion-list *ngFor="let item of emailList" key="item.id">
-      <ion-item-sliding>
+      <ion-item-sliding *ngIf="item.flag == true">
+        <ion-item color="light">
+            <ion-avatar slot="start">
+                <img [src]="item.sender_img">
+            </ion-avatar>
+            <ion-label (press)="delete(item.id)" (tap)="checkEmail(item.id)"> 
+                <!-- 发件人 -->
+                <h2>{{item.sender_name}}</h2>
+                <!-- 主题 -->
+                <h3>{{item.theme}}</h3>
+                <!-- 内容 -->
+                <p>{{item.text}}</p>
+            </ion-label >
+        </ion-item>
+        <ion-item-options side="end">
+            <ion-item-option color="success" (click)="deletehead(item.id)">取消置顶</ion-item-option>
+            <ion-item-option color="medium" (click)="delete(item.id)">删除</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+    <!-- 显示未置顶邮件 -->
+    <ion-list *ngFor="let item of emailList" key="item.id">
+      <ion-item-sliding *ngIf="item.flag == false">
         <ion-item >
             <ion-avatar slot="start">
                 <img [src]="item.sender_img">
@@ -46,15 +73,16 @@
                 <!-- 主题 -->
                 <h3>{{item.theme}}</h3>
                 <!-- 内容 -->
-                <p maxlength="5">{{item.text}}</p>
+                <p>{{item.text}}</p>
             </ion-label>
         </ion-item>
         <ion-item-options side="end">
             <ion-item-option color="success" (click)="puthead(item.id)">置顶</ion-item-option>
-            <ion-item-option color="medium" (click)="resetPwd(item.id)">删除</ion-item-option>
+            <ion-item-option color="medium" (click)="delete(item.id)">删除</ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
     </ion-list>
+
     </ion-card>
 
 </ion-content>
