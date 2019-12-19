@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { StorageService } from '../../../../services/storage.service';
+import { CommonService } from '../../../../services/common.service';
 
 @Component({
   selector: 'app-labgrade',
@@ -20,6 +21,7 @@ export class LabgradePage implements OnInit {
     public router: Router,
     public alertController: AlertController,
     public storage: StorageService,
+    public commonService: CommonService,
   ) {
     for (let i = 0; i < 15; i++) {
       this.leftList.push(`学生${i}`);
@@ -79,27 +81,7 @@ export class LabgradePage implements OnInit {
 
   // 保存历史记录
   saveHistory() {
-    /*
-    1、获取本地存储里面的历史记录数据
-    2、判断本地存储的历史记录是否存在
-    3、存在：把新的历史记录和以前的历史记录拼接 ,然后重新保存 （去重）
-    4、不存在：直接把新的历史记录保存到本地
-    */
-    let labGradeHistory = this.storage.get('labGradeHistory');
-    if (labGradeHistory) { // 存在历史记录
-      if (labGradeHistory.indexOf(this.keywords.trim()) === -1) {
-        if (this.keywords.trim().length > 0) {
-          labGradeHistory.push(this.keywords.trim());
-        }
-      }
-      this.storage.set('labGradeHistory', labGradeHistory);
-    } else {  // 不存在
-      if (this.keywords.trim().length > 0) {
-        labGradeHistory = [];
-        labGradeHistory.push(this.keywords.trim());
-        this.storage.set('labGradeHistory', labGradeHistory);
-      }
-    }
+    this.commonService.saveLocalStorage('labGradeHistory', this.keywords);
   }
   // 删除历史记录
   async removeHistory(key) {

@@ -26,7 +26,7 @@ export class GradesPage implements OnInit {
     public location: Location,
     public router: Router,
     public toastController: ToastController,
-    public common: CommonService,
+    public commonService: CommonService,
     public alertController: AlertController,
     public storage: StorageService,
   ) {
@@ -55,7 +55,7 @@ export class GradesPage implements OnInit {
   // 获取左侧试卷数据
   getLeftData() {
     const api = '';
-    this.common.get(api).then((response: any) => {
+    this.commonService.get(api).then((response: any) => {
       this.leftList = response.result;
       // this.getRightData(this.leftList[0].id);
     });
@@ -64,7 +64,7 @@ export class GradesPage implements OnInit {
   // getRightData(id) {
   //   this.selectedId = id;
   //   const api = '' + id;
-  //   this.common.get(api).then((response: any) => {
+  //   this.commonService.get(api).then((response: any) => {
   //     this.rightList = response.result;
   //   });
   // }
@@ -157,27 +157,7 @@ export class GradesPage implements OnInit {
 
   // 保存历史记录
   saveHistory() {
-    /*
-    1、获取本地存储里面的历史记录数据
-    2、判断本地存储的历史记录是否存在
-    3、存在：把新的历史记录和以前的历史记录拼接 ,然后重新保存 （去重）
-    4、不存在：直接把新的历史记录保存到本地
-    */
-    let gradesHistoryList = this.storage.get('gradesHistoryList');
-    if (gradesHistoryList) { // 存在历史记录
-      if (gradesHistoryList.indexOf(this.keywords.trim()) === -1) {
-        if (this.keywords.trim().length > 0) {
-          gradesHistoryList.push(this.keywords.trim());
-        }
-      }
-      this.storage.set('gradesHistoryList', gradesHistoryList);
-    } else {  // 不存在
-      if (this.keywords.trim().length > 0) {
-        gradesHistoryList = [];
-        gradesHistoryList.push(this.keywords.trim());
-        this.storage.set('gradesHistoryList', gradesHistoryList);
-      }
-    }
+    this.commonService.saveLocalStorage('gradesHistoryList', this.keywords);
   }
   // 删除历史记录
   async removeHistory(key) {
