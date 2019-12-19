@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="end">
+          <ion-button (click)="doClose()">
+              <ion-icon slot="icon-only" name="close" color="danger"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+      <ion-title>写邮件</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+      <ion-item>
+          <ion-label> 收件人: </ion-label>
+          <ion-input [(ngModel)]="emailDetail.inid" name='number' id="number" required #number="ngModel" placeholder="必填">
+          </ion-input>
+          <div *ngIf="number.invalid && (number.dirty || number.touched)" class="alert-danger">
+              <div *ngIf="number.errors.required">
+                  必填
+              </div>
+          </div>
+      </ion-item>
+      <ion-item>
+          <ion-label> 主题：</ion-label>
+          <ion-input type="text" [(ngModel)]="emailDetail.theme"> </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" [(ngModel)]="emailDetail.context"> </ion-input>
+      </ion-item>
+      <br>
+  </ion-card>
+  <ion-button class="submit_btn" expand="full" (click)="submit()">提交</ion-button>
+</ion-content>
