@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { Device } from '@ionic-native/device/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
+import { AlertController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';  // 提示弹出层
+
 @Component({
   selector: 'app-userinfo',
   templateUrl: './userinfo.page.html',
@@ -26,6 +29,8 @@ export class UserinfoPage implements OnInit {
   constructor(
     public route: ActivatedRoute,
     public router: Router,
+    public alertController: AlertController,
+    public toastCtrl: ToastController,  //弹窗层效果
     public device: Device, //调用摄像机需要的
     public camera: Camera  //调用摄像机需要的
   ) { }
@@ -48,6 +53,33 @@ export class UserinfoPage implements OnInit {
   saveUserInfo(){
     console.log('姓名:'+this.PeopleList.name+'座右铭:'+this.PeopleList.intro);
   }
+
+  //头像点击效果选取
+    async logo(){
+      const alert = await this.alertController.create({
+        message:'<Strong>选择选取头像方式</Strong>',
+        buttons:[
+          {
+            text:'拍照',
+            handler:(blah)=>{
+              console.log("调用相机拍照");
+              this.handleCamera();
+           }
+        },{
+          text:'从手机相册选择',
+          handler: () => {
+             console.log("从搜集相册选择，但目前还未开发");
+          }
+        },{
+          text: '取消',
+          role: 'cancel',
+          handler:(blah)=>{
+            console.log("cancel");
+         }
+        }]
+      });
+      await alert.present();
+    }
 
   //拍照
   handleCamera() {
