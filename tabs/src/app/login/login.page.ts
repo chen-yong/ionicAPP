@@ -66,7 +66,9 @@ export class LoginPage implements OnInit {
         // console.log(response);
         if (response.success) {
           // 保存用户信息
-          this.storageService.set('userinfo', this.userinfo);
+          this.commonService.saveLocalStorage('userinfo', this.userinfo[0]);
+          this.commonService.saveLocalStorage('userinfo', this.userinfo[1]);
+          // this.storageService.set('userinfo', this.userinfo);
           // 更新用户信息
           this.eventService.event.emit('useraction');
           // 跳转到首页

@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { LoginGuard } from './services/login.guard'; // 引入路由守卫
 
 const routes: Routes = [
   {
-    path: '',
-    // loadChildren: './login/login.module#LoginPageModule' // 设置login入口
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    path: '', loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+    canActivate: [LoginGuard]
   },
-  { path: 'tabs', loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  // loadChildren: './tabs/tabs.module#TabsPageModule'
-  },
+  { path: 'login', loadChildren: './login/login.module#LoginPageModule' }, // 设置login入口
+  { path: 'tabs', loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)},
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'manage/:id', loadChildren: './page/course/manage/manage.module#ManagePageModule' },
   { path: 'userinfo/:id', loadChildren: './page/me/userinfo/userinfo.module#UserinfoPageModule' },
@@ -51,4 +50,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
