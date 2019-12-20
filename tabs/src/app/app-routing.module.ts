@@ -35,6 +35,13 @@ const routes: Routes = [
   { path: 'addprint', loadChildren: './page/course/print/addprint/addprint.module#AddprintPageModule' },
   { path: 'grades/:id', loadChildren: './page/course/grades/grades.module#GradesPageModule' },
   { path: 'testgrade/:id', loadChildren: './page/course/testgrade/testgrade.module#TestgradePageModule' },
+  { path: 'inbox', loadChildren: './page/email/inbox/inbox.module#InboxPageModule' },
+  { path: 'outbox', loadChildren: './page/email/outbox/outbox.module#OutboxPageModule' },
+  { path: 'dustbin', loadChildren: './page/email/dustbin/dustbin.module#DustbinPageModule' },
+  { path: 'maillist', loadChildren: './page/email/maillist/maillist.module#MaillistPageModule' }
+
+
+
 
 
 
