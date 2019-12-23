@@ -38,7 +38,9 @@ const routes: Routes = [
   { path: 'inbox', loadChildren: './page/email/inbox/inbox.module#InboxPageModule' },
   { path: 'outbox', loadChildren: './page/email/outbox/outbox.module#OutboxPageModule' },
   { path: 'dustbin', loadChildren: './page/email/dustbin/dustbin.module#DustbinPageModule' },
-  { path: 'maillist', loadChildren: './page/email/maillist/maillist.module#MaillistPageModule' }
+  { path: 'maillist', loadChildren: './page/email/maillist/maillist.module#MaillistPageModule' },
+  { path: 'resource/:id', loadChildren: './page/course/resource/resource.module#ResourcePageModule' }
+
 
 
 

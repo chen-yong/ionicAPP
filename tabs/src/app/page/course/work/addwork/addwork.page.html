@@ -61,8 +61,13 @@
                 </div>
             </ion-item>
             <ion-item>
-                <ion-label>说 明：</ion-label>
-                <ion-textarea [(ngModel)]="workInfo.explain" name="explain"></ion-textarea>
+                <ion-label>总分：</ion-label>
+                <ion-input [(ngModel)]="workInfo.score" name="score" id="score" required #score="ngModel" placeholder="必填"></ion-input>
+                <div *ngIf="score.invalid && (score.dirty || score.touched)" class="alert-danger">
+                    <div *ngIf="score.errors.required">
+                        必填
+                    </div>
+                </div>
             </ion-item>
             <ion-item>
                 <ion-label>作业互评：</ion-label>
@@ -73,17 +78,6 @@
                 <ion-datetime display-format="YYYY-MM-DD" [(pickerOptions)]="customPickerOptions" name="falgTime" picker-format="YYYY MM DD" [(ngModel)]="workInfo.falgTime" (ionChange)="datetimeChange($event)">
                 </ion-datetime>
             </ion-item>
-
-            <ion-item>
-                <ion-label>总分：</ion-label>
-                <ion-input [(ngModel)]="workInfo.score" name="score" id="score" required #score="ngModel" placeholder="必填"></ion-input>
-                <div *ngIf="score.invalid && (score.dirty || score.touched)" class="alert-danger">
-                    <div *ngIf="score.errors.required">
-                        必填
-                    </div>
-                </div>
-            </ion-item>
-
             <ion-item>
                 <ion-label>成绩展示：</ion-label>
                 <ion-select slot="end" [(ngModel)]="workInfo.showGrade" id="showGradeList" name="showGradeList" required #showGradeList="ngModel" placeholder="必填">

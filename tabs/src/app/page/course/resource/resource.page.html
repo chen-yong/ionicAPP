@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <img class="back_img" src="..\assets\img\返回.png" slot="start" (click)="goBack(courseId)">
+    <ion-title>课程资源</ion-title>
+    <img class="add_img" src="..\assets\img\添加.png" (click)="addResource(courseId)" slot="end">
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- 搜索框 -->
+  <ion-toolbar style="margin-top: 1rem;">
+    <ion-searchbar placeholder="请输入搜索关键词" [(ngModel)]="keywords" (ionFocus)="focusInput()" (ionBlur)="blurInput()">
+    </ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="doSearch()" color="dark">
+        搜索
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <!-- 历史记录 -->
+  <div class="search_content" *ngIf="flag && resourceHistoryList.length>0" padding>
+    <div class="history">
+      <h5 class="search_title">历史记录</h5>
+      <div class="btn_Delete">
+        <ion-icon name="trash" slot="end" color="danger" (click)="deleteHistory(resourceHistoryList)"></ion-icon>
+      </div>
+      <p>
+        <span *ngFor="let item of resourceHistoryList;let key=index;" (press)="removeHistory(key)" (tap)="goSearch(item)">
+          {{item}}
+        </span>
+      </p>
+    </div>
+  </div>
+  <!-- 路径 -->
+
+  <!-- 资源目录 -->
+  <div class="resourceList">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4" *ngFor="let item of resourceList" class="resource">
+          <img [src]="item.src" class="resource_src" (press)="operation(item.id)" (tap)="openResource(item.id)">
+          <p class="resource_name">{{item.name}}</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
