@@ -2,6 +2,7 @@
   <ion-toolbar>
     <img class="back_img" src="..\assets\img\返回.png" slot="start" (click)="goBack(courseId)">
     <ion-title>课程资源</ion-title>
+    <ion-icon name="cloud-upload" slot="end" color="primary" class="upload" (click)="upload()"></ion-icon>
     <img class="add_img" src="..\assets\img\添加.png" (click)="addResource(courseId)" slot="end">
   </ion-toolbar>
 </ion-header>

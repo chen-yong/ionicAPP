@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ResourcePage } from './resource.page';
+import { UploadComponent } from './components/upload/upload.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ResourcePage]
+  declarations: [ResourcePage, UploadComponent],
+  entryComponents: [UploadComponent]
 })
-export class ResourcePageModule {}
+export class ResourcePageModule { }

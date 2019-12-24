@@ -6,6 +6,8 @@ import { NavController } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
 import { StorageService } from '../../../services/storage.service';
 import { CommonService } from '../../../services/common.service';
+import { ModalController } from '@ionic/angular';
+import { UploadComponent } from './components/upload/upload.component';
 
 @Component({
   selector: 'app-resource',
@@ -34,6 +36,7 @@ export class ResourcePage implements OnInit {
     public storage: StorageService,
     public commonService: CommonService,
     public actionSheetController: ActionSheetController,
+    public modalController: ModalController,
   ) { }
 
   ngOnInit() {
@@ -234,5 +237,14 @@ export class ResourcePage implements OnInit {
     });
 
     await alert.present();
+  }
+  // 上传资源
+  async upload() {
+    const modal = await this.modalController.create({
+      showBackdrop: true,
+      component: UploadComponent,
+      componentProps: { value: 123 }
+    });
+    return await modal.present();
   }
 }
