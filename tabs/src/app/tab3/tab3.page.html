@@ -8,12 +8,12 @@
 
 <ion-content>
     <!-- 个人信息 -->
-    <ion-item>
+    <ion-item (click)="goUserinfo(userList.id)">
         <ion-thumbnail slot="start">
             <img src="{{userList.img}}" alt="头像">
         </ion-thumbnail>
         <ion-label>{{userList.name}}</ion-label>
-        <ion-icon name="arrow-dropright" (click)="goUserinfo(userList.id)"></ion-icon>
+        <!-- <ion-icon name="arrow-dropright" (click)="goUserinfo(userList.id)"></ion-icon> -->
     </ion-item>
 
     <ion-card>
@@ -35,6 +35,6 @@
     </ion-card>
 
     <section>
-        <ion-button expand="block" color="danger" (click)="logout" [routerLink]="['/login']">退出</ion-button>
+        <ion-button class="submit_btn" expand="block" (click)="logout" [routerLink]="['/login']">退出</ion-button>
     </section>
 </ion-content>

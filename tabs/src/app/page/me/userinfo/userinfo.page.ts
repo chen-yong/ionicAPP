@@ -21,8 +21,12 @@ export class UserinfoPage implements OnInit {
     id: 2014211911,
     name: 'Admin',
     img: 'assets/img/hznu.png',
-    color: 'success',
-    intro: '扬帆起航，就此远航'
+    sex: '1', //这里用man为1，women为2
+    number:'28865371',
+    email:'1033558982@qq.com',
+    address:"杭州市余杭塘路2318号",
+    qq:'1033558982'
+
   };
   public base64Img = '';//临时存放拍照得到的照片
 
