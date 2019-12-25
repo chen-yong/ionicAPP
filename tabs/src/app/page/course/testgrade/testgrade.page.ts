@@ -4,6 +4,7 @@ import { IonInfiniteScroll } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { StorageService } from '../../../services/storage.service';
 import { CommonService } from '../../../services/common.service';
+import 'hammerjs';
 
 @Component({
   selector: 'app-testgrade',
@@ -17,6 +18,7 @@ export class TestgradePage implements OnInit {
   public leftList: any[] = [];
   public rightList: any[] = [];
   public selectedId: any = '';  /*选中的学生id*/
+  public LeftStyle: any = 'leftList1';
   constructor(
     public router: Router,
     public alertController: AlertController,
@@ -115,6 +117,14 @@ export class TestgradePage implements OnInit {
     this.storage.set('testGradeHistory', this.testGradeHistory);
     // 关闭历史记录栏
     this.flag = !this.flag;
+  }
+   // 左滑
+   leftSlide() {
+    this.LeftStyle = 'leftList';
+  }
+  // 右滑
+  rightSlide() {
+    this.LeftStyle = 'leftList1';
   }
 
 }

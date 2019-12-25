@@ -6,6 +6,7 @@ import { AlertController } from '@ionic/angular';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { CommonService } from '../../../services/common.service';
 import { StorageService } from '../../../services/storage.service';
+import 'hammerjs';
 
 @Component({
   selector: 'app-grades',
@@ -20,6 +21,7 @@ export class GradesPage implements OnInit {
   public leftList: any[] = [];
   public rightList: any[] = [];
   public selectedId: any = '';  /*选中的学生id*/
+  public LeftStyle: any = 'leftList1';
 
 
   constructor(
@@ -190,6 +192,14 @@ export class GradesPage implements OnInit {
     this.storage.set('gradesHistoryList', this.gradesHistoryList);
     // 关闭历史记录栏
     this.flag = !this.flag;
+  }
+  // 左滑
+  leftSlide() {
+    this.LeftStyle = 'leftList';
+  }
+  // 右滑
+  rightSlide() {
+    this.LeftStyle = 'leftList1';
   }
 
 }

@@ -20,12 +20,12 @@ export class ResourcePage implements OnInit {
   public keywords: any = '';  // 表单输入的关键词
   public resourceHistoryList: any[] = [];  // 历史记录
   public resourceList: any[] = [
-    { id: 1, name: '文件夹1', src: '../../../../assets/img/hznu.png' },
-    { id: 2, name: '文件夹2', src: '../../../../assets/img/hznu.png' },
-    { id: 3, name: '文件夹3', src: '../../../../assets/img/hznu.png' },
-    { id: 4, name: '文件夹4', src: '../../../../assets/img/hznu.png' },
-    { id: 5, name: '文件夹5', src: '../../../../assets/img/hznu.png' },
-    { id: 6, name: '文件夹6', src: '../../../../assets/img/hznu.png' },
+    { id: 1, name: '文件夹1', src: '../../../../assets/img/wenjianjia.svg' },
+    { id: 2, name: '文件夹2', src: '../../../../assets/img/excel.svg' },
+    { id: 3, name: '文件夹3', src: '../../../../assets/img/pdf.svg' },
+    { id: 4, name: '文件夹4', src: '../../../../assets/img/ppt.svg' },
+    { id: 5, name: '文件夹5', src: '../../../../assets/img/word.svg' },
+    { id: 6, name: '文件夹6', src: '../../../../assets/img/txt.svg' },
   ]; // 文件夹列表
 
   constructor(

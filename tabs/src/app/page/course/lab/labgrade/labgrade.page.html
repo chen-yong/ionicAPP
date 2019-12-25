@@ -32,7 +32,7 @@
     </div>
     <!-- 成绩列表 -->
     <div class="content">
-        <div class="leftList">
+        <div [class]="LeftStyle" (swipeleft)="leftSlide()" (swiperight)="rightSlide()">
             <ion-list lines="full">
                 <ion-item *ngFor="let item of leftList" (tap)="getLeftData(item._id)" [ngClass]="{'active': item._id==selectedId}">
                     <ion-label>{{item}}</ion-label>

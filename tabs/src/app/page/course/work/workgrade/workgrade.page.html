@@ -7,7 +7,7 @@
 
 <ion-content>
     <ion-toolbar style="margin-top: 1rem;">
-        <ion-searchbar placeholder="请输入搜索关键词" [(ngModel)]="keywords" (ionFocus)="focusInput()" (ionBlur)="blurInput()">
+        <ion-searchbar placeholder="请输入搜索关键词" [(ngModel)]="keywords" (ionFocus)="focusInput()">
         </ion-searchbar>
         <ion-buttons slot="end">
             <ion-button (click)="doSearch()" color="dark">
@@ -31,7 +31,7 @@
     </div>
     <!-- 成绩列表 -->
     <div class="content">
-        <div class="leftList">
+        <div [class]="LeftStyle" (swipeleft)="leftSlide()" (swiperight)="rightSlide()">
             <ion-list lines="full">
                 <ion-item *ngFor="let item of leftList" (tap)="getLeftData(item._id)" [ngClass]="{'active': item._id==selectedId}">
                     <ion-label>{{item}}</ion-label>
