@@ -9,5 +9,20 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <input type="file">
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-subtitle>
+                <input type="file">
+            </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-buttons slot="start">
+                <ion-button (click)="uploadFile()">
+                    <ion-icon slot="start" name="cloud-upload" color="primary"></ion-icon>
+                     上传
+                </ion-button>
+            </ion-buttons>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

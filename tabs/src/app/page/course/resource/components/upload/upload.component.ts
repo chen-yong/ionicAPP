@@ -19,5 +19,9 @@ export class UploadComponent implements OnInit {
   doClose() {
     this.navParams.data.modal.dismiss();
   }
+  // 上传文件
+  uploadFile() {
+    console.log('上传文件');
+  }
 
 }

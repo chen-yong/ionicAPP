@@ -56,19 +56,20 @@ export class CommonService {
    3、存在：把新的历史记录和以前的历史记录拼接 ,然后重新保存 （去重）
    4、不存在：直接把新的历史记录保存到本地
    */
-    let hitory = this.storageService.get(historyList);
-    if (hitory) { // 存在历史记录
-      if (hitory.indexOf(keywords.trim()) === -1) {
+    console.log(historyList, keywords);
+    let history = this.storageService.get(historyList);
+    if (history) { // 存在历史记录
+      if (history.indexOf(keywords.trim()) === -1) {
         if (keywords.trim().length > 0) {
-          hitory.push(keywords.trim());
+          history.push(keywords.trim());
         }
       }
-      this.storageService.set(historyList, hitory);
+      this.storageService.set(historyList, history);
     } else {  // 不存在
       if (keywords.trim().length > 0) {
-        hitory = [];
-        hitory.push(keywords.trim());
-        this.storageService.set(history, hitory);
+        history = [];
+        history.push(keywords.trim());
+        this.storageService.set(history, history);
       }
     }
   }
