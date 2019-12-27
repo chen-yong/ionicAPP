@@ -52,6 +52,7 @@ export class Tab3Page {
       message,
       duration: 1000,
       position: 'top',
+      color: 'danger',
       cssClass: ''
     });
     toast.present();

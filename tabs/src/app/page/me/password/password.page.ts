@@ -32,6 +32,7 @@ export class PasswordPage implements OnInit {
       message,
       duration: 1000,
       position: 'top',
+      color: 'danger',
       cssClass: ''
     });
     toast.present();
