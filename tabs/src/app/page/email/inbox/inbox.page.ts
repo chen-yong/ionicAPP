@@ -26,7 +26,7 @@ export class InboxPage implements OnInit {
   ) { }
 
   public iskong=false;  //判断是否收到邮件
-  public flag = false;
+  public flag = false;  //历史记录控件
   public keywords: any = '';  // 表单输入的关键词
   public historyList: any[] = [];  // 历史记录
   public emailList: any[] = [

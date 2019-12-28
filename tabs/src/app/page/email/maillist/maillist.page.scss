@@ -41,3 +41,28 @@
         opacity: 1
     }
 }
+
+.search_content {
+    .search_title {
+        font-size: 1.6rem;
+        font-weight: bold;
+        padding: .5rem 0px;
+    }
+    .history {
+        .btn_Delete{
+            font-size: 1.6rem;
+            float: right;
+            margin-top: -2.3rem;
+        }
+        p {
+            padding: .5rem 0px;
+            span {
+                padding: .5rem;
+                background: #eee;
+                margin: .5rem .5rem;
+                border-radius: .5rem;
+                display: inline-block;
+            }
+        }
+    }
+}

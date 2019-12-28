@@ -4,6 +4,7 @@
     <ion-title>通讯录</ion-title>
     <!-- <ion-searchbar [(ngModel)]="searchInput" placeholder="姓名/电话" (ionInput)="goSearchResult($event)" aria-autocomplete="on" showCancelButton='true' cancelButtonText="取消"></ion-searchbar> -->
   </ion-toolbar>
+  <!-- 搜索框 -->
   <ion-toolbar style="margin-top: 1rem;">
     <ion-searchbar [(ngModel)]="searchInput" placeholder="请输入搜索姓名" (ionFocus)="focusInput()" (ionBlur)="blurInput()">
     </ion-searchbar>
@@ -11,6 +12,20 @@
       <ion-button (click)="goSearchResult()" color="dark">搜索</ion-button>
     </ion-buttons>
   </ion-toolbar>
+  <!-- 历史记录 -->
+  <div class="search_content" *ngIf="flag && historyList.length>0 " padding>
+    <div class="history">
+        <h5 class="search_title">历史记录</h5>
+            <div class="btn_Delete">
+                <ion-icon name="trash" slot="end" color="danger" (click)="deleteHistory(historyList)"></ion-icon>
+            </div>
+            <p>
+            <span *ngFor="let item of historyList;let key=index;" (press)="removeHistory(key)" (tap)="goSearch(item)"> 
+              {{item}}
+            </span>
+        </p>
+    </div>
+</div>
 </ion-header>
 
 <ion-content>
@@ -28,6 +43,7 @@
   </div>
   <!-- 搜索时显示的结果 -->
   <ion-list *ngIf="isSearching">
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;最佳匹配</p>
     <ion-item-group *ngFor="let contacts of searchingItems;let i = index">
       <ion-item-divider color="light" id="{{searchLetters[i]}}">
         <ion-label>{{searchLetters[i]}}</ion-label>
