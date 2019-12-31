@@ -58,7 +58,6 @@ export class AddpeopleComponent implements OnInit {
 
   public  index:string ='A';     //当前选中的字母
   public showModal:any = false;  //字母点击光亮效果显示开关
-
   public chuanzhi:any[]=[];  //记录选择的收信人id,传给emailwrite页面
 
   ngOnInit() {
@@ -90,11 +89,19 @@ export class AddpeopleComponent implements OnInit {
   }
   //邮件发送功能设置
   submit(){
+    this.formatContacts.forEach(element => {
+      element.forEach(elements => {
+        if(elements.isChecked){
+          this.chuanzhi.push(elements);
+        }
+      });
+    });
     // this.toastTip("您的邮件已经成功发送");
     this.navParams.data.modal.dismiss({
       result:{
         isDate:1, //1代表有数据传回,2代表没有数据传回
-        // msg:['1','2','3'],
+        // msg:['1','2','3']
+
         msg:this.chuanzhi,
         flag:'true'
       }
@@ -133,48 +140,48 @@ createModal(){
   },800)
 }
 
-// goSearchResult(){
-//   this.isSearching = true;  // 显示通讯录搜索结果
-//   let val = this.searchInput;
-//   if(val && val.trim()!=''){
-//     this.searchLetters=[];   //将存储搜索内容首字母的数组置为空
-//     this.searchingItems=[];  //将存储搜索内容的数组置为空
-//     this.aLetters.forEach((res,index)=>{
-//       let search = this.formatContacts[index].filter((item)=>{
-//         return (item.name.indexOf(val)>-1);
-//       })
-//       if(search != null && search.length>0){
-//         this.searchLetters.push(res);
-//         this.searchingItems.push(search);
-//       }
-//     })
-//   }else{
-//     this.isSearching = false;
-//   }
-// }
-
-  goSearchResult(ev:any){
-    console.log(ev);
-    this.isSearching = true;
-    let val:string = ev.detail.data;
-    console.log(val);
-    this.searchInput = val;
-    if(val && val.trim()!=''){
-      this.searchLetters=[];   //将存储搜索内容首字母的数组置为空
-      this.searchingItems=[];  //将存储搜索内容的数组置为空
-      this.letters.forEach((res,index)=>{
-        let search = this.formatContacts[index].filter((item)=>{
-          return (item.name.indexOf(val)>-1);
-        })
-        if(search != null && search.length>0){
-          this.searchLetters.push(res);
-          this.searchingItems.push(search);
-        }
+goSearchResult(){
+  this.isSearching = true;  // 显示通讯录搜索结果
+  let val = this.searchInput;
+  if(val && val.trim()!=''){
+    this.searchLetters=[];   //将存储搜索内容首字母的数组置为空
+    this.searchingItems=[];  //将存储搜索内容的数组置为空
+    this.aLetters.forEach((res,index)=>{
+      let search = this.formatContacts[index].filter((item)=>{
+        return (item.name.indexOf(val)>-1);
       })
-    }else{
-      this.isSearching = false;
-    }
+      if(search != null && search.length>0){
+        this.searchLetters.push(res);
+        this.searchingItems.push(search);
+      }
+    })
+  }else{
+    this.isSearching = false;
   }
+}
+
+  // goSearchResult(ev:any){
+  //   console.log(ev);
+  //   this.isSearching = true;
+  //   let val:string = ev.detail.data;
+  //   console.log(val);
+  //   this.searchInput = val;
+  //   if(val && val.trim()!=''){
+  //     this.searchLetters=[];   //将存储搜索内容首字母的数组置为空
+  //     this.searchingItems=[];  //将存储搜索内容的数组置为空
+  //     this.letters.forEach((res,index)=>{
+  //       let search = this.formatContacts[index].filter((item)=>{
+  //         return (item.name.indexOf(val)>-1);
+  //       })
+  //       if(search != null && search.length>0){
+  //         this.searchLetters.push(res);
+  //         this.searchingItems.push(search);
+  //       }
+  //     })
+  //   }else{
+  //     this.isSearching = false;
+  //   }
+  // }
 
   console(){
     this.isSearching=false;

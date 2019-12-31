@@ -14,12 +14,12 @@
   </ion-toolbar>
     <!-- 搜索框 -->
     <ion-toolbar style="margin-top: 1rem;">
-      <!-- <ion-searchbar [(ngModel)]="searchInput" placeholder="请输入搜索姓名"> -->
-      <ion-searchbar [(ngModel)]="searchInput" placeholder="请输入搜索姓名" (ionInput)="goSearchResult($event)">
+      <ion-searchbar [(ngModel)]="searchInput" placeholder="请输入搜索姓名">
+      <!-- <ion-searchbar [(ngModel)]="searchInput" placeholder="请输入搜索姓名" (ionInput)="goSearchResult($event)"> -->
       </ion-searchbar>
       <ion-buttons slot="end">
-        <!-- <ion-button (click)="goSearchResult()" color="dark">搜索</ion-button> -->
-        <ion-button (click)="console()" color="dark">取消</ion-button>
+        <ion-button (click)="goSearchResult()" color="dark">搜索</ion-button>
+        <!-- <ion-button (click)="console()" color="dark">取消</ion-button> -->
       </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -46,6 +46,7 @@
         </ion-item-divider>
         <ion-item *ngFor="let item of contacts">
           <section>{{item.name }}</section>
+          <ion-checkbox slot="start" [(ngModel)]="item.isChecked"></ion-checkbox>
         </ion-item>
       </ion-item-group>
     </ion-list>

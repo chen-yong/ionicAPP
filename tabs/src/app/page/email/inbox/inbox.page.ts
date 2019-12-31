@@ -64,16 +64,10 @@ export class InboxPage implements OnInit {
   //   }
   
   //跳转到写信页面
-  showaddEmailModel(){
+  addEmail(){
     this.router.navigate(['/emailwrite/',123]);
   }
 
-  
-  // 写邮件
-  addEmail() {
-    console.log('写邮件');
-    // this.router.navigate(['/addstudent/' + courseId]);
-  }
   // 搜索收到的邮件
   getEmailList() {
 

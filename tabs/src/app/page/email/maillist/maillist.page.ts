@@ -65,7 +65,7 @@ export class MaillistPage implements OnInit {
 
   public searchInput:string='';//搜索的关键字
   public aLetters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N'
-              ,'O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+              ,'O','P','Q','R','S','T','U','V','W','X','Y','Z','#']; //其他没有匹配到的全部放进'#'里面
   public letters = [];    //通过接口获取的列表中含有的字母与26个字母对比后公共的字母（最终显示在右侧的字母）
   public formatContacts:any=[];  //按首字母顺序格式化后的通讯录
   public searchingItems = [];    //搜索显示的数组
@@ -241,6 +241,15 @@ export class MaillistPage implements OnInit {
       // 关闭历史记录栏
       this.flag = !this.flag;
     }
+    
+    //点击姓名给对应的人写邮件
+    sendemail(id){
+      this.router.navigate(['/emailwrite/',id]);
+      console.log(id);
+    }
 
-
+    //添加通讯录联系人
+    addlianxiren(){
+      console.log("添加联系人，是一个个添加还是打包添加呢？")
+    }
 }

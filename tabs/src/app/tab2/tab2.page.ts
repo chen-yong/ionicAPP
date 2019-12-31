@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab2',
@@ -8,7 +9,7 @@ import { Component } from '@angular/core';
 export class Tab2Page {
 
   constructor(
-
+    public router: Router,
   ) { }
 
   public userInfo:any={
@@ -20,8 +21,9 @@ export class Tab2Page {
 
   }
 
-  addEmail(){
+  writeEmail(){
     console.log('write');
+    this.router.navigate(['/emailwrite/',123]);
   }
 
 }

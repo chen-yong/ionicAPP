@@ -2,6 +2,7 @@
   <ion-toolbar>
     <img class="back_img" src="..\assets\img\返回.png" slot="start" (click)="goBack()">
     <ion-title>通讯录</ion-title>
+    <img class="add_img" src="..\assets\img\添加.png" (click)="addlianxiren()" slot="end">
     <!-- <ion-searchbar [(ngModel)]="searchInput" placeholder="姓名/电话" (ionInput)="goSearchResult($event)" aria-autocomplete="on" showCancelButton='true' cancelButtonText="取消"></ion-searchbar> -->
   </ion-toolbar>
   <!-- 搜索框 -->
@@ -48,7 +49,7 @@
       <ion-item-divider color="light" id="{{searchLetters[i]}}">
         <ion-label>{{searchLetters[i]}}</ion-label>
       </ion-item-divider>
-      <ion-item *ngFor="let item of contacts">
+      <ion-item *ngFor="let item of contacts" (tap)="sendemail(item.id)">
         <section>{{item.name }}</section>
       </ion-item>
     </ion-item-group>
@@ -60,7 +61,7 @@
       <ion-item-divider color="light" id="{{ aLetters[i] }}" *ngIf="item.length>0">
         {{aLetters[i]}}
       </ion-item-divider>
-      <ion-item *ngFor="let contact of item">
+      <ion-item *ngFor="let contact of item" (tap)="sendemail(contact.id)">
         <section>{{contact.name }}</section>
       </ion-item>
     </ion-item-group>
