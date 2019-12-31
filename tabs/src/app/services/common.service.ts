@@ -56,7 +56,7 @@ export class CommonService {
    3、存在：把新的历史记录和以前的历史记录拼接 ,然后重新保存 （去重）
    4、不存在：直接把新的历史记录保存到本地
    */
-    console.log(historyList, keywords);
+    // console.log(historyList, keywords);
     let history = this.storageService.get(historyList);
     if (history) { // 存在历史记录
       if (history.indexOf(keywords.trim()) === -1) {
