@@ -1,0 +1,68 @@
+#letter{
+    width: 5%;
+    position: fixed;
+    top: 28%; //28%
+    right: 0.5%;
+    z-index: 100;
+    text-align: center;
+    .indexed-item{
+        font-family: "Arial";
+        font-size: 13px;
+        color: #999;
+        transition: all .3s ease-out;
+        margin: 2px 0;
+        cursor: pointer;
+        &.activate{
+            transform: scale(1.2);
+            color: #000;
+        }
+    }
+}
+.modal{
+    top: 52%;
+    left: 50%;
+    z-index: 100;
+    position: fixed;
+    pointer-events: none; //这个设为none后不会成为鼠标事件的target，阻止点击产生任何效果。
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    margin-left: -(50px * 0.5);
+    margin-top: -(50px * 0.5);
+    color: #fff;
+    font-size: 3em;
+    text-align: center;
+    border-radius: 8px;
+    background-color: rgba(0,0,0,0.52);
+    box-shadow: 0 0 4px  1px rgba(0,0,0,0.16);
+    transition: opacity .5s;
+    opacity: 0;
+    &.show{
+        opacity: 1
+    }
+}
+
+.search_content {
+    .search_title {
+        font-size: 1.6rem;
+        font-weight: bold;
+        padding: .5rem 0px;
+    }
+    .history {
+        .btn_Delete{
+            font-size: 1.6rem;
+            float: right;
+            margin-top: -2.3rem;
+        }
+        p {
+            padding: .5rem 0px;
+            span {
+                padding: .5rem;
+                background: #eee;
+                margin: .5rem .5rem;
+                border-radius: .5rem;
+                display: inline-block;
+            }
+        }
+    }
+}

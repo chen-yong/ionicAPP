@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="end">
+          <ion-button (click)="doClose()">
+              <ion-icon slot="icon-only" name="close" color="danger"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+      <ion-title>写邮件</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+      <ion-item>
+          <ion-label> 收件人: </ion-label>
+          <ion-input [(ngModel)]="emailDetail.inid" (ionFocus)="focusInput1()" (ionBlur)="blurInput()">
+            <p>
+               <span *ngFor="let item of shoujianren;let key=index;">{{item.name}}
+                  <ion-icon name="close" (click)="deleteadd(key)"></ion-icon>
+               </span>
+            </p>
+          </ion-input>
+          <!-- 添加收信人图标按钮 -->
+          <ion-icon name="add-circle-outline" slot="end" (click)="addAddressee()" *ngIf="isshow"></ion-icon>
+      </ion-item>
+      <ion-item>
+          <ion-label> 主题：</ion-label>
+          <ion-input type="text" [(ngModel)]="emailDetail.theme" (ionFocus)="focusInput2()"> </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-textarea [(ngModel)]="emailDetail.context" rows="10" class="input_content" (ionFocus)="focusInput3()"> 
+        </ion-textarea>
+      </ion-item>
+      <ion-item>
+          <ion-card-header>
+            <ion-card-subtitle>
+                <input type="file">
+            </ion-card-subtitle>
+        </ion-card-header>
+      </ion-item>
+  </ion-card>
+  <ion-button class="submit_btn" expand="full" (click)="submit()">提交</ion-button>
+</ion-content>
