@@ -39,7 +39,9 @@ const routes: Routes = [
   { path: 'outbox', loadChildren: './page/email/outbox/outbox.module#OutboxPageModule' },
   { path: 'dustbin', loadChildren: './page/email/dustbin/dustbin.module#DustbinPageModule' },
   { path: 'maillist', loadChildren: './page/email/maillist/maillist.module#MaillistPageModule' },
-  { path: 'resource/:id', loadChildren: './page/course/resource/resource.module#ResourcePageModule' }
+  { path: 'resource/:id', loadChildren: './page/course/resource/resource.module#ResourcePageModule' },
+  { path: 'emailwrite/:id', loadChildren: './page/email/emailwrite/emailwrite.module#EmailwritePageModule' }
+
 
 
 

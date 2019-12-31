@@ -5,8 +5,8 @@ import { Location } from '@angular/common';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular'; //弹出组件
-import { EmailwriteComponent } from '../components/emailwrite/emailwrite.component';//导入写邮件组件
 import { CommonService } from '../../../services/common.service';
+
 
 @Component({
   selector: 'app-inbox',
@@ -53,14 +53,22 @@ export class InboxPage implements OnInit {
       // 获取搜素历史
       this.getHistory();
     }
-  // 点击事件model框显示写邮件页面
-  async showaddEmailModel( ) {
-      const modal = await this.modalController.create({
-        component: EmailwriteComponent,
-        componentProps: { value: 'sd' } // 传值
-      });
-      return await modal.present();
-    }
+    
+  // // 点击事件model框显示写邮件页面
+  // async showaddEmailModel( ) {
+  //     const modal = await this.modalController.create({
+  //       component: EmailwriteComponent,
+  //       componentProps: { value: 'sd' } // 传值
+  //     });
+  //     return await modal.present();
+  //   }
+  
+  //跳转到写信页面
+  showaddEmailModel(){
+    this.router.navigate(['/emailwrite/',123]);
+  }
+
+  
   // 写邮件
   addEmail() {
     console.log('写邮件');
