@@ -134,6 +134,11 @@ export class StudentPage implements OnInit {
     // console.log('添加学生');
     this.router.navigate(['/addstudent/' + courseId]);
   }
+  // 编辑学生
+  editStudent(courseId) {
+    // console.log('添加学生');
+    this.router.navigate(['/editstudent/' + courseId]);
+  }
   // 搜索学生
   getStudentList() {
     this.getHistory();

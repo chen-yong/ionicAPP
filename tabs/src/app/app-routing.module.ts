@@ -40,7 +40,9 @@ const routes: Routes = [
   { path: 'dustbin', loadChildren: './page/email/dustbin/dustbin.module#DustbinPageModule' },
   { path: 'maillist', loadChildren: './page/email/maillist/maillist.module#MaillistPageModule' },
   { path: 'resource/:id', loadChildren: './page/course/resource/resource.module#ResourcePageModule' },
-  { path: 'emailwrite/:id', loadChildren: './page/email/emailwrite/emailwrite.module#EmailwritePageModule' }
+  { path: 'emailwrite/:id', loadChildren: './page/email/emailwrite/emailwrite.module#EmailwritePageModule' },
+  { path: 'editstudent/:id', loadChildren: './page/course/student/editstudent/editstudent.module#EditstudentPageModule' }
+
 
 
 

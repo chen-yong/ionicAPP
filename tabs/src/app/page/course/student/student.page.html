@@ -64,7 +64,7 @@
             </ion-item-divider>
             <ion-list *ngFor="let contact of item" key="item.id">
                 <ion-item-sliding>
-                    <ion-item  (tap)="showModel(contact.id)">
+                    <ion-item  (tap)="editStudent(contact.id)">
                         <ion-thumbnail slot="start">
                             <img [src]="contact.src">
                         </ion-thumbnail>
