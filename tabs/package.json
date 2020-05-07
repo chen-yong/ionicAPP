@@ -29,6 +29,7 @@
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
     "ng-zorro-antd-mobile": "^1.0.1",
+    "replace": "^1.2.0",
     "rxjs": "~6.5.1",
     "silly-datetime": "^0.1.2",
     "transliteration": "^2.1.8",
