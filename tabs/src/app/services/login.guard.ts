@@ -14,9 +14,8 @@ export class LoginGuard implements CanActivate {
   ) { }
   canActivate() {
     // 判断用户是否登录
-    const userinfo = this.storageService.get('userinfo');
-    if (!userinfo || userinfo.name) {
-      // return false;
+    const authtoken = this.storageService.get('authtoken');
+    if (!authtoken) {
       this.nav.navigateRoot('/login');
     } else {
       return true;

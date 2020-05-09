@@ -13,10 +13,8 @@ import { StorageService } from '../services/storage.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  public userinfo: any = {
-    username: '',
-    password: ''
-  };
+  public username: '';
+  public password: '';
   constructor(
     public router: Router,
     public toastCtrl: ToastController,
@@ -40,43 +38,27 @@ export class LoginPage implements OnInit {
     toast.present();
   }
   login() {
-    if (!this.userinfo.username) {
+    if (!this.username) {
       this.toastTip('请填写账号！');
       return;
     }
-    if (!this.userinfo.password) {
+    if (!this.password) {
       this.toastTip('请填写密码！');
       return;
     }
-    console.log(this.userinfo);
-    if (this.userinfo.username === '1' && this.userinfo.password === '1') {
-      // 保存用户信息
-      this.storageService.set('userinfo', this.userinfo);
-      // 更新用户信息
-      this.eventService.event.emit('useraction');
-      // 跳转到首页
-      this.nav.navigateRoot('/tabs/tab1');
-    } else {
       // 登录API
-      const api = '';
-      this.commonService.post(api, {
-        username: this.userinfo.username,
-        password: this.userinfo.password,
-      }).then((response: any) => {
-        // console.log(response);
-        if (response.success) {
+      var api = 'http:/api/Launch/Login?username='+this.username+'&password='+this.password+'';
+      this.commonService.get(api).then((response: any) => {
+        //console.log(response);
+        if (response.retcode==0) {
+          console.log(response.message);
           // 保存用户信息
-          this.commonService.saveLocalStorage('userinfo', this.userinfo[0]);
-          this.commonService.saveLocalStorage('userinfo', this.userinfo[1]);
-          // this.storageService.set('userinfo', this.userinfo);
-          // 更新用户信息
-          this.eventService.event.emit('useraction');
+          this.commonService.saveLocalStorage('authtoken',response.authtoken);
           // 跳转到首页
           this.nav.navigateRoot('/tabs/tab1');
         } else {
           this.toastTip('账号或密码不正确！');
         }
       });
-    }
-  }
+  } 
 }

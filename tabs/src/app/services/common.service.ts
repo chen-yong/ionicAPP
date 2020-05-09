@@ -47,29 +47,29 @@ export class CommonService {
   }
 
   // 封装saveLocalStorage方法
-  // historyList :LocalStorage中的Key
-  // keywords :LocalStorage中的Value
-  saveLocalStorage(historyList: any, keywords: any) {
+  // keywords :LocalStorage中的Key
+  // value :LocalStorage中的Value
+  saveLocalStorage(keywords: any, value: any) {
     /*
    1、获取本地存储里面的历史记录数据
    2、判断本地存储的历史记录是否存在
    3、存在：把新的历史记录和以前的历史记录拼接 ,然后重新保存 （去重）
    4、不存在：直接把新的历史记录保存到本地
    */
-    // console.log(historyList, keywords);
-    let history = this.storageService.get(historyList);
+    // console.log(keywords, value);
+    let history = this.storageService.get(keywords);
     if (history) { // 存在历史记录
       if (history.indexOf(keywords.trim()) === -1) {
-        if (keywords.trim().length > 0) {
-          history.push(keywords.trim());
+        if (value.trim().length > 0) {
+          history.push(value.trim());
         }
       }
-      this.storageService.set(historyList, history);
+      this.storageService.set(keywords, value);
     } else {  // 不存在
       if (keywords.trim().length > 0) {
         history = [];
         history.push(keywords.trim());
-        this.storageService.set(history, history);
+        this.storageService.set(keywords, value);
       }
     }
   }

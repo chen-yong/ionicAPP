@@ -1,5 +1,13 @@
 {
   "name": "tabs",
-  "integrations": {},
-  "type": "angular"
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "proxies": [
+    {
+      "path": "/api", 
+      "proxyUrl": "http://http://localhost:5000/api"
+    }
+  ]
 }
