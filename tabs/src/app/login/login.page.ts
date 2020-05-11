@@ -51,7 +51,7 @@ export class LoginPage implements OnInit {
       this.commonService.get(api).then((response: any) => {
         //console.log(response);
         if (response.retcode==0) {
-          console.log(response.message);
+          // console.log(response.message);
           // 保存用户信息
           this.commonService.saveLocalStorage('authtoken',response.authtoken);
           // 跳转到首页

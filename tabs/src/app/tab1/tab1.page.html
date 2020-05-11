@@ -10,7 +10,7 @@
     <!-- <app-course></app-course> -->
     <ion-card *ngFor="let item of courseList" :key="item.id">
         <ion-item>
-            <ion-icon [name]="item.logo" slot="start" [color]="item.color"></ion-icon>
+            <ion-icon name="book-outline" slot="start" [color]="item.color"></ion-icon>
             <ion-label>{{item.name}}</ion-label>
             <ion-button fill="outline" slot="end" (click)="goCourse(item.id)">进入</ion-button>
         </ion-item>
