@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { StorageService } from '../../../../services/storage.service';
+import { CommonService } from '../../../../services/common.service';
 
 @Component({
   selector: 'app-addexercise',
@@ -8,23 +10,36 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./addexercise.page.scss'],
 })
 export class AddexercisePage implements OnInit {
-  public exerciseId = '';
-  public exerciseInfo: any = {
-    name: '',
-    tacticsList: [] = [
-      { id: 1, name: '实验1', },
-      { id: 2, name: '实验2', },
-    ],
-    tactics: '',
-    startTime: '',
-    endTime: '',
-    explain: '',
-    parRadioList: [] = [
-      { id: 1, value: '1', name: '禁止复制题目', isChecked: 'false' },
-      { id: 2, value: '2', name: '禁止右键', isChecked: 'false' },
-      { id: 3, value: '3', name: '开启学生端阅卷', isChecked: 'false' },
-      { id: 4, value: '4', name: '查卷时标准答案可见', isChecked: 'false' },
-    ]
+  public courseId = '';
+  public type = 2;
+  public authtoken = this.storageService.get('authtoken');
+  public workInfo: any = {
+        "id": "",
+        "name": "",
+        "mode": "",
+        "isOpen":"",
+        "timeLimit":"",
+        "retryTimes":"",
+        "memo": "",
+        "createUserId": "",
+        "createTime": "",
+        "startTime": "",
+        "endTime": "",
+        "forbiddenCopy": true,
+        "forbiddenMouseRightMenu": true,
+        "enableClientJudge": true,
+        "keyVisible": true,
+        "drawPlotId": "",
+        "courseId":"",
+        "enableMutualJudge": null,
+        "mutualJudgeEndTime": null,
+        "setScore": "",
+        "viewOneWithAnswerKey": false,
+        "ord": 0,
+        "scoreAppear": "",
+        "delayEndTime": null,
+        "delayPercentOfScore": null,
+        "ipallowAccessCheck": false
   };
   // 自定义option
   public customPickerOptions = {
@@ -42,14 +57,17 @@ export class AddexercisePage implements OnInit {
   constructor(
     public router: Router,
     public toastCtrl: ToastController,
+    public storageService: StorageService,
+    public commonService: CommonService,
   ) { }
 
   ngOnInit() {
     console.log('URl:' + location.pathname);
-    this.exerciseId = location.pathname.substring(8);
+    this.courseId = location.pathname.substring(8);
+    console.log(this.courseId);
   }
   goBack() {
-    this.router.navigate(['/exercise/1' ]);
+    window.history.go(-1);
   }
   async toastTip(message: string) {
     const toast = await this.toastCtrl.create({
@@ -62,23 +80,47 @@ export class AddexercisePage implements OnInit {
     toast.present();
   }
   signUp() {
-    if (!this.exerciseInfo.name) {
-      this.toastTip('请填写练习名称！');
+    if (!this.workInfo.name) {
+      this.toastTip('请填写作业名称！');
       return;
     }
-    if (!this.exerciseInfo.tactics) {
+    if (!this.workInfo.tactics) {
       this.toastTip('请选择抽题策略！');
       return;
     }
-    if (!this.exerciseInfo.startTime) {
+    if (!this.workInfo.startTime) {
       this.toastTip('请选择开始时间！');
       return;
     }
-    if (!this.exerciseInfo.startTime) {
+    if (!this.workInfo.startTime) {
       this.toastTip('请选择结束时间！');
       return;
     }
-    console.log(this.exerciseId);
+    if (!this.workInfo.startTime) {
+      this.toastTip('请选择补交截止时间！');
+      return;
+    }
+    if (!this.workInfo.startTime) {
+      this.toastTip('请填写总分！');
+      return;
+    }
+    if (!this.workInfo.startTime) {
+      this.toastTip('请选择成绩展示！');
+      return;
+    }
+    console.log(this.workInfo);
+    const api = 'http:/api/course/AddHomeWork?authtoken='+this.authtoken+'&courseId='+this.courseId+'&type='+this.type;
+    this.commonService.post(api, this.workInfo).then((response: any) => {
+      console.log(response);
+      if (response.retcode === 0) {
+        this.toastTip('添加成功', 'success');
+        // 返回上一层
+        this.goBack();
+      } else {
+        this.toastTip('参数错误', 'danger');
+        return;
+      }
+    });
   }
   datetimeChange(e) {
     console.log(e.detail.value);

@@ -116,7 +116,7 @@ export class StudentPage implements OnInit {
         }, {
           text: '确定',
           handler: () => {
-            const api ='http://api/Users/DeleteUser?authtoken='+this.authtoken+'&id='+id;
+            const api ='http:/api/Users/DeleteUser?authtoken='+this.authtoken+'&id='+id;
             this.commonService.get(api).then((response: any) => {
               if (response.retcode === 0) {
                 this.toastTip('删除成功', 'success');
@@ -145,17 +145,17 @@ export class StudentPage implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            return;
+            return false;
           }
         }, {
           text: '确定',
           handler: () => {
-            const api ='http://api/Users/RetsetPwd?authtoken='+this.authtoken+'&id='+id;
+            const api ='http:/api/Users/RetsetPwd?authtoken='+this.authtoken+'&id='+id;
             this.commonService.get(api).then((response: any) => {
               if (response.retcode === 0) {
                 this.toastTip('重置成功', 'success');
                 return;
-                // this.getStudentList();
+                this.getStudentList();
               }  else {
                 this.toastTip('重置失败', 'danger');
                 return;

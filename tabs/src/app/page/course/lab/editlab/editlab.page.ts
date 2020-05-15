@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { StorageService } from '../../../../services/storage.service';
+import { CommonService } from '../../../../services/common.service';
 
 @Component({
   selector: 'app-editlab',
@@ -8,32 +10,35 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./editlab.page.scss'],
 })
 export class EditlabPage implements OnInit {
-  public labId = '';
-  public labInfo: any = {
-    name: '',
-    tacticsList: [] = [
-      { id: 1, name: '实验1', },
-      { id: 2, name: '实验2', },
-    ],
-    tactics: '',
-    startTime: '',
-    endTime: '',
-    addTime: '',
-    explain: '',
-    falg: 'false',
-    falgTime: '',
-    score: '',
-    showGradeList: [] = [
-      { id: 1, name: '展示分数' },
-      { id: 2, name: '不展示分数' },
-    ],
-    showGrade: '',
-    parRadioList: [] = [
-      { id: 1, value: '1', name: '禁止复制题目', isChecked: 'false' },
-      { id: 2, value: '2', name: '禁止右键', isChecked: 'false' },
-      { id: 3, value: '3', name: '开启学生端阅卷', isChecked: 'false' },
-      { id: 4, value: '4', name: '查卷时标准答案可见', isChecked: 'false' },
-    ]
+  public workId = '';
+  public authtoken = this.storageService.get('authtoken');
+  public workInfo: any = {
+        "id": "",
+        "name": "",
+        "mode": "",
+        "isOpen":"",
+        "timeLimit":"",
+        "retryTimes":"",
+        "memo": "",
+        "createUserId": "",
+        "createTime": "",
+        "startTime": "",
+        "endTime": "",
+        "forbiddenCopy": true,
+        "forbiddenMouseRightMenu": true,
+        "enableClientJudge": true,
+        "keyVisible": true,
+        "drawPlotId": "",
+        "courseId":"",
+        "enableMutualJudge": null,
+        "mutualJudgeEndTime": null,
+        "setScore": "",
+        "viewOneWithAnswerKey": false,
+        "ord": 0,
+        "scoreAppear": "",
+        "delayEndTime": null,
+        "delayPercentOfScore": null,
+        "ipallowAccessCheck": false
   };
   // 自定义option
   public customPickerOptions = {
@@ -51,14 +56,18 @@ export class EditlabPage implements OnInit {
   constructor(
     public router: Router,
     public toastCtrl: ToastController,
+    public storageService: StorageService,
+    public commonService: CommonService,
   ) { }
 
   ngOnInit() {
     console.log('URl:' + location.pathname);
-    this.labId = location.pathname.substring(8);
+    this.workId = location.pathname.substring(9);
+    console.log(this.workId);
+    this.getHome();
   }
-  goBack(labId) {
-    this.router.navigate(['/lab/' + labId]);
+  goBack() {
+    window.history.go(-1);
   }
   async toastTip(message: string) {
     const toast = await this.toastCtrl.create({
@@ -71,37 +80,55 @@ export class EditlabPage implements OnInit {
     toast.present();
   }
   signUp() {
-    if (!this.labInfo.name) {
+    if (!this.workInfo.name) {
       this.toastTip('请填写作业名称！');
       return;
     }
-    if (!this.labInfo.tactics) {
+    if (!this.workInfo.tactics) {
       this.toastTip('请选择抽题策略！');
       return;
     }
-    if (!this.labInfo.startTime) {
+    if (!this.workInfo.startTime) {
       this.toastTip('请选择开始时间！');
       return;
     }
-    if (!this.labInfo.startTime) {
+    if (!this.workInfo.startTime) {
       this.toastTip('请选择结束时间！');
       return;
     }
-    if (!this.labInfo.startTime) {
+    if (!this.workInfo.startTime) {
       this.toastTip('请选择补交截止时间！');
       return;
     }
-    if (!this.labInfo.startTime) {
+    if (!this.workInfo.startTime) {
       this.toastTip('请填写总分！');
       return;
     }
-    if (!this.labInfo.startTime) {
+    if (!this.workInfo.startTime) {
       this.toastTip('请选择成绩展示！');
       return;
     }
-    console.log(this.labInfo);
+    console.log(this.workInfo);
   }
   datetimeChange(e) {
     console.log(e.detail.value);
+  }
+  getHome(){
+    const api = 'http:/api/Course/HomeWork?authtoken='+this.authtoken+'&id='+this.workId;
+    this.commonService.get(api).then((response: any) => {
+      console.log(response);
+      if (response.retcode === 0) {
+        this.workInfo = response.info;
+      } else if (response.retcode === 11) {
+        this.toastTip('参数错误', 'danger');
+        return;
+      } else if (response.retcode === 13) {
+        this.toastTip('令牌authtoken失效', 'danger');
+        return;
+      } else {
+        this.toastTip('未知错误', 'danger');
+        return;
+      }
+    });
   }
 }

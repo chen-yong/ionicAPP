@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { StorageService } from '../../../../services/storage.service';
+import { CommonService } from '../../../../services/common.service';
 
 @Component({
   selector: 'app-addwork',
@@ -8,57 +10,52 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./addwork.page.scss'],
 })
 export class AddworkPage implements OnInit {
-  public workId = '';
+  public courseId = '';
+  public type = 3;
+  public authtoken = this.storageService.get('authtoken');
   public workInfo: any = {
-    name: '',
-    tacticsList: [] = [
-      { id: 1, name: '作业1', },
-      { id: 2, name: '作业2', },
-    ],
-    tactics: '',
-    startTime: '',
-    endTime: '',
-    addTime: '',
-    explain: '',
-    falg: 'false',
-    falgTime: '',
-    score: '',
-    showGradeList: [] = [
-      { id: 1, name: '展示分数' },
-      { id: 2, name: '不展示分数' },
-    ],
-    showGrade: '',
-    parRadioList: [] = [
-      { id: 1, value: '1', name: '禁止复制题目', isChecked: 'false' },
-      { id: 2, value: '2', name: '禁止右键', isChecked: 'false' },
-      { id: 3, value: '3', name: '开启学生端阅卷', isChecked: 'false' },
-      { id: 4, value: '4', name: '查卷时标准答案可见', isChecked: 'false' },
-    ]
-  };
-  // 自定义option
-  public customPickerOptions = {
-    buttons: [{
-      text: '取消',
-      handler: () => console.log('取消!')
-    }, {
-      text: '确认',
-      handler: () => {
-        console.log('确认');
-      }
-    }]
+        "id": "",
+        "name": "",
+        "mode": "",
+        "isOpen":"",
+        "timeLimit":"",
+        "retryTimes":"",
+        "memo": "",
+        "createUserId": "",
+        "createTime": "",
+        "startTime": "",
+        "endTime": "",
+        "forbiddenCopy": true,
+        "forbiddenMouseRightMenu": true,
+        "enableClientJudge": true,
+        "keyVisible": true,
+        "drawPlotId": "",
+        "courseId":"",
+        "enableMutualJudge": null,
+        "mutualJudgeEndTime": null,
+        "setScore": "",
+        "viewOneWithAnswerKey": false,
+        "ord": 0,
+        "scoreAppear": "",
+        "delayEndTime": null,
+        "delayPercentOfScore": null,
+        "ipallowAccessCheck": false
   };
 
   constructor(
     public router: Router,
     public toastCtrl: ToastController,
+    public storageService: StorageService,
+    public commonService: CommonService,
   ) { }
 
   ngOnInit() {
     console.log('URl:' + location.pathname);
-    this.workId = location.pathname.substring(9);
+    this.courseId = location.pathname.substring(9);
+    console.log(this.courseId);
   }
-  goBack(workId) {
-    this.router.navigate(['/work/' + workId]);
+  goBack() {
+    window.history.go(-1);
   }
   async toastTip(message: string) {
     const toast = await this.toastCtrl.create({
@@ -100,6 +97,18 @@ export class AddworkPage implements OnInit {
       return;
     }
     console.log(this.workInfo);
+    const api = 'http:/api/course/AddHomeWork?authtoken='+this.authtoken+'&courseId='+this.courseId+'&type='+this.type;
+    this.commonService.post(api, this.workInfo).then((response: any) => {
+      console.log(response);
+      if (response.retcode === 0) {
+        this.toastTip('添加成功', 'success');
+        // 返回上一层
+        this.goBack();
+      } else {
+        this.toastTip('参数错误', 'danger');
+        return;
+      }
+    });
   }
   datetimeChange(e) {
     console.log(e.detail.value);

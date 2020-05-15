@@ -5,6 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { StorageService } from '../../../services/storage.service';
 import { CommonService } from '../../../services/common.service';
+import { ToastController } from '@ionic/angular';  // 提示弹出层
 
 @Component({
   selector: 'app-work',
@@ -12,26 +13,24 @@ import { CommonService } from '../../../services/common.service';
   styleUrls: ['./work.page.scss'],
 })
 export class WorkPage implements OnInit {
-  public workList: any[] = [
-    { id: 1, name: '作业1' },
-    { id: 2, name: '作业2' },
-    { id: 3, name: '作业3' },
-    { id: 4, name: '作业4' },
-    { id: 5, name: '作业5' }
-  ];
-
+  public workList: any;
   public courseId;
   public flag = false;
   public keywords: any = '';  // 表单输入的关键词
   public workHistoryList: any[] = [];  // 历史记录
+  public page = 1;
+  public count = 100;
+  public authtoken = this.storageService.get('authtoken');
+  public type = 3;
 
   constructor(
     public location: Location,
     public router: Router,
     public alertController: AlertController,
     public navController: NavController,
-    public storage: StorageService,
+    public storageService: StorageService,
     public commonService: CommonService,
+    public toastCtrl: ToastController,
   ) { }
   // 长按删除作业
   async deleteWork(id) {
@@ -61,17 +60,22 @@ export class WorkPage implements OnInit {
 
   ngOnInit() {
     // 接收课程ID
-    console.log('URl:' + location.pathname);
+    // console.log('URl:' + location.pathname);
     this.courseId = location.pathname.substring(6);
     // 根据课程ID查找所有学生列表
-    // this.getWorkList();
+    this.getWorktList();
     // 获取搜素历史
-    this.getHistory();
+    // this.getHistory();
   }
-  // tslint:disable-next-line: use-lifecycle-interface // 生命周期函数ngDoCheck检测的变化时作出反应
-  ngDoCheck() {
-    // 获取搜素历史
-    this.getHistory();
+  async toastTip(message: string, color: string) {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 1000,
+      position: 'top',
+      cssClass: 'errToast',
+      color,
+    });
+    toast.present();
   }
   // 返回上一层
   goBack(courseId) {
@@ -79,20 +83,24 @@ export class WorkPage implements OnInit {
   }
   // 获取所有的作业列表
   getWorktList() {
-
+    const api = 'http:/api/Course/HomeWorkList?authtoken='+this.authtoken+'&courseId='+this.courseId+'&type='+this.type+'&keyword='+this.keywords+'&page='+this.page+'&count='+this.count;
+    this.commonService.get(api).then((response: any) => {
+      // console.log(response);
+      if (response.retcode === 0) {
+        this.workList = response.info;
+      } else if (response.retcode === 11) {
+        this.toastTip('参数错误', 'danger');
+        return;
+      } else if (response.retcode === 13) {
+        this.toastTip('令牌authtoken失效', 'danger');
+        return;
+      } else {
+        this.toastTip('未知错误', 'danger');
+        return;
+      }
+    });
   }
-  // 搜索框变化事件
-  // getItems($event) {
-  //   console.log($event);
-  // }
-  // 获得焦点
-  focusInput() {
-    this.flag = true;
-  }
-  // 失去焦点
-  blurInput() {
-    // console.log('失去焦点');
-  }
+ 
   // 批阅作业
   readWork(id) {
     console.log(id);
@@ -108,12 +116,12 @@ export class WorkPage implements OnInit {
     this.router.navigate(['/editwork/' + id]);
   }
   // 获取历史记录
-  getHistory() {
-    const workHistoryList = this.storage.get('workHistoryList');
-    if (workHistoryList) {
-      this.workHistoryList = workHistoryList;
-    }
-  }
+  // getHistory() {
+  //   const workHistoryList = this.storageService.get('workHistoryList');
+  //   if (workHistoryList) {
+  //     this.workHistoryList = workHistoryList;
+  //   }
+  // }
   // 点击历史记录 进行搜索
   goSearch(keywords) {
     this.keywords = keywords;
@@ -122,44 +130,41 @@ export class WorkPage implements OnInit {
 
   // 点击搜索按钮执行搜索
   doSearch() {
-    this.saveHistory();  // 保存搜索关键词
-    this.flag = false;
+    this.getWorktList();
   }
 
-  // 保存历史记录
-  saveHistory() {
-    this.commonService.saveLocalStorage('workHistoryList', this.keywords);
-  }
-  // 删除历史记录
-  async removeHistory(key) {
+  // 删除作业
+  async deletework(id) {
     const alert = await this.alertController.create({
       backdropDismiss: false,
-      header: '提示！',
-      message: '要删除此条记录吗?',
+      header: '提示',
+      message: '确定要删除吗!',
       buttons: [
         {
           text: '取消',
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            // console.log('Cancel');
+            return;
           }
         }, {
-          text: '删除',
+          text: '确定',
           handler: () => {
-            this.workHistoryList.splice(key, 1);
-            this.storage.set('workHistoryList', this.workHistoryList);
+            const api ='http:/api/Course/DeleteWork?authtoken='+this.authtoken+'&id='+id;
+            this.commonService.get(api).then((response: any) => {
+              if (response.retcode === 0) {
+                this.toastTip('删除成功', 'success');
+                // this.getLabtList();
+              }  else {
+                this.toastTip('删除错误', 'danger');
+                return;
+              }
+            });
           }
         }
       ]
     });
     await alert.present();
   }
-  // 删除全部历史记录
-  deleteHistory(workHistoryList) {
-    this.workHistoryList.splice(workHistoryList, workHistoryList.length);
-    this.storage.set('workHistoryList', this.workHistoryList);
-    // 关闭历史记录栏
-    this.flag = !this.flag;
-  }
+
 }

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { StorageService } from '../../../services/storage.service';
 import { CommonService } from '../../../services/common.service';
+import { ToastController } from '@ionic/angular';  // 提示弹出层
 
 @Component({
   selector: 'app-lab',
@@ -14,14 +15,11 @@ export class LabPage implements OnInit {
   public flag = false;
   public keywords: any = '';  // 表单输入的关键词
   public labHistoryList: any[] = [];  // 历史记录
-  public LabList: any[] = [
-    { id: 1, name: '实验1' },
-    { id: 2, name: '实验2' },
-    { id: 3, name: '实验3' },
-    { id: 4, name: '实验4' },
-    { id: 5, name: '实验5' }
-  ];
-
+  public LabList: any;
+  public page = 1;
+  public count = 100;
+  public authtoken = this.storage.get('authtoken');
+  public type = 4;
   public courseId;
 
   constructor(
@@ -30,67 +28,51 @@ export class LabPage implements OnInit {
     public alertController: AlertController,
     public storage: StorageService,
     public commonService: CommonService,
+    public toastCtrl: ToastController,
   ) { }
-  // 长按删除实验
-  async deleteLab(id) {
-    const alert = await this.alertController.create({
-      header: '温馨提示!',
-      message: '<strong>您确认删除</strong>？',
-      buttons: [
-        {
-          text: '不删除',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            console.log('不删除');
-          }
-        }, {
-          text: '确认',
-          handler: () => {
-            console.log('删除');
-            // 刷新学生列表
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
 
   ngOnInit() {
     // 接收课程ID
     console.log('URl:' + location.pathname);
     this.courseId = location.pathname.substring(5);
     // 根据课程ID查找所有学生列表
-    // this.getLabList();
-    // 获取搜素历史
-    this.getHistory();
+    this.getLabList();
   }
-  // tslint:disable-next-line: use-lifecycle-interface // 生命周期函数ngDoCheck检测的变化时作出反应
-  ngDoCheck() {
-    // 获取搜素历史
-    this.getHistory();
+
+  async toastTip(message: string, color: string) {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 1000,
+      position: 'top',
+      cssClass: 'errToast',
+      color,
+    });
+    toast.present();
   }
   // 返回上一层
   goBack(courseId) {
     this.router.navigate(['/manage/' + courseId]);
   }
   // 获取所有的实验列表
-  getLabtList() {
+  getLabList() {
+    const api = 'http:/api/Course/HomeWorkList?authtoken='+this.authtoken+'&courseId='+this.courseId+'&type='+this.type+'&keyword='+this.keywords+'&page='+this.page+'&count='+this.count;
+    this.commonService.get(api).then((response: any) => {
+      // console.log(response);
+      if (response.retcode === 0) {
+        this.LabList = response.info;
+      } else if (response.retcode === 11) {
+        this.toastTip('参数错误', 'danger');
+        return;
+      } else if (response.retcode === 13) {
+        this.toastTip('令牌authtoken失效', 'danger');
+        return;
+      } else {
+        this.toastTip('未知错误', 'danger');
+        return;
+      }
+    });
+  }
 
-  }
-  // 搜索框变化事件
-  getItems($event) {
-    console.log($event);
-  }
-  // 获得焦点
-  focusInput() {
-    this.flag = true;
-  }
-  // 失去焦点
-  blurInput() {
-    // console.log('失去焦点');
-  }
   // 批阅实验
   readLab(id) {
     console.log(id);
@@ -105,13 +87,7 @@ export class LabPage implements OnInit {
   editLab(id) {
     this.router.navigate(['/editlab/' + id]);
   }
-   // 获取历史记录
-   getHistory() {
-    const labHistoryList = this.storage.get('labHistoryList');
-    if (labHistoryList) {
-      this.labHistoryList = labHistoryList;
-    }
-  }
+
   // 点击历史记录 进行搜索
   goSearch(keywords) {
     this.keywords = keywords;
@@ -120,45 +96,41 @@ export class LabPage implements OnInit {
 
   // 点击搜索按钮执行搜索
   doSearch() {
-    this.saveHistory();  // 保存搜索关键词
-    this.flag = false;
+    this.getLabList();
   }
 
-  // 保存历史记录
-  saveHistory() {
-    this.commonService.saveLocalStorage('labHistoryList', this.keywords);
-  }
-  // 删除历史记录
-  async removeHistory(key) {
-    const alert = await this.alertController.create({
-      backdropDismiss: false,
-      header: '提示！',
-      message: '要删除此条记录吗?',
-      buttons: [
-        {
-          text: '取消',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            // console.log('Cancel');
-          }
-        }, {
-          text: '删除',
-          handler: () => {
-            this.labHistoryList.splice(key, 1);
-            this.storage.set('labHistoryList', this.labHistoryList);
-          }
+ // 删除实验
+ async deleteLab(id) {
+  const alert = await this.alertController.create({
+    backdropDismiss: false,
+    header: '提示',
+    message: '确定要删除吗!',
+    buttons: [
+      {
+        text: '取消',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: (blah) => {
+          return;
         }
-      ]
-    });
-    await alert.present();
-  }
-  // 删除全部历史记录
-  deleteHistory(labHistoryList) {
-    this.labHistoryList.splice(labHistoryList, labHistoryList.length);
-    this.storage.set('labHistoryList', this.labHistoryList);
-    // 关闭历史记录栏
-    this.flag = !this.flag;
-  }
+      }, {
+        text: '确定',
+        handler: () => {
+          const api ='http:/api/Course/DeleteWork?authtoken='+this.authtoken+'&id='+id;
+          this.commonService.get(api).then((response: any) => {
+            if (response.retcode === 0) {
+              this.toastTip('删除成功', 'success');
+            }  else {
+              this.toastTip('删除错误', 'danger');
+              return;
+            }
+          });
+        }
+      }
+    ]
+  });
+  await alert.present();
+}
+
 
 }
