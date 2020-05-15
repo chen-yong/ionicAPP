@@ -23,7 +23,7 @@ export class EmailwritePage implements OnInit {
     {id:1205,kind:'学生',name:'布鲁',image:'../assets/img/hznu.png'},
     {id:1206,kind:'学生',name:'陈莉',image:'../assets/img/hznu.png'},
     {id:1207,kind:'学生',name:'梦泽',image:'../assets/img/hznu.png'},
-    {id:1208,kind:'任课老师',name:'王文',image:'../assets/img/hznu.png'},
+    {id:1208,kind:'任课老师',name:'=王文',image:'../assets/img/hznu.png'},
     {id:1209,kind:'任课老师',name:'王好汉',image:'../assets/img/hznu.png'},
     {id:1210,kind:'系统管理员',name:'胡娜',image:'../assets/img/hznu.png'},
     {id:1211,kind:'任课老师',name:'query',image:'../assets/img/hznu.png'},
@@ -31,7 +31,8 @@ export class EmailwritePage implements OnInit {
     {id:1213,kind:'任课老师',name:'谢家局',image:'../assets/img/hznu.png'},
     {id:1214,kind:'任课老师',name:'依依',image:'../assets/img/hznu.png'},
     {id:1215,kind:'任课老师',name:'大业',image:'../assets/img/hznu.png'},
-    {id:1216,kind:'任课老师',name:'饿',image:'../assets/img/hznu.png'}
+    {id:1216,kind:'任课老师',name:'饿e',image:'../assets/img/hznu.png'},
+    {id:1217,kind:'任课老师',name:'#boby',image:'../assets/img/hznu.png'}
   ];
   //邮件内容
   public emailDetail:any={

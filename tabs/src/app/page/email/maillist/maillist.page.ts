@@ -12,6 +12,7 @@ import { IonContent } from '@ionic/angular';  //插入滚动组件，在ionic3�
 import { AlertController } from '@ionic/angular';//历史记录功能需要
 import { CommonService } from '../../../services/common.service';  
 import { StorageService } from '../../../services/storage.service';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-maillist',
@@ -48,7 +49,7 @@ export class MaillistPage implements OnInit {
     {id:1205,kind:'学生',name:'布鲁',image:'../assets/img/hznu.png'},
     {id:1206,kind:'学生',name:'陈莉',image:'../assets/img/hznu.png'},
     {id:1207,kind:'学生',name:'梦泽',image:'../assets/img/hznu.png'},
-    {id:1208,kind:'任课老师',name:'王文',image:'../assets/img/hznu.png'},
+    {id:1208,kind:'任课老师',name:'=王文',image:'../assets/img/hznu.png'},
     {id:1209,kind:'任课老师',name:'王好汉',image:'../assets/img/hznu.png'},
     {id:1210,kind:'系统管理员',name:'胡娜',image:'../assets/img/hznu.png'},
     {id:1211,kind:'任课老师',name:'query',image:'../assets/img/hznu.png'},
@@ -56,17 +57,23 @@ export class MaillistPage implements OnInit {
     {id:1213,kind:'任课老师',name:'谢家局',image:'../assets/img/hznu.png'},
     {id:1214,kind:'任课老师',name:'依依',image:'../assets/img/hznu.png'},
     {id:1215,kind:'任课老师',name:'大业',image:'../assets/img/hznu.png'},
-    {id:1216,kind:'任课老师',name:'饿',image:'../assets/img/hznu.png'}
+    {id:1216,kind:'任课老师',name:'饿e',image:'../assets/img/hznu.png'},
+    {id:1217,kind:'任课老师',name:'#boby',image:'../assets/img/hznu.png'}
   ]
 
   public fuzhi:any[]=[];   //循环tongxunluList数组，根据名字收集某一姓氏得人 
+  public fuzhi2:any[]=[];  //收集姓氏不可归类的人#
+  public fuzhi2flag = false; //首字母是否可归类判断符号#
+  public existname:any[]=[]; //用于存放第一次遍历字母时已经归类掉的名字的数组
+  public isqita = false; //用于记录是否含有归类进#的名字
+ 
   public flag = false;     //历史查询记录状态
   public historyList: any[] = [];  //历史记录
 
   public searchInput:string='';//搜索的关键字
   public aLetters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N'
-              ,'O','P','Q','R','S','T','U','V','W','X','Y','Z','#']; //其他没有匹配到的全部放进'#'里面
-  public letters = [];    //通过接口获取的列表中含有的字母与26个字母对比后公共的字母（最终显示在右侧的字母）
+              ,'O','P','Q','R','S','T','U','V','W','X','Y','Z']; //其他没有匹配到的全部放进'#'里面,初始化后再将#加入数组中
+  public letters = [];    //通过接口获取的列表中含有的字母与26个字母对比后公共的字母（最终显示在右侧的字母）,#不放入其中，用isqita来标记是否存在#
   public formatContacts:any=[];  //按首字母顺序格式化后的通讯录
   public searchingItems = [];    //搜索显示的数组
   public searchLetters = [];     //存储搜索到的名字存在的首字母
@@ -82,6 +89,7 @@ export class MaillistPage implements OnInit {
       this.tongxunluList.forEach(element => { 
         if(tr(element.name).toLocaleUpperCase().charAt(0)==res){
            this.fuzhi.push(element);
+           this.existname.push(element);//将名字已经归类的项存入数列existname中
         }
       });
       this.formatContacts.push(this.fuzhi);
@@ -91,6 +99,22 @@ export class MaillistPage implements OnInit {
       }
       this.fuzhi=[];
     })
+
+    this.aLetters.push('#');//将‘#’加入数组aLetters里面
+    //处理“#”中的名字，将上面遍历完后存入的数列与原始数列对比来查找未归类的名字，并将其放入#类中
+    this.tongxunluList.forEach(element1=>{
+       this.existname.forEach(element2=>{
+         if(element1.name == element2.name){  //如果相等，则该姓名已经归类过了
+            this.fuzhi2flag = true;   //当为true时，表示姓名已归类，不需考虑放入#
+         }
+       });
+       if(this.fuzhi2flag == false){  //存在未归类进首字母为26字母的名字
+         this.fuzhi2.push(element1);  //将这个未归类的名字暂时存入fuzhi2数组中
+         this.isqita = true;          //标记存在不正常类名字，及#存在
+       }
+       this.fuzhi2flag = false;
+    });
+    this.formatContacts.push(this.fuzhi2);
 
     // 获取搜素历史
     this.getHistory();
@@ -102,7 +126,7 @@ export class MaillistPage implements OnInit {
       this.getHistory();
     }
 
-//定位查找首字母对应的通讯录
+//定位查找首字母对应的通讯录，此处#不可定位
  selectIndex(letter){
    this.index =letter;    //将检索中点击的字母赋值给当年选中的值
    let scrollTop = this.elementRef.nativeElement.querySelector("ion-item-divider#"+letter).offsetTop;
@@ -149,8 +173,8 @@ export class MaillistPage implements OnInit {
   goSearchResult(){
     this.saveHistory();  // 保存搜索关键词
     this.flag = false;   // 历史记录栏隐藏
-    this.isSearching = true;  // 显示通讯录搜索结果
-    let val = this.searchInput;
+    this.isSearching = true;    // 显示通讯录搜索结果
+    let val = this.searchInput; //将要搜寻的姓名赋值给val
     if(val && val.trim()!=''){
       this.searchLetters=[];   //将存储搜索内容首字母的数组置为空
       this.searchingItems=[];  //将存储搜索内容的数组置为空
@@ -163,7 +187,8 @@ export class MaillistPage implements OnInit {
           this.searchingItems.push(search);
         }
       })
-    }else{
+    }
+    else{
       this.isSearching = false;
     }
   }
