@@ -10,6 +10,13 @@ import { CommonService } from '../../../../services/common.service';
   styleUrls: ['./addwork.page.scss'],
 })
 export class AddworkPage implements OnInit {
+
+  constructor(
+    public router: Router,
+    public toastCtrl: ToastController,
+    public storageService: StorageService,
+    public commonService: CommonService,
+  ) { }
   public courseId = '';
   public type = 3;
   public authtoken = this.storageService.get('authtoken');
@@ -42,12 +49,18 @@ export class AddworkPage implements OnInit {
         "ipallowAccessCheck": false
   };
 
-  constructor(
-    public router: Router,
-    public toastCtrl: ToastController,
-    public storageService: StorageService,
-    public commonService: CommonService,
-  ) { }
+  // 自定义option
+  public customPickerOptions = {
+    buttons: [{
+      text: '取消',
+      handler: () => console.log('取消!')
+    }, {
+      text: '确认',
+      handler: () => {
+        console.log('确认');
+      }
+    }]
+  };
 
   ngOnInit() {
     console.log('URl:' + location.pathname);
@@ -57,43 +70,43 @@ export class AddworkPage implements OnInit {
   goBack() {
     window.history.go(-1);
   }
-  async toastTip(message: string) {
+  async toastTip(message: string, color: string) {
     const toast = await this.toastCtrl.create({
       message,
       duration: 1000,
       position: 'top',
       cssClass: 'errToast',
-      color: 'danger',
+      color,
     });
     toast.present();
   }
   signUp() {
     if (!this.workInfo.name) {
-      this.toastTip('请填写作业名称！');
+      this.toastTip('请填写作业名称！', 'danger');
       return;
     }
     if (!this.workInfo.tactics) {
-      this.toastTip('请选择抽题策略！');
+      this.toastTip('请选择抽题策略！', 'danger');
       return;
     }
     if (!this.workInfo.startTime) {
-      this.toastTip('请选择开始时间！');
+      this.toastTip('请选择开始时间！', 'danger');
       return;
     }
     if (!this.workInfo.startTime) {
-      this.toastTip('请选择结束时间！');
+      this.toastTip('请选择结束时间！', 'danger');
       return;
     }
     if (!this.workInfo.startTime) {
-      this.toastTip('请选择补交截止时间！');
+      this.toastTip('请选择补交截止时间！', 'danger');
       return;
     }
     if (!this.workInfo.startTime) {
-      this.toastTip('请填写总分！');
+      this.toastTip('请填写总分！', 'danger');
       return;
     }
     if (!this.workInfo.startTime) {
-      this.toastTip('请选择成绩展示！');
+      this.toastTip('请选择成绩展示！', 'danger');
       return;
     }
     console.log(this.workInfo);

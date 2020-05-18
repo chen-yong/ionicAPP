@@ -9,7 +9,7 @@
     <ion-content>
         <!-- 搜索框 -->
     <ion-toolbar style="margin-top: 1rem;">
-        <ion-searchbar placeholder="请输入搜索关键词" [(ngModel)]="keywords" (ionFocus)="focusInput()" (ionBlur)="blurInput()">
+        <ion-searchbar placeholder="请输入搜索关键词" [(ngModel)]="keywords">
         </ion-searchbar>
         <ion-buttons slot="end">
             <ion-button (click)="doSearch()" color="dark">
