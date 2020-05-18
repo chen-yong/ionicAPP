@@ -7,7 +7,7 @@
 
 <ion-content>
     <ion-toolbar style="margin-top: 1rem;">
-        <ion-searchbar placeholder="请输入搜索关键词" [(ngModel)]="keywords" (ionFocus)="focusInput()">
+        <ion-searchbar placeholder="请输入搜索关键词" [(ngModel)]="keywords">
         </ion-searchbar>
         <ion-buttons slot="end">
             <ion-button (click)="doSearch()" color="dark">
@@ -16,7 +16,7 @@
         </ion-buttons>
     </ion-toolbar>
     <!-- 历史记录 -->
-    <div class="search_content" *ngIf="flag && workGradeHistory.length>0" padding >
+    <!-- <div class="search_content" *ngIf="flag && workGradeHistory.length>0" padding >
         <div class="history">
             <h5 class="search_title">历史记录</h5>
             <div class="btn_Delete">
@@ -28,27 +28,28 @@
                 </span>
             </p>
         </div>
-    </div>
+    </div> -->
     <!-- 成绩列表 -->
     <div class="content">
         <div [class]="LeftStyle" (swipeleft)="leftSlide()" (swiperight)="rightSlide()">
             <ion-list lines="full">
-                <ion-item *ngFor="let item of leftList" (tap)="getLeftData(item._id)" [ngClass]="{'active': item._id==selectedId}">
-                    <ion-label>{{item}}</ion-label>
+                <ion-item *ngFor="let item of leftList" (tap)="getLeftData(item.id)" [ngClass]="{'active': item.id==selectedId}">
+                    <ion-label>学号：{{item.userName}}  姓名：{{item.realName}}</ion-label>
                 </ion-item>
             </ion-list>
-            <ion-infinite-scroll threshold="25%" (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll threshold="25%" (ionInfinite)="loadMore($event)">
                 <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="正在加载更多数据...">
                 </ion-infinite-scroll-content>
             </ion-infinite-scroll>
+            <p *ngIf="!hasmore">---我是有底线的---</p>
         </div>
         <div class="rightList">
             <ion-card>
-                <ion-card-header>
-                    <ion-card-subtitle>学号：</ion-card-subtitle>
-                </ion-card-header>
                 <ion-card-content>
-                    <ion-item>
+                    <!-- <ion-item ng-repeat="item in rightList">
+                        <ion-label>  {{item}}:{{item.value}}</ion-label>
+                    </ion-item> -->
+                    <ion-item> 
                         <ion-label> 姓名：</ion-label>
                     </ion-item>
                     <ion-item>

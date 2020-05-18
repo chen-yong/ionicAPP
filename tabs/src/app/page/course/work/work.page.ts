@@ -78,8 +78,8 @@ export class WorkPage implements OnInit {
     toast.present();
   }
   // 返回上一层
-  goBack(courseId) {
-    this.router.navigate(['/manage/' + courseId]);
+  goBack() {
+    window.history.go(-1);
   }
   // 获取所有的作业列表
   getWorktList() {

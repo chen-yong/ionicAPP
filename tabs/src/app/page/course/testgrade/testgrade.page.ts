@@ -5,6 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { StorageService } from '../../../services/storage.service';
 import { CommonService } from '../../../services/common.service';
 import 'hammerjs';
+import { ToastController } from '@ionic/angular';  // 提示弹出层
 
 @Component({
   selector: 'app-testgrade',
@@ -19,57 +20,42 @@ export class TestgradePage implements OnInit {
   public rightList: any[] = [];
   public selectedId: any = '';  /*选中的学生id*/
   public LeftStyle: any = 'leftList1';
+  public courseId: any = '';
+  public page = 1;
+  public count = 10;
+  public authtoken = this.storage.get('authtoken');
+  public type = 1;
+  public userId: any = '';
+  public hasmore = true;
+
   constructor(
     public router: Router,
     public alertController: AlertController,
     public storage: StorageService,
     public commonService: CommonService,
-  ) {
-    for (let i = 0; i < 15; i++) {
-      this.leftList.push(`学生${i}`);
-    }
-  }
-  loadData(event) {
-    setTimeout(() => {
-      for (let i = 0; i < 10; i++) {
-        this.leftList.push(`学生${15 + i}`);
-      }
-      // 告诉ion-infinite-scroll数据已经更新，调用complete方法实现无限更新
-      event.target.complete();
-      // 数据最大时禁用更新
-      if (this.leftList.length > 50) {
-        event.target.disabled = true;
-      }
-    }, 1000);
-  }
+    public toastCtrl: ToastController,
+  ) {}
 
   ngOnInit() {
-    // 获取搜素历史
-    this.getHistory();
+    this.courseId = location.pathname.substring(11);
+    this.loadMore(null);
   }
-  // tslint:disable-next-line: use-lifecycle-interface // 生命周期函数ngDoCheck检测的变化时作出反应
-  ngDoCheck() {
-    // 获取搜素历史
-    this.getHistory();
+
+  async toastTip(message: string, color: string) {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 1000,
+      position: 'top',
+      cssClass: 'errToast',
+      color,
+    });
+    toast.present();
   }
+
   goBack() {
-    this.router.navigate(['/manage/1']);
+    window.history.go(-1);
   }
-  // 获得焦点
-  focusInput() {
-    this.flag = true;
-  }
-  // 失去焦点
-  blurInput() {
-    // this.flag = !this.flag;
-  }
-  // 获取历史记录
-  getHistory() {
-    const testGradeHistory = this.storage.get('testGradeHistory');
-    if (testGradeHistory) {
-      this.testGradeHistory = testGradeHistory;
-    }
-  }
+
   // 点击历史记录 进行搜索
   goSearch(keywords) {
     this.keywords = keywords;
@@ -78,48 +64,11 @@ export class TestgradePage implements OnInit {
 
   // 点击搜索按钮执行搜索
   doSearch() {
-    this.saveHistory();  // 保存搜索关键词
-    this.flag = false;
+    this.loadMore(null);
   }
 
-  // 保存历史记录
-  saveHistory() {
-    this.commonService.saveLocalStorage('testGradeHistory', this.keywords);
-  }
-  // 删除历史记录
-  async removeHistory(key) {
-    const alert = await this.alertController.create({
-      backdropDismiss: false,
-      header: '提示！',
-      message: '要删除此条记录吗?',
-      buttons: [
-        {
-          text: '取消',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            // console.log('Cancel');
-          }
-        }, {
-          text: '删除',
-          handler: () => {
-            this.testGradeHistory.splice(key, 1);
-            this.storage.set('testGradeHistory', this.testGradeHistory);
-          }
-        }
-      ]
-    });
-    await alert.present();
-  }
-  // 删除全部历史记录
-  deleteHistory(testGradeHistory) {
-    this.testGradeHistory.splice(testGradeHistory, testGradeHistory.length);
-    this.storage.set('testGradeHistory', this.testGradeHistory);
-    // 关闭历史记录栏
-    this.flag = !this.flag;
-  }
-   // 左滑
-   leftSlide() {
+  // 左滑
+  leftSlide() {
     this.LeftStyle = 'leftList';
   }
   // 右滑
@@ -127,4 +76,55 @@ export class TestgradePage implements OnInit {
     this.LeftStyle = 'leftList1';
   }
 
+  // 下拉分页加载更多
+  loadMore(e) {
+    const api = '/api/Users/StudentList?authtoken='+this.authtoken+'&courseId='+this.courseId+'&keyword='+this.keywords+'&page='+this.page+'&count='+this.count;
+    this.commonService.get(api).then((response: any) => {
+      console.log(response);
+      if (response.retcode === 0) {
+         // 第一个学生id
+         if (response.info.length > 0) {
+          this.userId = response.info[0].id;
+          this.selectedId = this.userId;
+          console.log(this.userId);
+          this.getScoreInfo(this.userId);
+        }
+        // 拼接分页内容
+        // tslint:disable-next-line: align
+        this.leftList = this.leftList.concat(response.info);
+         ++this.page;
+         console.log(response.hasnext);
+         console.log(this.page);
+        // 判断是否还有下一页
+         if(!response.hasnext) {
+          e?e.target.disabled=true:'';
+          this.hasmore = false;
+        }
+        // 请求完成数据以后告诉ion-infinite-scroll更新数据
+         e?e.target.complete():'';
+       } else {
+         this.toastTip('未知错误', 'danger');
+         return;
+       }
+    });
+  }
+  getScoreInfo(userId) {
+    this.selectedId = userId;
+    const api = '/api/Course/ScoreInfo?authtoken='+this.authtoken+'&courseId='+this.courseId+'&type='+this.type+'&userId='+userId;
+    this.commonService.get(api).then((response: any) => {
+      if (response.retcode === 0) {
+        console.log(response);
+        this.rightList = response.info;
+        console.log(this.rightList);
+      } else {
+        this.toastTip('未知错误', 'danger');
+        return;
+      }
+    });
+  }
+
+  getLeftData(id) {
+    this.getScoreInfo(id);
+  }
 }
+
