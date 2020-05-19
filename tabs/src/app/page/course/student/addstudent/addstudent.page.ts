@@ -33,8 +33,8 @@ export class AddstudentPage implements OnInit {
     console.log('URl:' + location.pathname);
     this.courseId = location.pathname.substring(12);
   }
-  goBack(courseId) {
-    this.router.navigate(['/student/' + courseId]);
+  goBack() {
+    window.history.go(-1);
   }
   async toastTip(message: string, color: string) {
     const toast = await this.toastCtrl.create({
@@ -62,7 +62,7 @@ export class AddstudentPage implements OnInit {
       if (response.retcode === 0) {
         this.toastTip('添加成功', 'success');
         // 返回上一层
-        this.goBack(this.courseId);
+        this.goBack();
       } else {
         this.toastTip('参数错误', 'danger');
         return;

@@ -32,7 +32,7 @@ const routes: Routes = [
   { path: 'editexercise/:id', loadChildren: './page/course/exercise/editexercise/editexercise.module#EditexercisePageModule' },
   { path: 'readexercise/:id', loadChildren: './page/course/exercise/readexercise/readexercise.module#ReadexercisePageModule' },
   { path: 'print/:id', loadChildren: './page/course/print/print.module#PrintPageModule' },
-  { path: 'addprint', loadChildren: './page/course/print/addprint/addprint.module#AddprintPageModule' },
+  { path: 'addprint/:id', loadChildren: './page/course/print/addprint/addprint.module#AddprintPageModule' },
   { path: 'grades/:id', loadChildren: './page/course/grades/grades.module#GradesPageModule' },
   { path: 'testgrade/:id', loadChildren: './page/course/testgrade/testgrade.module#TestgradePageModule' },
   { path: 'inbox', loadChildren: './page/email/inbox/inbox.module#InboxPageModule' },

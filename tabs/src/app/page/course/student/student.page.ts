@@ -62,7 +62,7 @@ export class StudentPage implements OnInit {
   }
   // 返回上一层
   goBack(courseId) {
-    this.router.navigate(['/manage/' + courseId]);
+    window.history.go(-1);
   }
   // 添加学生
   addStudent(courseId) {
