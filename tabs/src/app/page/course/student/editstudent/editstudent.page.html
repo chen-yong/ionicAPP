@@ -40,11 +40,11 @@
       </ion-item>
       <ion-item>
           <ion-label>性别：</ion-label>
-          <ion-input type="text" [(ngModel)]="studentInfo.sex"> </ion-input>
-          <!-- <ion-select slot="end" [(ngModel)]="studentInfo.sex">
-              <ion-select-option *ngFor="let item of studentInfo.genderList" [value]="item.id">
-                  {{item.value}}</ion-select-option>
-          </ion-select> -->
+          <!-- <ion-input type="text" [(ngModel)]="studentInfo.sex"> </ion-input> -->
+          <ion-select [(ngModel)]="studentInfo.sex">
+            <ion-select-option value="男">男</ion-select-option>
+            <ion-select-option value="女">女</ion-select-option>
+        </ion-select>
       </ion-item>
       <ion-item>
           <ion-label> 电话：</ion-label>

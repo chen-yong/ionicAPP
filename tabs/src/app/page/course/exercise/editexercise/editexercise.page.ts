@@ -67,33 +67,33 @@ export class EditexercisePage implements OnInit {
     this.getHome();
   }
   goBack() {
-    this.router.navigate(['/exercise/1' ]);
+    window.history.go(-1);
   }
-  async toastTip(message: string) {
+  async toastTip(message: string,color: string) {
     const toast = await this.toastCtrl.create({
       message,
       duration: 1000,
       position: 'top',
       cssClass: 'errToast',
-      color: 'danger',
+      color,
     });
     toast.present();
   }
   signUp() {
     if (!this.workInfo.name) {
-      this.toastTip('请填写练习名称！');
+      this.toastTip('请填写练习名称！', 'danger');
       return;
     }
     if (!this.workInfo.tactics) {
-      this.toastTip('请选择抽题策略！');
+      this.toastTip('请选择抽题策略！', 'danger');
       return;
     }
     if (!this.workInfo.startTime) {
-      this.toastTip('请选择开始时间！');
+      this.toastTip('请选择开始时间！', 'danger');
       return;
     }
     if (!this.workInfo.startTime) {
-      this.toastTip('请选择结束时间！');
+      this.toastTip('请选择结束时间！', 'danger');
       return;
     }
     console.log(this.workInfo);
@@ -102,7 +102,7 @@ export class EditexercisePage implements OnInit {
     console.log(e.detail.value);
   }
   getHome(){
-    const api = 'http:/api/Course/HomeWork?authtoken='+this.authtoken+'&id='+this.workId;
+    const api = '/api/Course/HomeWork?authtoken='+this.authtoken+'&id='+this.workId;
     this.commonService.get(api).then((response: any) => {
       console.log(response);
       if (response.retcode === 0) {

@@ -30,11 +30,14 @@ export class AddstudentPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('URl:' + location.pathname);
+    // console.log('URl:' + location.pathname);
     this.courseId = location.pathname.substring(12);
   }
   goBack() {
     window.history.go(-1);
+  }
+  refresh() {
+    this.router.navigate(['/student/' + this.courseId ]);
   }
   async toastTip(message: string, color: string) {
     const toast = await this.toastCtrl.create({
@@ -56,13 +59,13 @@ export class AddstudentPage implements OnInit {
       this.toastTip('请填写姓名！', 'danger');
       return;
     }
-    const api = 'http:/api/Users/AddCourseStudent?authtoken='+this.authtoken+'&courseId='+this.courseId;
+    const api = '/api/Users/AddCourseStudent?authtoken='+this.authtoken+'&courseId='+this.courseId;
     this.commonService.post(api, this.studentInfo).then((response: any) => {
       // console.log(response);
       if (response.retcode === 0) {
         this.toastTip('添加成功', 'success');
-        // 返回上一层
-        this.goBack();
+        // 刷新
+        this.refresh();
       } else {
         this.toastTip('参数错误', 'danger');
         return;

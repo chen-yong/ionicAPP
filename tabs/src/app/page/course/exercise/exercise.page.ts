@@ -54,7 +54,7 @@ export class ExercisePage implements OnInit {
   }
   // 获取所有的练习列表
   getExerciseList() {
-    const api = 'http:/api/Course/HomeWorkList?authtoken='+this.authtoken+'&courseId='+this.courseId+'&type='+this.type+'&keyword='+this.keywords+'&page='+this.page+'&count='+this.count;
+    const api = '/api/Course/HomeWorkList?authtoken='+this.authtoken+'&courseId='+this.courseId+'&type='+this.type+'&keyword='+this.keywords+'&page='+this.page+'&count='+this.count;
     this.commonService.get(api).then((response: any) => {
       console.log(response);
       if (response.retcode === 0) {
@@ -108,7 +108,7 @@ export class ExercisePage implements OnInit {
         }, {
           text: '确定',
           handler: () => {
-            const api ='http:/api/Course/DeleteWork?authtoken='+this.authtoken+'&id='+id;
+            const api ='/api/Course/DeleteWork?authtoken='+this.authtoken+'&id='+id;
             this.commonService.get(api).then((response: any) => {
               if (response.retcode === 0) {
                 this.toastTip('删除成功', 'success');

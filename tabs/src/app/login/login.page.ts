@@ -47,7 +47,7 @@ export class LoginPage implements OnInit {
       return;
     }
       // 登录API
-      var api = 'http:/api/Launch/Login?username='+this.username+'&password='+this.password+'';
+      const api= '/api/Launch/Login?username='+this.username+'&password='+this.password+'';
       this.commonService.get(api).then((response: any) => {
         //console.log(response);
         if (response.retcode==0) {

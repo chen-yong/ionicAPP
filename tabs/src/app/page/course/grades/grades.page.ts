@@ -14,10 +14,10 @@ import { ToastController } from '@ionic/angular';  // 提示弹出层
   styleUrls: ['./grades.page.scss'],
 })
 export class GradesPage implements OnInit {
-  public flag = false;
+  // public flag = false;
   public keywords: any = '';  // 表单输入的关键词
-  public gradesHistoryList: any[] = [];  // 历史记录
-  public leftList: any[] = [];
+  // public gradesHistoryList: any[] = [];  // 历史记录
+  public leftList: any = {};
   public rightList: any={
     "courseId": "",
     "userId": "",
@@ -33,13 +33,21 @@ export class GradesPage implements OnInit {
     "finalGrade": "",
     "level": ""
 };
+  // public studentInfo: any={
+  //   "id": "",
+  //   "userName": "",
+  //   "userNO": "",
+  //   "realName": "",
+  //   "sex": "",
+  //   "userIdentity02": "",
+  //   "mobile": ""
+  // };
   public selectedId: any = '';  /*选中的学生id*/
   public LeftStyle: any = 'leftList1';
   public courseId: any = '';
   public page = 1;
   public count = 10;
   public authtoken = this.storage.get('authtoken');
-  public type = 3;
   public userId: any = '';
   public hasmore = true;
 
@@ -105,12 +113,13 @@ export class GradesPage implements OnInit {
           this.selectedId = this.userId;
           console.log(this.userId);
           this.getScoreInfo(this.userId);
+          // this.getStudnetInfo(this.userId);
         }
         // 拼接分页内容
         // tslint:disable-next-line: align
         this.leftList = this.leftList.concat(response.info);
          ++this.page;
-         console.log(response.hasnext);
+         console.log('response.hasnext');
          console.log(this.page);
         // 判断是否还有下一页
          if(!response.hasnext) {
@@ -142,52 +151,20 @@ export class GradesPage implements OnInit {
 
   getLeftData(id) {
     this.getScoreInfo(id);
+    // this.getStudnetInfo(id);
   }
 
-  // 设置成绩比例
-  // async gradeSet(id) {
-  //   const alert = await this.alertController.create({
-  //     header: '成绩比列设定!',
-  //     inputs: [
-  //       {
-  //         name: 'name1',
-  //         type: 'number',
-  //         min: 0,
-  //         max: 100,
-  //         placeholder: '作业比例'
-  //       },
-  //       {
-  //         name: 'name6',
-  //         type: 'number',
-  //         min: 0,
-  //         max: 100,
-  //         placeholder: '实验比例'
-  //       },
-  //       {
-  //         name: 'name6',
-  //         type: 'number',
-  //         min: 0,
-  //         max: 100,
-  //         placeholder: '文秘类技能操作考试比例'
-  //       }
-  //     ],
-  //     buttons: [
-  //       {
-  //         text: '取消',
-  //         role: 'cancel',
-  //         cssClass: 'secondary',
-  //         handler: () => {
-  //           console.log('Confirm Cancel');
-  //         }
-  //       }, {
-  //         text: '确定',
-  //         handler: () => {
-  //           console.log('Confirm Ok');
-  //         }
-  //       }
-  //     ]
+  // 获取单个学生的基本信息
+  // getStudnetInfo(userId) {
+  //   const api = '/api/Users/GetStudent?authtoken='+this.authtoken+'&id='+userId;
+  //   this.commonService.get(api).then((response: any) => {
+  //     if (response.retcode === 0) {
+  //       this.studentInfo = response.info;
+  //       console.log(this.studentInfo);
+  //     } else {
+  //       this.toastTip('未知错误', 'danger');
+  //       return;
+  //     }
   //   });
-
-  //   await alert.present();
   // }
 }

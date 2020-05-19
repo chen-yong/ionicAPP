@@ -74,7 +74,7 @@ export class StudentPage implements OnInit {
   }
   // 搜索学生
   getStudentList() {
-    const api = 'http:/api/Users/StudentList?authtoken='+this.authtoken+'&courseId='+this.courseId+'&keyword='+this.keywords+'&page='+this.page+'&count='+this.count;
+    const api = '/api/Users/StudentList?authtoken='+this.authtoken+'&courseId='+this.courseId+'&keyword='+this.keywords+'&page='+this.page+'&count='+this.count;
     this.commonService.get(api).then((response: any) => {
       // console.log(response);
       if (response.retcode === 0) {
@@ -116,7 +116,7 @@ export class StudentPage implements OnInit {
         }, {
           text: '确定',
           handler: () => {
-            const api ='http:/api/Users/DeleteUser?authtoken='+this.authtoken+'&id='+id;
+            const api ='/api/Users/DeleteUser?authtoken='+this.authtoken+'&id='+id;
             this.commonService.get(api).then((response: any) => {
               if (response.retcode === 0) {
                 this.toastTip('删除成功', 'success');
@@ -150,7 +150,7 @@ export class StudentPage implements OnInit {
         }, {
           text: '确定',
           handler: () => {
-            const api ='http:/api/Users/RetsetPwd?authtoken='+this.authtoken+'&id='+id;
+            const api ='/api/Users/RetsetPwd?authtoken='+this.authtoken+'&id='+id;
             this.commonService.get(api).then((response: any) => {
               if (response.retcode === 0) {
                 this.toastTip('重置成功', 'success');

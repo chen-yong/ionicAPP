@@ -110,7 +110,7 @@ export class AddworkPage implements OnInit {
       return;
     }
     console.log(this.workInfo);
-    const api = 'http:/api/course/AddHomeWork?authtoken='+this.authtoken+'&courseId='+this.courseId+'&type='+this.type;
+    const api = '/api/course/AddHomeWork?authtoken='+this.authtoken+'&courseId='+this.courseId+'&type='+this.type;
     this.commonService.post(api, this.workInfo).then((response: any) => {
       console.log(response);
       if (response.retcode === 0) {
