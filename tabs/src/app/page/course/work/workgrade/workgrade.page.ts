@@ -27,6 +27,15 @@ export class WorkgradePage implements OnInit {
   public type = 3;
   public userId: any = '';
   public hasmore = true;
+  public studentInfo: any[]=[{
+    "id": "",
+    "userName": "",
+    "userNO": "",
+    "realName": "",
+    "sex": "",
+    "userIdentity02": "",
+    "mobile": ""
+  }];
 
   constructor(
     public router: Router,
@@ -64,6 +73,10 @@ export class WorkgradePage implements OnInit {
 
   // 点击搜索按钮执行搜索
   doSearch() {
+    // 页码设为第一页
+    this.page = 1;
+    // 清空拼接数据
+    this.leftList = [];
     this.loadMore(null);
   }
 
@@ -88,6 +101,7 @@ export class WorkgradePage implements OnInit {
           this.selectedId = this.userId;
           console.log(this.userId);
           this.getScoreInfo(this.userId);
+          this.getStudnetInfo(this.userId);
         }
         // 拼接分页内容
         // tslint:disable-next-line: align
@@ -125,5 +139,19 @@ export class WorkgradePage implements OnInit {
 
   getLeftData(id) {
     this.getScoreInfo(id);
+    this.getStudnetInfo(id);
+  }
+  // 获取单个学生的基本信息
+  getStudnetInfo(userId) {
+    const api = '/api/Users/GetStudent?authtoken='+this.authtoken+'&id='+userId;
+    this.commonService.get(api).then((response: any) => {
+      if (response.retcode === 0) {
+        this.studentInfo = response.info;
+        // console.log(this.studentInfo);
+      } else {
+        this.toastTip('未知错误', 'danger');
+        return;
+      }
+    });
   }
 }

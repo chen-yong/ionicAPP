@@ -48,16 +48,20 @@
             <ion-card>
                 <ion-card-header>
                     <ion-card-subtitle>学号：</ion-card-subtitle>
+                    <ion-input [(ngModel)]="studentInfo.userName"></ion-input>
                 </ion-card-header>
                 <ion-card-content>
                     <ion-item>
-                        <ion-label> 姓名：</ion-label>
+                        <ion-label> 姓名： </ion-label>
+                        <ion-input [(ngModel)]="studentInfo.realName"></ion-input>
                     </ion-item>
                     <ion-item>
-                        <ion-label> 班级： </ion-label>
+                        <ion-label> 班级：</ion-label>
+                        <ion-input [(ngModel)]="studentInfo.userIdentity02"></ion-input> 
                     </ion-item>
                     <ion-item>
                         <ion-label> 性别： </ion-label>
+                        <ion-input [(ngModel)]="studentInfo.sex"></ion-input>
                     </ion-item>
                     <ion-item>
                         <ion-label> 实验：</ion-label>

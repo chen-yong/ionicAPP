@@ -154,7 +154,6 @@ export class StudentPage implements OnInit {
             this.commonService.get(api).then((response: any) => {
               if (response.retcode === 0) {
                 this.toastTip('重置成功', 'success');
-                return;
                 this.getStudentList();
               }  else {
                 this.toastTip('重置失败', 'danger');

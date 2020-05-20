@@ -17,8 +17,9 @@ export class GradesPage implements OnInit {
   // public flag = false;
   public keywords: any = '';  // 表单输入的关键词
   // public gradesHistoryList: any[] = [];  // 历史记录
-  public leftList: any = {};
-  public rightList: any={
+  public leftList: any[] = [];
+  // public rightList: any[];
+  public rightList: any[] =[{
     "courseId": "",
     "userId": "",
     "zycj": "",
@@ -32,16 +33,16 @@ export class GradesPage implements OnInit {
     "course": "",
     "finalGrade": "",
     "level": ""
-};
-  // public studentInfo: any={
-  //   "id": "",
-  //   "userName": "",
-  //   "userNO": "",
-  //   "realName": "",
-  //   "sex": "",
-  //   "userIdentity02": "",
-  //   "mobile": ""
-  // };
+}];
+  public studentInfo: any[]=[{
+    "id": "",
+    "userName": "",
+    "userNO": "",
+    "realName": "",
+    "sex": "",
+    "userIdentity02": "",
+    "mobile": ""
+  }];
   public selectedId: any = '';  /*选中的学生id*/
   public LeftStyle: any = 'leftList1';
   public courseId: any = '';
@@ -89,6 +90,10 @@ export class GradesPage implements OnInit {
 
   // 点击搜索按钮执行搜索
   doSearch() {
+    // 页码设为第一页
+    this.page = 1;
+    // 清空拼接数据
+    this.leftList = [];
     this.loadMore(null);
   }
 
@@ -105,6 +110,7 @@ export class GradesPage implements OnInit {
   loadMore(e) {
     const api = '/api/Users/StudentList?authtoken='+this.authtoken+'&courseId='+this.courseId+'&keyword='+this.keywords+'&page='+this.page+'&count='+this.count;
     this.commonService.get(api).then((response: any) => {
+      console.log(api);
       console.log(response);
       if (response.retcode === 0) {
          // 第一个学生id
@@ -113,13 +119,11 @@ export class GradesPage implements OnInit {
           this.selectedId = this.userId;
           console.log(this.userId);
           this.getScoreInfo(this.userId);
-          // this.getStudnetInfo(this.userId);
+          this.getStudnetInfo(this.userId);
         }
         // 拼接分页内容
-        // tslint:disable-next-line: align
         this.leftList = this.leftList.concat(response.info);
          ++this.page;
-         console.log('response.hasnext');
          console.log(this.page);
         // 判断是否还有下一页
          if(!response.hasnext) {
@@ -139,9 +143,9 @@ export class GradesPage implements OnInit {
     const api = '/api/Course/StudentGrade?authtoken='+this.authtoken+'&courseId='+this.courseId+'&id='+userId;
     this.commonService.get(api).then((response: any) => {
       if (response.retcode === 0) {
-        // console.log(response);
+        console.log(response.info);
         this.rightList = response.info;
-        console.log(this.rightList);
+        console.log('rightList:'+this.rightList);
       } else {
         this.toastTip('未知错误', 'danger');
         return;
@@ -151,20 +155,20 @@ export class GradesPage implements OnInit {
 
   getLeftData(id) {
     this.getScoreInfo(id);
-    // this.getStudnetInfo(id);
+    this.getStudnetInfo(id);
   }
 
   // 获取单个学生的基本信息
-  // getStudnetInfo(userId) {
-  //   const api = '/api/Users/GetStudent?authtoken='+this.authtoken+'&id='+userId;
-  //   this.commonService.get(api).then((response: any) => {
-  //     if (response.retcode === 0) {
-  //       this.studentInfo = response.info;
-  //       console.log(this.studentInfo);
-  //     } else {
-  //       this.toastTip('未知错误', 'danger');
-  //       return;
-  //     }
-  //   });
-  // }
+  getStudnetInfo(userId) {
+    const api = '/api/Users/GetStudent?authtoken='+this.authtoken+'&id='+userId;
+    this.commonService.get(api).then((response: any) => {
+      if (response.retcode === 0) {
+        this.studentInfo = response.info;
+        // console.log(this.studentInfo);
+      } else {
+        this.toastTip('未知错误', 'danger');
+        return;
+      }
+    });
+  }
 }
