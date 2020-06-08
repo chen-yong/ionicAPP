@@ -26,7 +26,7 @@
 
     <ion-item>
       <ion-label>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:&nbsp;&nbsp; </ion-label>
-      <ion-input [(ngModel)]="PeopleList.name" required #name="ngModel" clearInput></ion-input>
+      <ion-input [(ngModel)]="PeopleList.userName" required #name="ngModel" clearInput></ion-input>
             <!-- 必填提醒  required #name3="ngModel" -->
             <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert-danger">  
               <div *ngIf="name.errors.required">
@@ -43,12 +43,12 @@
       <ion-item>
         <ion-icon name="man" slot="start" color="secondary"></ion-icon>
         <ion-label>男</ion-label>
-        <ion-radio slot="end" value="1"></ion-radio>
+        <ion-radio slot="end" value="男"></ion-radio>
       </ion-item>
       <ion-item>
         <ion-icon name="woman" slot="start" color="danger"></ion-icon>
         <ion-label>女</ion-label>
-        <ion-radio slot="end" value="2"></ion-radio>
+        <ion-radio slot="end" value="女"></ion-radio>
       </ion-item>
     </ion-radio-group>
 
@@ -58,7 +58,7 @@
 
     <ion-item>
       <ion-label>手机号码:&nbsp;&nbsp;</ion-label>
-      <ion-input [(ngModel)]="PeopleList.number" clearInput></ion-input>
+      <ion-input [(ngModel)]="PeopleList.mobile" clearInput></ion-input>
     </ion-item>
 
     <ion-item>
@@ -73,7 +73,7 @@
 
     <ion-item>
       <ion-label>Q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Q:&nbsp;&nbsp;</ion-label>
-      <ion-input [(ngModel)]="PeopleList.qq" clearInput></ion-input>
+      <ion-input [(ngModel)]="PeopleList.property05" clearInput></ion-input>
     </ion-item>
     <br>
     <ion-button class="submit_btn" expand="block" (click)="saveUserInfo()">保存</ion-button>

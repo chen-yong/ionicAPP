@@ -7,6 +7,7 @@ import { ToastController } from '@ionic/angular';  // 提示弹出层
 
 import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
+import { CommonService } from '../services/common.service'; // 引用CommonService
 import { EventService } from '../services/event.service';
 
 @Component({
@@ -20,28 +21,41 @@ export class Tab3Page {
     public alertController: AlertController,
     public toastCtrl: ToastController,
     public router: Router,
+    public commonService: CommonService,
     public storageService: StorageService,
     public eventService: EventService,
   ) { }
 
-  // 自定义用户数据，方便以后对接
-  public userList: any = {
-    id: 1,
-    name: 'Admin',
-    img: 'assets/img/hznu.png',
-    color: 'danger',
-    intro: '扬帆起航，就此远航'
-  };
+  public authtoken = this.storageService.get('authtoken'); //验证令牌
+    // 自定义用户数据，方便以后对接
+    public userList: any = {
+      id: '',
+      name: '',
+      img: 'assets/img/hznu.png',
+      color: 'danger'
+    };
 
   // tslint:disable-next-line: use-lifecycle-interface
   ngOnInit() {
-    // 通过登录获取登录用户信息
-    this.eventService.event.on('useraction', () => {
-      const userinfo = this.storageService.get('userinfo');
-      if (userinfo && userinfo.name) {
-        this.userList.name = userinfo.name;
+    // 通过登录令牌获取登录用户个人信息
+    this.getUserList();
+  }
+
+  getUserList(){
+    var authtoken = this.storageService.get('authtoken');
+    var api = '/api/Users/GetUserByAuthtoken?authtoken='+authtoken;
+    this.commonService.get(api).then((response: any) => {
+      console.log(response.info);
+      if (response.retcode == 0) {
+        if (response.info && response.info.userName) {
+          this.userList.name = response.info.userName;
+          this.userList.id = response.info.id;
+        } else {
+          this.userList.name = '';
+        }
       } else {
-        this.userList.name = '';
+        this.toastTip('参数错误');
+        return;
       }
     });
   }
@@ -74,7 +88,8 @@ export class Tab3Page {
         }, {
           text: '确定',
           handler: () => {
-            this.toastTip('该功能还在开发中');
+            this.toastTip('退出成功');
+            this.storageService.remove("authtoken");
           }
         }]
     });
@@ -83,6 +98,7 @@ export class Tab3Page {
 
   goUserinfo(id) {
     console.log('用户ID:' + id);
+    this.storageService.remove('userinfo');  //删除这个登录时候获取的个人信息缓存
     this.router.navigate(['/userinfo/', id]);
   }
 }
