@@ -5,7 +5,7 @@
               <ion-icon slot="icon-only" name="close" color="danger"></ion-icon>
           </ion-button>
       </ion-buttons>
-      <ion-title>写邮件</ion-title>
+      <ion-title>回复邮件</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,24 +13,17 @@
   <ion-card>
       <ion-item>
           <ion-label> 收件人: </ion-label>
-          <ion-input (ionFocus)="focusInput1()" (ionBlur)="blurInput()">
-            <p>
-               <span *ngFor="let item of shoujianren;let key=index;">{{item.name}}
-                  <ion-icon name="close" (click)="deleteadd(key)"></ion-icon>
-               </span>
-            </p>
+          <ion-input [(ngModel)]="receive_realName">
           </ion-input>
-          <!-- 添加收信人图标按钮 -->
-          <ion-icon name="add-circle-outline" slot="end" (click)="addAddressee()" *ngIf="isshow"></ion-icon>
       </ion-item>
       <ion-item>
           <ion-label> 主题：</ion-label>
-          <ion-input type="text" [(ngModel)]="emailDetail.subject" (ionFocus)="focusInput2()"> </ion-input>
+          <ion-input type="text" [(ngModel)]="emailDetail.subject" > </ion-input>
           <ion-icon name="bookmark" slot="end" color="danger" *ngIf="emailDetail.isImportant == true" (click)="beNoImportant()"></ion-icon>  
           <ion-icon name="bookmark" slot="end" color="medium" *ngIf="emailDetail.isImportant == false" (click)="beImportant()"></ion-icon>  
       </ion-item>
       <ion-item>
-        <ion-textarea [(ngModel)]="emailDetail.body" rows="10" class="input_content" (ionFocus)="focusInput3()"> 
+        <ion-textarea [(ngModel)]="emailDetail.body" rows="10" class="input_content"> 
         </ion-textarea>
       </ion-item>
       <ion-item>

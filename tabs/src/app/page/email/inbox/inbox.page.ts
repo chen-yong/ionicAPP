@@ -6,6 +6,7 @@ import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular'; //弹出组件
 import { CommonService } from '../../../services/common.service';
+import { ToastController } from '@ionic/angular';  // 提示弹出层
 
 
 @Component({
@@ -21,32 +22,31 @@ export class InboxPage implements OnInit {
     public router: Router,
     public modalController: ModalController, //弹出组件
     public alertController: AlertController,
-    public storage: StorageService,
-    public commonService: CommonService,
+    public storageService: StorageService,
+    public toastCtrl: ToastController,
+    public commonService: CommonService
   ) { }
 
   public iskong=false;  //判断是否收到邮件
   public flag = false;  //历史记录控件
   public keywords: any = '';  // 表单输入的关键词
   public historyList: any[] = [];  // 历史记录
-  public emailList: any[] = [
-    { id: 1, sender_name: '张三', theme: '打印', sender_img: '../assets/img/hznu.png', text: '老哥，帮我打印一份，谢啦', flag: false},
-    { id: 2, sender_name: '李四', theme: '开题报告', sender_img: '../assets/img/index.svg', text: '你这开题怎么弄得呀？我这不行啊，评委老师说不符合要求呢，说做的太简单了', flag: false },
-    { id: 3, sender_name: '王五', theme: '第三套卷', sender_img: '../assets/img/hznu.png', text: '大神求教怎么做，小弟求教育啊！！！' , flag: false},
-    { id: 4, sender_name: '赵六', theme: '课程表', sender_img: '../assets/img/hznu.png', text: '来一份课程表，我的那个不行了', flag: false },
-    { id: 5, sender_name: '陈七', theme: '图书馆去吗？', sender_img: '../assets/img/hznu.png', text: '图书馆去吗？我对象闺蜜也去呢，以后别说兄弟没照顾你哦！', flag: false }
-  ];
   public user_Id: string; //用户的id
+
+  public emailList2:any[]=[]; //存储最初数据库读出来的信件消息
+  public emaildetail:any[]=[];
+  public emailList:any[]=[];  //存储最后处理过的信件消息
+  public authtoken = this.storageService.get('authtoken');
 
   ngOnInit(): void {
     // 获取搜素历史
     this.getHistory();
-    //判断是否存在收件
-    if(this.emailList.length==0){
-      this.iskong = true;
-    }else{
-      this.iskong = false;
-    }
+
+    console.log(location.pathname);
+    this.user_Id = location.pathname.substring(7);
+    console.log(this.user_Id);
+    this.getUserEmailList();//获取该用户收到的信件
+
   }
   // tslint:disable-next-line: use-lifecycle-interface // 生命周期函数ngDoCheck检测的变化时作出反应
   ngDoCheck() {
@@ -65,36 +65,102 @@ export class InboxPage implements OnInit {
   
   //跳转到写信页面
   addEmail(){
-    this.router.navigate(['/emailwrite/',123]);
+    // this.router.navigate(['/emailwrite/',this.user_Id]);
+    this.router.navigate(['/emailwrite/',1]);
   }
 
-  // 搜索收到的邮件
-  getEmailList() {
+  //搜索用户收到的邮件
+  getUserEmailList(){
+    this.emailList2 = [];
+    this.emaildetail = [];
+    this.emailList = [];
+    // this.getHistory();
+    var api = '/api/Message/GetReceiveMessage?authtoken='+this.authtoken+'&userId='+this.user_Id;
+    this.commonService.get(api).then((response: any) => {
+      if (response.retcode == 0) {
+        //获取该用户收到的信件赋值给emailList2
+        this.emailList2 = response.info;  
+        console.log(this.emailList2);
+        //循环一遍将用户ID和文件ID存入
+        this.emailList2.forEach((element,index) => { 
+          this.emaildetail.push({"realName":element.sender,"isReaded":element.id}); 
+          this.emailList.push({"id":element.id,"realName":"",sender:element.sender,"isReaded":"",
+                 subject:element.subject,body:element.body,isImportant:element.isImportant,
+                 sendTime:element.sendTime,isDel:element.isDel,isRecycle:element.isRecycle});
+        });
+        //遍历emaildetail将发信人id替换成真实姓名
+        this.emaildetail.forEach((element,index) => {
+          var api2 = '/api/Users/GetStudent?authtoken='+this.authtoken +'&id='+element.realName;
+          this.commonService.get(api2).then((response2: any) => {
+            if (response2.retcode == 0) {
+                element.realName = response2.info.realName;
+                this.emailList[index].realName = response2.info.realName;
+            } else {
+              this.toastTip('参数错误','danger');
+              return;
+            }
+          });
+        });
+        //遍历emaildetail将信件的id替换成信件是否已读信息
+        this.emaildetail.forEach((element,index) => {
+          var api3 = '/api/Message/GetMessageReceiveById?authtoken='+this.authtoken +'&id='+element.isReaded;
+          this.commonService.get(api3).then((response3: any) => {
+            if (response3.retcode == 0) {
+                element.isReaded = response3.info.isReaded;
+                this.emailList[index].isReaded = response3.info.isReaded;
+                this.emailList[index].sendTime = this.emailList[index].sendTime.substring(0,16);
+                this.emailList[index].sendTime = this.emailList[index].sendTime.replace('T',' ');
+            } else {
+              this.toastTip('参数错误','danger');
+              return;
+            }
+          });
+        });
+        console.log(this.emaildetail);
+        console.log(this.emailList);
+      } else {
+        this.toastTip('参数错误','danger');
+        return;
+      }
+    });
 
-    this.getHistory();
   }
-  // 邮件置顶(暂时设置，连接数据库后这里还需要上传数据库的；更新显示)
-  puthead(id:any){  
-      this.emailList.forEach(element => {
-        if (element.id == id){
-          element.flag=true;
-          console.log('学生'+element.id+'置顶'+element.flag);
-        }
-      });
-  }
-  // 邮件取消置顶(暂时设置，后面连接数据库后这里还需要上传数据库；更新显示)
-  deletehead(id:any){
-    this.emailList.forEach(element => {
-      if (element.id == id){
-        element.flag=false;
-        console.log('学生'+element.id+'取消置顶'+element.flag);
+
+  // 将该邮件改为重要邮件
+  beImportant(ids:any){  
+    console.log(ids + '标星');
+    var api = '/api/Message/MessageImportant?authtoken='+this.authtoken +'&id='+ids;
+    this.commonService.get(api).then((response: any) => {
+      if (response.retcode == 0) {
+        this.toastTip('该邮件成功设为重要文件','success');
+        this.getUserEmailList();
+      } else {
+        this.toastTip('参数错误','danger');
+        return;
       }
     });
   }
+  //将邮件改为不重要邮件
+  beNoImportant(ids:any){
+    console.log(ids + '取消标星');
+    var api = '/api/Message/MessageNoImportant?authtoken='+this.authtoken +'&id='+ids;
+          this.commonService.get(api).then((response: any) => {
+            if (response.retcode == 0) {
+              this.toastTip('该邮件不再是重要文件','success');
+              this.getUserEmailList();
+            } else {
+              this.toastTip('参数错误','danger');
+              return;
+            }
+          });
+  }
+
   //点击进入查看邮件
   checkEmail(id:any){
-    alert('查看邮件'+id);
+    console.log('查看邮件'+id);
+    this.router.navigate(['/showemail/', id]);
   }
+
   // 长按触发删除邮件事件
   async delete(id: any) {
     const alert = await this.alertController.create({
@@ -112,19 +178,6 @@ export class InboxPage implements OnInit {
         }, {
           text: '确定',
           handler: () => {
-            console.log(id + '确认删除');
-            //删除方法1
-            //splice(a,b);a表示开始删除的位置，b表删除的长度
-            //this.emailList.splice(id-1,1);//暂时设置的删除效果，链接数据库后要改,这个按位置删除的话出现逻辑错误
-            
-            //删除方法2
-            // for(var i=0;i<=this.emailList.length;i++){
-            //   if(this.emailList[i].id == key){
-            //     this.emailList.splice(i,1);
-            //   } 
-            // }//Cannot read property 'id' of undefined        
-
-            //删除方法3，调用本地自定义函数
             this.deleteEmail(id);
           }
         }
@@ -134,20 +187,24 @@ export class InboxPage implements OnInit {
   }
 
   //自定义邮件删除函数
-  deleteEmail(id:any){
-     console.log("delete success");
-     //这里编辑删除操作
-     //判断是否存在收件
-     if(this.emailList.length==0){
-       this.iskong = true;
-     }else{
-       this.iskong = false;
-     }
+  deleteEmail(ids:any){
+    console.log(ids + '确认删除');
+    var api = '/api/Message/DeleteMessagetoRecycle?authtoken='+this.authtoken +'&id='+ids;
+          this.commonService.get(api).then((response: any) => {
+            if (response.retcode == 0) {
+              console.log("delete success"+ids);
+              this.toastTip('该邮件已放入回收站','success');
+              this.getUserEmailList();
+            } else {
+              this.toastTip('参数错误','danger');
+              return;
+            }
+          });
   }
   // 返回上一层
-    goBack() {
-      this.router.navigate(['/tabs/tab2/']);
-    }
+  goBack() {
+    this.router.navigate(['/tabs/tab2/']);
+  }
   // 获得焦点
   focusInput() {
      this.flag = true;
@@ -159,7 +216,7 @@ export class InboxPage implements OnInit {
   }
   // 获取历史记录
   getHistory() {
-    const historyList = this.storage.get('historylist2');
+    const historyList = this.storageService.get('historylist2');
     if (historyList) {
       this.historyList = historyList;
     }
@@ -204,7 +261,7 @@ export class InboxPage implements OnInit {
           handler: () => {
             // console.log('Confirm 执行删除'+key);
             this.historyList.splice(key, 1);
-            this.storage.set('historylist2', this.historyList);
+            this.storageService.set('historylist2', this.historyList);
           }
         }
       ]
@@ -214,9 +271,22 @@ export class InboxPage implements OnInit {
     // 删除全部历史记录
     deleteHistory(historyList) {
       this.historyList.splice(historyList, historyList.length);
-      this.storage.set('historylist2', this.historyList);
+      this.storageService.set('historylist2', this.historyList);
       // 关闭历史记录栏
       this.flag = !this.flag;
     }
+
+    // 弹窗设置
+    async toastTip(message: string, color: string) {
+      const toast = await this.toastCtrl.create({
+          message,
+          duration: 1000,
+          position: 'top',
+          cssClass: 'errToast',
+          color,
+      });
+      toast.present();
+    }
+
 
 }

@@ -5,6 +5,10 @@ import { ToastController } from '@ionic/angular';
 import { transliterate as tr, slugify } from 'transliteration'; //汉字转化为字母的插件
 import { IonContent } from '@ionic/angular';  //插入滚动组件，在ionic3时为Content
 import { ChangeDetectorRef } from '@angular/core';
+import { StorageService } from '../../../../services/storage.service';
+import { CommonService } from '../../../../services/common.service';
+import { AlertController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-addpeople',
@@ -20,32 +24,18 @@ export class AddpeopleComponent implements OnInit {
     public navParams: NavParams, //控制组件的弹出
     public toastCtrl: ToastController,
     public ref:ChangeDetectorRef,
+    public storageService: StorageService,
+    public commonService: CommonService,
+    public alertController: AlertController,
     public elementRef:ElementRef
   ) {
     // console.log(this.navParams);
     //打印最初传过来的值，但这里不需要传值，接口先留着
    }
 
-   //将数据库中的通讯录信息获取下来复制给这个变量
-   public tongxunluList:any[]=[ 
-    {id:1201,kind:'任课老师',name:'张三',image:'../assets/img/hznu.png'},
-    {id:1202,kind:'系统管理员',name:'李四',image:'../assets/img/hznu.png'},
-    {id:1203,kind:'任课老师',name:'王武',image:'../assets/img/hznu.png'},
-    {id:1204,kind:'学生',name:'阿四',image:'../assets/img/hznu.png'},
-    {id:1205,kind:'学生',name:'布鲁',image:'../assets/img/hznu.png'},
-    {id:1206,kind:'学生',name:'陈莉',image:'../assets/img/hznu.png'},
-    {id:1207,kind:'学生',name:'梦泽',image:'../assets/img/hznu.png'},
-    {id:1208,kind:'任课老师',name:'=王文',image:'../assets/img/hznu.png'},
-    {id:1209,kind:'任课老师',name:'王好汉',image:'../assets/img/hznu.png'},
-    {id:1210,kind:'系统管理员',name:'胡娜',image:'../assets/img/hznu.png'},
-    {id:1211,kind:'任课老师',name:'query',image:'../assets/img/hznu.png'},
-    {id:1212,kind:'任课老师',name:'文章',image:'../assets/img/hznu.png'},
-    {id:1213,kind:'任课老师',name:'谢家局',image:'../assets/img/hznu.png'},
-    {id:1214,kind:'任课老师',name:'依依',image:'../assets/img/hznu.png'},
-    {id:1215,kind:'任课老师',name:'大业',image:'../assets/img/hznu.png'},
-    {id:1216,kind:'任课老师',name:'饿e',image:'../assets/img/hznu.png'},
-    {id:1217,kind:'任课老师',name:'#boby',image:'../assets/img/hznu.png'}
-  ]
+  public tongxunluList:any[]=[];
+  public authtoken = this.storageService.get('authtoken');
+  public property00 :string = ''; //班级
 
   public fuzhi:any[]=[];    //循环tongxunluList数组，根据名字收集某一姓氏得人 
   public fuzhi2:any[]=[];  //收集姓氏不可归类的人#
@@ -67,11 +57,36 @@ export class AddpeopleComponent implements OnInit {
   public chuanzhi:any[]=[];  //记录选择的收信人id,传给emailwrite页面
 
   ngOnInit() {
+    this.getproperty00();
+
+  }
+
+  getTongxunluList(){
+    this.tongxunluList = [];
+    this.fuzhi2 = [];this.existname=[];this.formatContacts=[];this.letters=[];
+    var api = '/api/Message/GetTongxunlu?authtoken='+this.authtoken+'&keyword='+this.searchInput+'&property00='+this.property00;
+    this.commonService.get(api).then((response: any) => {
+        if (response.retcode == 0) {
+          response.info.forEach(element => {
+            //将需要的元素读出来放入数组中
+            this.tongxunluList.push({id:element.id,kind:element.userIdentity03,name:element.realName,image:element.avatar});
+            // console.log("获得了所有老师的信息"+element.id,name);
+          });
+          this.getorder(); //将获得的通讯录排序
+        } else {
+          this.toastTip('参数错误','danger');
+          return;
+        }
+    });    
+  }
+
+  //循环遍历通讯录将名字按首字母重新排位，对数据库中拿出来的信息进行预处理
+  getorder(){
       //循环遍历通讯录将名字按首字母重新排位，对数据库中拿出来的信息进行预处理
       this.aLetters.forEach((res,index)=>{  //循环遍历26个字母
         // this.letters.push(res);
         this.tongxunluList.forEach(element => { 
-          if(tr(element.name).toLocaleUpperCase().charAt(0)==res){ 
+          if(tr(element.name).toLocaleUpperCase().charAt(0)==res){
             this.fuzhi.push(element);
             this.existname.push(element);//将名字已经归类的项存入数列existname中
           }
@@ -79,12 +94,12 @@ export class AddpeopleComponent implements OnInit {
         this.formatContacts.push(this.fuzhi);
         ////循环遍历过程中得到通讯录中存在的首字母
         if(this.fuzhi.length>0){
-           this.letters.push(res);
+          this.letters.push(res);
         }
         this.fuzhi=[];
       })
 
-      this.aLetters.push('#');//将‘#’加入数组aLetters里面，就此数组aLetters完整
+      this.aLetters.push('#');//将‘#’加入数组aLetters里面
       //处理“#”中的名字，将上面遍历完后存入的数列与原始数列对比来查找未归类的名字，并将其放入#类中
       this.tongxunluList.forEach(element1=>{
         this.existname.forEach(element2=>{
@@ -101,7 +116,24 @@ export class AddpeopleComponent implements OnInit {
       this.formatContacts.push(this.fuzhi2);
   }
 
-    //弹窗组件关闭功能设置
+  //获取用户所在的班级，便于通讯录使用
+  getproperty00(){
+    var api = '/api/Users/GetUserByAuthtoken?authtoken='+this.authtoken;
+    this.commonService.get(api).then((response: any) => {
+      console.log(response.info);
+      if (response.retcode == 0) {
+        this.property00 = response.info.property00;
+        console.log("用户班级:"+this.property00);
+        this.getTongxunluList();
+        console.log(this.tongxunluList);
+      } else {
+        this.toastTip('参数错误','danger');
+        return;
+      }
+    });
+  }
+
+  //弹窗组件关闭功能设置
   doClose() {
     this.navParams.data.modal.dismiss({
       result:{
@@ -109,6 +141,7 @@ export class AddpeopleComponent implements OnInit {
       }
     });//关闭这个弹出的组件
   }
+
   //邮件发送功能设置
   submit(){
     this.formatContacts.forEach(element => {
@@ -123,87 +156,52 @@ export class AddpeopleComponent implements OnInit {
       result:{
         isDate:1, //1代表有数据传回,2代表没有数据传回
         // msg:['1','2','3']
-
         msg:this.chuanzhi,
         flag:'true'
       }
+    });//关闭这个弹出的组件
+  }
+
+    // 弹窗设置
+    async toastTip(message: string, color: string) {
+      const toast = await this.toastCtrl.create({
+          message,
+          duration: 1000,
+          position: 'top',
+          cssClass: 'errToast',
+          color,
+      });
+      toast.present();
     }
-      
-    );//关闭这个弹出的组件
-  }
-  // 自定义的提示信息控件
-  async toastTip(message: string) {
-    const toast = await this.toastCtrl.create({
-      message,
-      duration: 1000,
-      position: 'top',
-      cssClass: 'errToast',
-      color: 'danger',
-    });
-    toast.present();
+
+  //定位查找首字母对应的通讯录
+  selectIndex(letter){
+    this.index =letter;    //将检索中点击的字母赋值给当年选中的值
+    let scrollTop = this.elementRef.nativeElement.querySelector("ion-item-divider#"+letter).offsetTop;
+    this.content.scrollToPoint(0,scrollTop,300); //滑动到对应的位置
+    this.createModal();   //将右侧检索中点击的字母在页面中显示
   }
 
-//定位查找首字母对应的通讯录
-selectIndex(letter){
-  this.index =letter;    //将检索中点击的字母赋值给当年选中的值
-  let scrollTop = this.elementRef.nativeElement.querySelector("ion-item-divider#"+letter).offsetTop;
-  this.content.scrollToPoint(0,scrollTop,300); //滑动到对应的位置
-  this.createModal();   //将右侧检索中点击的字母在页面中显示
-}
-
-//点击右侧检索后，页面显示点击字母的光亮效果功能实现
-public timeout:any;
-createModal(){
-  clearTimeout(this.timeout);
-  this.showModal = true;  
-  this.timeout = setTimeout(()=>{
-    this.showModal = false;
-    this.ref.detectChanges();
-  },800)
-}
-
-goSearchResult(){
-  this.isSearching = true;  // 显示通讯录搜索结果
-  let val = this.searchInput;
-  if(val && val.trim()!=''){
-    this.searchLetters=[];   //将存储搜索内容首字母的数组置为空
-    this.searchingItems=[];  //将存储搜索内容的数组置为空
-    this.aLetters.forEach((res,index)=>{
-      let search = this.formatContacts[index].filter((item)=>{
-        return (item.name.indexOf(val)>-1);
-      })
-      if(search != null && search.length>0){
-        this.searchLetters.push(res);
-        this.searchingItems.push(search);
-      }
-    })
-  }else{
-    this.isSearching = false;
+  //点击右侧检索后，页面显示点击字母的光亮效果功能实现
+  public timeout:any;
+  createModal(){
+    clearTimeout(this.timeout);
+    this.showModal = true;  
+    this.timeout = setTimeout(()=>{
+      this.showModal = false;
+      this.ref.detectChanges();
+    },800)
   }
-}
 
-  // goSearchResult(ev:any){
-  //   console.log(ev);
-  //   this.isSearching = true;
-  //   let val:string = ev.detail.data;
-  //   console.log(val);
-  //   this.searchInput = val;
-  //   if(val && val.trim()!=''){
-  //     this.searchLetters=[];   //将存储搜索内容首字母的数组置为空
-  //     this.searchingItems=[];  //将存储搜索内容的数组置为空
-  //     this.letters.forEach((res,index)=>{
-  //       let search = this.formatContacts[index].filter((item)=>{
-  //         return (item.name.indexOf(val)>-1);
-  //       })
-  //       if(search != null && search.length>0){
-  //         this.searchLetters.push(res);
-  //         this.searchingItems.push(search);
-  //       }
-  //     })
-  //   }else{
-  //     this.isSearching = false;
-  //   }
-  // }
+  goSearchResult(){
+    //获取到新的通讯录
+    this.getTongxunluList();
+    if(this.searchInput){
+      this.isSearching = true;   //显示通讯录搜索结果
+    }else{
+      this.isSearching = false;
+    }
+  }
 
   console(){
     this.isSearching=false;

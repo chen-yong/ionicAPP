@@ -35,13 +35,17 @@ const routes: Routes = [
   { path: 'addprint/:id', loadChildren: './page/course/print/addprint/addprint.module#AddprintPageModule' },
   { path: 'grades/:id', loadChildren: './page/course/grades/grades.module#GradesPageModule' },
   { path: 'testgrade/:id', loadChildren: './page/course/testgrade/testgrade.module#TestgradePageModule' },
-  { path: 'inbox', loadChildren: './page/email/inbox/inbox.module#InboxPageModule' },
-  { path: 'outbox', loadChildren: './page/email/outbox/outbox.module#OutboxPageModule' },
-  { path: 'dustbin', loadChildren: './page/email/dustbin/dustbin.module#DustbinPageModule' },
+  { path: 'inbox/:id', loadChildren: './page/email/inbox/inbox.module#InboxPageModule' },
+  { path: 'outbox/:id', loadChildren: './page/email/outbox/outbox.module#OutboxPageModule' },
+  { path: 'dustbin/:id', loadChildren: './page/email/dustbin/dustbin.module#DustbinPageModule' },
   { path: 'maillist', loadChildren: './page/email/maillist/maillist.module#MaillistPageModule' },
   { path: 'resource/:id', loadChildren: './page/course/resource/resource.module#ResourcePageModule' },
   { path: 'emailwrite/:id', loadChildren: './page/email/emailwrite/emailwrite.module#EmailwritePageModule' },
-  { path: 'editstudent/:id', loadChildren: './page/course/student/editstudent/editstudent.module#EditstudentPageModule' }
+  { path: 'editstudent/:id', loadChildren: './page/course/student/editstudent/editstudent.module#EditstudentPageModule' },
+  { path: 'showemail/:id', loadChildren: './page/email/showemail/showemail.module#ShowemailPageModule' },
+  { path: 'writeback/:id', loadChildren: './page/email/writeback/writeback.module#WritebackPageModule' }
+
+
 
 
 

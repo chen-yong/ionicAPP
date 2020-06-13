@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <img class="back_img" src="..\assets\img\返回.png" slot="start" (click)="goBack()">
+      <ion-title>
+          邮件详情
+      </ion-title>
+      <ion-icon name="trash-outline" color="warning"></ion-icon>
+    <ion-icon name="trash-outline" color="warning"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <ion-avatar >
+    <img src="../../assets/images/caidan.png" />
+  </ion-avatar> -->
+  <!-- <ion-card> -->
+    <ion-item color="light">
+        <ion-label> 收件人: </ion-label>
+        <ion-input value="Readonly" [(ngModel)]="emaildetail.receiveName" readonly></ion-input>
+    </ion-item>
+    <ion-item color="light">
+        <ion-label> 发件人: </ion-label>
+        <ion-input value="Readonly" [(ngModel)]="emaildetail.sendName" readonly></ion-input>
+    </ion-item> 
+    <ion-item color="light">
+      <ion-label> 时&nbsp;&nbsp;&nbsp;&nbsp;间: </ion-label>
+      <ion-input value="Readonly" [(ngModel)]="emaildetail.sendTime" readonly></ion-input>
+    </ion-item> 
+    <ion-item >
+      <ion-label> 主&nbsp;&nbsp;&nbsp;&nbsp;题: </ion-label>
+      <ion-input value="Readonly" [(ngModel)]="emaildetail.subject" readonly></ion-input>
+    </ion-item> 
+    <ion-item>
+      <ion-label class="emailbody"> 
+        <!-- 内容 -->
+        <h2>{{emaildetail.body}}</h2>
+      </ion-label>
+    </ion-item> 
+
+
+  <!-- 文件下载 -->
+  <!-- <ion-item>
+        <ion-card-header>
+          <ion-card-subtitle>
+              <input type="file">
+          </ion-card-subtitle>
+      </ion-card-header>
+    </ion-item> -->
+ <!-- </ion-card> -->
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-item class="fot">
+      <!-- 列表单项里面增加图标 -->
+      <ion-icon name="bookmark" color="danger" slot="start" *ngIf="emaildetail.isImportant == true" (click)="beNoImportant(emaildetail.id)" class="tubiao1"></ion-icon>  
+      <ion-icon name="bookmark" color="medium" slot="start" *ngIf="emaildetail.isImportant == false" (click)="beImportant(emaildetail.id)" class="tubiao1"></ion-icon>  
+      <ion-icon name="trash" color="medium" class="tubiao2" (click)="delete(emaildetail.id)"></ion-icon>
+      <ion-icon name="paper-plane" color="secondary" slot="end" class="tubiao3" (click)="writeback(emaildetail.id)"></ion-icon>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

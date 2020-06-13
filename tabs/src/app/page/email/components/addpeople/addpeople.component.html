@@ -27,7 +27,7 @@
 <ion-content>
 
     <!-- 未搜索时在页面的右侧按顺序显示姓名存在的首字母 -->
-    <div *ngIf="!isSearching">
+    <div>
       <div id="letter">
         <p class="indexed-item" [class.activate]="letter === index" *ngFor="let letter of letters;let i = index"
           (click)="selectIndex(letter)">{{letter}}</p>
@@ -39,21 +39,8 @@
           {{index}}
       </div>
     </div>
-    <!-- 搜索时显示的结果 -->
-    <ion-list *ngIf="isSearching">
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;最佳匹配</p>
-      <ion-item-group *ngFor="let contacts of searchingItems;let i = index">
-        <ion-item-divider color="light" id="{{searchLetters[i]}}">
-          <ion-label>{{searchLetters[i]}}</ion-label>
-        </ion-item-divider>
-        <ion-item *ngFor="let item of contacts">
-          <section>{{item.name }}</section>
-          <ion-checkbox slot="start" [(ngModel)]="item.isChecked"></ion-checkbox>
-        </ion-item>
-      </ion-item-group>
-    </ion-list>
-    <!-- 未搜索时显示的结果 -->
-    <ion-list *ngIf="!isSearching">
+    <ion-list>
+      <p *ngIf="!isSearching">&nbsp;&nbsp;&nbsp;&nbsp;最佳匹配</p>
       <ion-item-group *ngFor="let item of formatContacts;let i = index">
         <!-- 遍历字母，显示通讯录中存在名字首字母为改字母的字母 -->
         <ion-item-divider color="light" id="{{ aLetters[i] }}" *ngIf="item.length>0">
