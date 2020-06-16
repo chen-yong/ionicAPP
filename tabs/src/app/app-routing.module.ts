@@ -43,7 +43,14 @@ const routes: Routes = [
   { path: 'emailwrite/:id', loadChildren: './page/email/emailwrite/emailwrite.module#EmailwritePageModule' },
   { path: 'editstudent/:id', loadChildren: './page/course/student/editstudent/editstudent.module#EditstudentPageModule' },
   { path: 'showemail/:id', loadChildren: './page/email/showemail/showemail.module#ShowemailPageModule' },
-  { path: 'writeback/:id', loadChildren: './page/email/writeback/writeback.module#WritebackPageModule' }
+  { path: 'writeback/:id', loadChildren: './page/email/writeback/writeback.module#WritebackPageModule' },
+  { path: 'manage-stu/:id', loadChildren: './page/course_student/manage-stu/manage-stu.module#ManageStuPageModule' },
+  { path: 'lab-stu/:id', loadChildren: './page/course_student/lab-stu/lab-stu.module#LabStuPageModule' },
+  { path: 'exercise-stu/:id', loadChildren: './page/course_student/exercise-stu/exercise-stu.module#ExerciseStuPageModule' },
+  { path: 'grades-stu/:id', loadChildren: './page/course_student/grades-stu/grades-stu.module#GradesStuPageModule' },
+  { path: 'resource-stu/:id', loadChildren: './page/course_student/resource-stu/resource-stu.module#ResourceStuPageModule' },
+  { path: 'work-stu/:id', loadChildren: './page/course_student/work-stu/work-stu.module#WorkStuPageModule' }
+
 
 
 

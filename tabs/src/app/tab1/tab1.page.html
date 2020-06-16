@@ -12,6 +12,11 @@
         <ion-item>
             <ion-icon name="book-outline" slot="start" [color]="item.color"></ion-icon>
             <ion-label>{{item.name}}</ion-label>
+            <!-- 找个机会显示老师的信息 -->
+            <!-- <ion-label> 
+                <h2>{{item.name}}</h2>
+                <h3>{{item.teacher}}</h3>
+            </ion-label> -->
             <ion-button fill="outline" slot="end" (click)="goCourse(item.id)">进入</ion-button>
         </ion-item>
         <ion-card-content>
