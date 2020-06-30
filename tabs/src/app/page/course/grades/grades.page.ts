@@ -143,8 +143,8 @@ export class GradesPage implements OnInit {
     const api = '/api/Course/StudentGrade?authtoken='+this.authtoken+'&courseId='+this.courseId+'&id='+userId;
     this.commonService.get(api).then((response: any) => {
       if (response.retcode === 0) {
-        console.log(response.info);
-        this.rightList = response.info;
+        console.log(response.info[0]);
+        this.rightList = response.info[0];
         console.log('rightList:'+this.rightList);
       } else {
         this.toastTip('未知错误', 'danger');

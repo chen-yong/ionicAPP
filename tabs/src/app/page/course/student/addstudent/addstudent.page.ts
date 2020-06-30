@@ -63,7 +63,8 @@ export class AddstudentPage implements OnInit {
     this.commonService.post(api, this.studentInfo).then((response: any) => {
       // console.log(response);
       if (response.retcode === 0) {
-        this.toastTip('添加成功', 'success');
+        this.toastTip('添加学生成功', 'success');
+        console.log(this.studentInfo);
         // 刷新
         this.refresh();
       } else {

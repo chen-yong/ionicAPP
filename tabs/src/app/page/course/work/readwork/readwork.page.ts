@@ -31,7 +31,8 @@ export class ReadworkPage implements OnInit {
   }
   // 返回上一层
   goBack(courseId) {
-    this.router.navigate(['/work/' + courseId]);
+    // this.router.navigate(['/work/' + courseId]);
+    window.history.go(-1);
   }
   // 单选
   checkboxChange(id) {

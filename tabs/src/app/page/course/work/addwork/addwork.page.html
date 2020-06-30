@@ -29,10 +29,20 @@
                         必填
                     </div>
                 </div> -->
+                <ion-select slot="end" [(ngModel)]="drawPlotId" id="tacticsList" name="tacticsList" required #tacticsList="ngModel">
+                    <ion-select-option *ngFor="let item of drawPlotinfo" [value]="item.id">
+                        {{item.name}}
+                    </ion-select-option>
+                </ion-select>
+                <div *ngIf="tacticsList.invalid && (tacticsList.dirty || tacticsList.touched)" class="alert-danger">
+                    <div *ngIf="tacticsList.errors.required">
+                        必填
+                    </div>
+                </div>
             </ion-item>
             <ion-item>
                 <ion-label>开始时间：</ion-label>
-                <ion-datetime display-format="YYYY-MM-DD" [pickerOptions]="customPickerOptions" id="startTime" name="startTime" required #startTime="ngModel" placeholder="必填" picker-format="YYYY MM DD" [(ngModel)]="workInfo.startTime" (ionChange)="datetimeChange($event)">
+                <ion-datetime display-format="YYYY-MM-DD" id="startTime" name="startTime" required #startTime="ngModel" placeholder="必填" picker-format="YYYY MM DD" [(ngModel)]="workInfo.startTime" (ionChange)="datetimeChange($event)">
                 </ion-datetime>
                 <div *ngIf="startTime.invalid && (startTime.dirty || startTime.touched)" class="alert-danger">
                     <div *ngIf="startTime.errors.required">
@@ -42,7 +52,7 @@
             </ion-item>
             <ion-item>
                 <ion-label>结束时间：</ion-label>
-                <ion-datetime display-format="YYYY-MM-DD" [(pickerOptions)]="customPickerOptions" name="endTime" required #endTime="ngModel" placeholder="必填" picker-format="YYYY MM DD" [(ngModel)]="workInfo.endTime" (ionChange)="datetimeChange($event)">
+                <ion-datetime display-format="YYYY-MM-DD" name="endTime" required #endTime="ngModel" placeholder="必填" picker-format="YYYY MM DD" [(ngModel)]="workInfo.endTime" (ionChange)="datetimeChange($event)">
                 </ion-datetime>
                 <div *ngIf="endTime.invalid && (endTime.dirty || endTime.touched)" class="alert-danger">
                     <div *ngIf="endTime.errors.required">
@@ -50,16 +60,21 @@
                     </div>
                 </div>
             </ion-item>
-            <ion-item>
+            <!-- <ion-item>
                 <ion-label>补交截止：</ion-label>
-                <ion-datetime display-format="YYYY-MM-DD" [(pickerOptions)]="customPickerOptions" name="addTime" required #addTime="ngModel" placeholder="必填" picker-format="YYYY MM DD" [(ngModel)]="workInfo.delayEndTime" (ionChange)="datetimeChange($event)">
+                <ion-datetime display-format="YYYY-MM-DD" name="addTime" required #addTime="ngModel" placeholder="必填" picker-format="YYYY MM DD" [(ngModel)]="workInfo.delayEndTime" (ionChange)="datetimeChange($event)">
                 </ion-datetime>
             </ion-item>
+            <ion-item *ngIf="workInfo.delayEndTime">
+                <ion-label>补交得分比例：</ion-label>
+                <ion-input [(ngModel)]="workInfo.delayPercentOfScore" name="score" #score="ngModel" ></ion-input>
+                <p class="bili">%</p>
+            </ion-item> -->
             <ion-item>
                 <ion-label>说 明：</ion-label>
                 <ion-textarea [(ngModel)]="workInfo.memo" name="explain"></ion-textarea>
             </ion-item>
-            <ion-item>
+            <!-- <ion-item>
                 <ion-label>作业互评：</ion-label>
                 <ion-toggle slot="end" [(ngModel)]="workInfo.enableMutualJudge" name="enableMutualJudge"></ion-toggle>
             </ion-item>
@@ -67,7 +82,7 @@
                 <ion-label>互评截止时间：</ion-label>
                 <ion-datetime display-format="YYYY-MM-DD" [(pickerOptions)]="workInfo.customPickerOptions" name="falgTime" picker-format="YYYY MM DD" [(ngModel)]="workInfo.mutualJudgeEndTime" (ionChange)="datetimeChange($event)">
                 </ion-datetime>
-            </ion-item>
+            </ion-item> -->
 
             <ion-item>
                 <ion-label>总分：</ion-label>
@@ -81,12 +96,24 @@
 
             <ion-item>
                 <ion-label>成绩展示：</ion-label>
-                <ion-toggle slot="end" [(ngModel)]="workInfo.scoreAppear" name="scoreAppear"></ion-toggle>
+                <ion-toggle slot="end" [(ngModel)]="isscoreAppear" name="scoreAppear"></ion-toggle>
             </ion-item>
 
             <ion-item-divider>
                 <ion-label>参数：</ion-label>
             </ion-item-divider>
+            <ion-item>
+                <ion-checkbox slot="start" [(ngModel)]="workInfo.enableClientJudge"></ion-checkbox>
+                <ion-label>开启学生端阅卷</ion-label>
+            </ion-item>
+            <ion-item *ngIf="workInfo.enableClientJudge"> 
+                <ion-checkbox slot="start" [(ngModel)]="workInfo.keyVisible"></ion-checkbox>
+                <ion-label>学生端阅卷后标准答案可见</ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-checkbox slot="start" [(ngModel)]="workInfo.viewOneWithAnswerKey"></ion-checkbox>
+                <ion-label> 查卷时标准答案可见</ion-label>
+            </ion-item>
             <ion-item>
                 <ion-checkbox slot="start" [(ngModel)]="workInfo.forbiddenCopy"></ion-checkbox>
                 <ion-label>禁止复制题目</ion-label>
@@ -94,14 +121,6 @@
             <ion-item>
                 <ion-checkbox slot="start" [(ngModel)]="workInfo.forbiddenMouseRightMenu"></ion-checkbox>
                 <ion-label>禁止右键</ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-checkbox slot="start" [(ngModel)]="workInfo.enableClientJudge"></ion-checkbox>
-                <ion-label>开启学生端阅卷</ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-checkbox slot="start" [(ngModel)]="workInfo.viewOneWithAnswerKey"></ion-checkbox>
-                <ion-label> 查卷时标准答案可见</ion-label>
             </ion-item>
         </ion-list>
         <br>

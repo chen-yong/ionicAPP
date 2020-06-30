@@ -32,31 +32,6 @@ export class WorkPage implements OnInit {
     public commonService: CommonService,
     public toastCtrl: ToastController,
   ) { }
-  // 长按删除作业
-  async deleteWork(id) {
-    const alert = await this.alertController.create({
-      header: '温馨提示!',
-      message: '<strong>您确认删除</strong>？',
-      buttons: [
-        {
-          text: '不删除',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            console.log('不删除');
-          }
-        }, {
-          text: '确认',
-          handler: () => {
-            console.log('删除');
-            // 刷新学生列表
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
 
   ngOnInit() {
     // 接收课程ID
@@ -133,33 +108,70 @@ export class WorkPage implements OnInit {
     this.getWorktList();
   }
 
-  // 删除作业
-  async deletework(id) {
+    // // 删除作业
+    // async deletework(id) {
+    //   const alert = await this.alertController.create({
+    //     backdropDismiss: false,
+    //     header: '提示',
+    //     message: '<strong>您确认删除</strong>？',
+    //     buttons: [
+    //       {
+    //         text: '取消',
+    //         role: 'cancel',
+    //         cssClass: 'secondary',
+    //         handler: (blah) => {
+    //           return;
+    //         }
+    //       }, {
+    //         text: '确定',
+    //         handler: () => {
+    //           const api ='/api/Course/DeleteWork?authtoken='+this.authtoken+'&id='+id;
+    //           this.commonService.get(api).then((response: any) => {
+    //             if (response.retcode === 0) {
+    //               this.toastTip('删除成功', 'success');
+    //               // this.getLabtList();
+    //             }  else {
+    //               this.toastTip('删除错误', 'danger');
+    //               return;
+    //             }
+    //           });
+    //         }
+    //       }
+    //     ]
+    //   });
+    //   await alert.present();
+    // }
+  // 长按删除作业
+  async deleteWork(id) {
     const alert = await this.alertController.create({
-      backdropDismiss: false,
       header: '提示',
       message: '确定要删除吗!',
       buttons: [
         {
-          text: '取消',
+          text: '不删除',
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
+            console.log('不删除');
             return;
           }
         }, {
-          text: '确定',
+          text: '确认',
           handler: () => {
+            console.log('删除');
             const api ='/api/Course/DeleteWork?authtoken='+this.authtoken+'&id='+id;
             this.commonService.get(api).then((response: any) => {
               if (response.retcode === 0) {
                 this.toastTip('删除成功', 'success');
                 // this.getLabtList();
+                this.getWorktList();
               }  else {
                 this.toastTip('删除错误', 'danger');
                 return;
               }
             });
+            // // 刷新作业列表
+            // this.getWorktList();
           }
         }
       ]

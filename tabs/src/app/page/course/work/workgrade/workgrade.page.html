@@ -62,14 +62,10 @@
                         <ion-label> 性别： </ion-label>
                         <ion-input [(ngModel)]="studentInfo.sex"></ion-input>
                     </ion-item>
-                    <ion-item>
-                        <ion-label> 文秘类作业1： </ion-label>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label> 作业1：</ion-label>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label> 作业2：</ion-label>
+                    <ion-item *ngFor="let item of scoreinfo" key="item.id">
+                        <ion-label>{{item.name}} :</ion-label>
+                        <h2>{{item.score}}</h2>
+                        <!-- <ion-input>{{item.score}}</ion-input> -->
                     </ion-item>
                     <br>
                 </ion-card-content>

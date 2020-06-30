@@ -44,7 +44,8 @@ export class EditstudentPage implements OnInit {
     });
     toast.present();
   }
-  // 保存学生（有bug）
+  
+  // 保存学生修改【在这里的API接口里面把将学生的userName和userNO全部设成了现在的UserName的值】
   submitInfo(id) {
     if (!this.studentInfo.userName) {
       this.toastTip('请填写学号！', 'danger');
@@ -59,11 +60,11 @@ export class EditstudentPage implements OnInit {
     this.commonService.post(api, this.studentInfo).then((response: any) => {
       // console.log(response);
       if (response.retcode === 0) {
-        this.toastTip('保存成功', 'success');
+        this.toastTip('学生信息修改成功', 'success');
         // 关闭
         this.doClose();
       } else {
-        this.toastTip('保存失败', 'danger');
+        this.toastTip('学生信息修改失败', 'danger');
         return;
       }
     });
@@ -78,6 +79,7 @@ export class EditstudentPage implements OnInit {
     this.commonService.get(api).then((response: any) => {
       if (response.retcode === 0) {
         this.studentInfo = response.info;
+        console.log(this.studentInfo);
       } else {
         this.toastTip('参数错误', 'danger');
         return;

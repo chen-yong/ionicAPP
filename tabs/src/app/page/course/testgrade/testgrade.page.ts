@@ -36,6 +36,7 @@ export class TestgradePage implements OnInit {
     "userIdentity02": "",
     "mobile": ""
   }];
+  public scoreinfo:any=[]; //保存具体学生的各考试名字和成绩
 
   constructor(
     public router: Router,
@@ -122,14 +123,20 @@ export class TestgradePage implements OnInit {
        }
     });
   }
+
   getScoreInfo(userId) {
+    this.scoreinfo = [];
     this.selectedId = userId;
     const api = '/api/Course/ScoreInfo?authtoken='+this.authtoken+'&courseId='+this.courseId+'&type='+this.type+'&userId='+userId;
     this.commonService.get(api).then((response: any) => {
       if (response.retcode === 0) {
-        console.log(response);
         this.rightList = response.info;
         console.log(this.rightList);
+        for(var key in this.rightList){
+          // console.log(key+":"+this.rightList[key]);
+          this.scoreinfo.push({"name": key,"score":this.rightList[key]});
+        }
+        console.log(this.scoreinfo);
       } else {
         this.toastTip('未知错误', 'danger');
         return;

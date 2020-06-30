@@ -120,6 +120,7 @@ export class LabPage implements OnInit {
           this.commonService.get(api).then((response: any) => {
             if (response.retcode === 0) {
               this.toastTip('删除成功', 'success');
+              this.getLabList();
             }  else {
               this.toastTip('删除错误', 'danger');
               return;
