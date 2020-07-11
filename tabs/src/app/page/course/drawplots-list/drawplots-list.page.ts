@@ -73,7 +73,7 @@ export class DrawplotsListPage implements OnInit {
     });
   }
 
-  //添加新手工组卷策略
+  //添加新手工组卷策略 【未做】
   addDrowplot(id){
     console.log(id);
   }
@@ -81,10 +81,10 @@ export class DrawplotsListPage implements OnInit {
   //编辑该条手工组卷的策略
   editDrawPlot(id){
     console.log("edit drawplot");
-    //this.router.navigate(['/editexercise/' + id]);
+    this.router.navigate(['/edit-drawplot/' + id]);  //传过去的是drawplowId
   }
 
-  //删除该条手工组卷的策略
+  //删除该条手工组卷的策略 【未做】
   async deleteDrawPlot(id) {
     const alert = await this.alertController.create({
       backdropDismiss: false,

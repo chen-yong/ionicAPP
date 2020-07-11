@@ -50,11 +50,8 @@ const routes: Routes = [
   { path: 'grades-stu/:id', loadChildren: './page/course_student/grades-stu/grades-stu.module#GradesStuPageModule' },
   { path: 'resource-stu/:id', loadChildren: './page/course_student/resource-stu/resource-stu.module#ResourceStuPageModule' },
   { path: 'work-stu/:id', loadChildren: './page/course_student/work-stu/work-stu.module#WorkStuPageModule' },
-  { path: 'drawplots-list/:id', loadChildren: './page/course/drawplots-list/drawplots-list.module#DrawplotsListPageModule' }
-
-
-
-
+  { path: 'drawplots-list/:id', loadChildren: './page/course/drawplots-list/drawplots-list.module#DrawplotsListPageModule' },
+  { path: 'edit-drawplot/:id', loadChildren: './page/course/drawplots-list/edit-drawplot/edit-drawplot.module#EditDrawplotPageModule' }
 
 
 

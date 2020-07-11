@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar>
+    <img class="back_img" src="..\assets\img\返回.png" slot="start" (click)="goBack()">
+    <ion-title>策略编辑</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <!-- 成绩列表 -->
+    <div class="content">
+      <div [class]="LeftStyle" (swipeleft)="leftSlide()" (swiperight)="rightSlide()">
+          <ion-list lines="full">
+              <!-- <ion-item *ngFor="let item of leftList" (tap)="getLeftData(item.id)" [ngClass]="{'active': item.id==selectedId}">
+                  <ion-label>学号：{{item.userName}}  姓名：{{item.realName}}</ion-label>
+              </ion-item> -->
+              <ion-item>
+                <ion-label>题库:</ion-label>
+                <!-- <ion-select slot="end" [(ngModel)]="drawPlotId" id="tacticsList" name="tacticsList" required #tacticsList="ngModel">
+                    <ion-select-option *ngIf="flag" [value]="begindrawPlot.id">{{begindrawPlot.name}}</ion-select-option>
+                    <ion-select-option *ngFor="let item of drawPlotinfo" [value]="item.id">
+                        {{item.name}}</ion-select-option>
+                </ion-select> -->
+              </ion-item>
+              <ion-item>
+                <ion-label>题型:</ion-label>
+                <ion-select slot="end" [(ngModel)]="drawPlotId" id="tacticsList" name="tacticsList" required #tacticsList="ngModel">
+                    <!-- <ion-select-option *ngIf="flag" [value]="begindrawPlot.id">{{begindrawPlot.name}}</ion-select-option> -->
+                    <ion-select-option *ngFor="let item of topicList" [value]="item.id">
+                        {{item.name}}</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item>
+                <!-- <ion-label>难度:</ion-label> -->
+                <p>简单</p>
+                <ion-checkbox [(ngModel)]="checkdifficultyList[0].isChecked" class="check"></ion-checkbox>
+                <p>较简</p>
+                <ion-checkbox [(ngModel)]="checkdifficultyList[1].isChecked" class="check"></ion-checkbox>
+                <p>中等</p>
+                <ion-checkbox [(ngModel)]="checkdifficultyList[2].isChecked" class="check"></ion-checkbox>
+                <p>较难</p>
+                <ion-checkbox [(ngModel)]="checkdifficultyList[3].isChecked" class="check"></ion-checkbox>
+                <p>难</p>
+                <ion-checkbox [(ngModel)]="checkdifficultyList[4].isChecked" class="check"></ion-checkbox>
+              </ion-item>
+              <ion-item button>
+                <ion-label>内容开始:</ion-label>
+              </ion-item>
+          </ion-list>
+          <!-- <ion-infinite-scroll threshold="25%" (ionInfinite)="loadMore($event)">
+              <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="正在加载更多数据...">
+              </ion-infinite-scroll-content>
+          </ion-infinite-scroll> -->
+          <!-- <p *ngIf="!hasmore">---我是有底线的---</p> -->
+      </div>
+      <div class="rightList">
+          <ion-card>
+              <ion-card-header>
+                <ion-card-subtitle>试卷结构</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+                  <ion-item>
+                      <!-- <ion-label> 姓名    题量    分数 </ion-label> -->
+                      <h2>姓名 题量 分数</h2>
+                      <!-- <ion-input [(ngModel)]="studentInfo.realName"></ion-input> -->
+                  </ion-item>
+                  <ion-item>
+                    <h2>单选题</h2>
+                    <ion-input >123</ion-input>
+                  </ion-item>
+                  <br>
+              </ion-card-content>
+          </ion-card>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-subtitle >难度结构</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-item>
+                    <ion-label> 姓名： </ion-label>
+                    <!-- <ion-input [(ngModel)]="studentInfo.realName"></ion-input> -->
+                </ion-item>
+                <br>
+            </ion-card-content>
+        </ion-card>
+      </div>
+  </div>
+
+</ion-content>
